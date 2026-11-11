@@ -40,7 +40,7 @@
           "terminal",
           "alerts",
           "packages",
-          "mcp",
+          "mcp-client",
           "changelog"
         ]
       },

@@ -1,0 +1,17 @@
+name: Documentation checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  mintlify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.4'
+      - run: npx --yes mint@4.3.12 validate --telemetry false
+      - run: npx --yes mint@4.3.12 broken-links --telemetry false

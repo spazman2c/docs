@@ -1,24 +1,30 @@
 ---
 title: "Authentication and accounts"
-description: "Keep data keys, management sessions, roles and product grants distinct."
+description: "Use production login for the workspace and an account-owned header key for the hosted data API."
 ---
 
-## Data keys
+## Sign in to the workspace
 
-Send exactly one `X-API-Key` header. Never place credentials in URLs, cookies or WebSocket subprotocol values. The API rejects conflicting credentials. Create, rotate or revoke keys through the [workspace](https://oddswire.io/app/keys) or account-session endpoints. Raw keys are shown once; stored keys are hashes. Rotation atomically replaces the old key. The account has a three-active-key cap.
+Open [oddswire.io/app](https://oddswire.io/app), use the production email/password flow and complete the displayed email verification. Google/GitHub social login is not configured for this production application. Verified signup creates your personal workspace automatically.
 
-Both clients require exactly one `api_key` / `apiKey` or `session_token` / `sessionToken`. Their generated methods enforce the operation's credential type before making a network request. They accept HTTPS origins and development HTTP loopback origins, reject credential-bearing base URLs, and never follow redirects.
+New accounts start with **zero API and Terminal data grants and no credit allocation**. Signup, email verification, key creation and a payment-return URL do not grant access. Review [Current availability](/availability), [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage).
 
-## Management sessions
+## Authenticate HTTP requests
 
-`Authorization: Bearer <session>` manages the account. Data keys cannot create keys, change roles, enroll identities or operate billing/beta controls. Owner/admin sessions manage keys; only an owner changes existing member roles. Beta administration requires a separate global operator. Authentication does not imply these roles.
+An owner or admin can create, rotate or revoke account-owned keys through [API keys](https://oddswire.io/app/keys). The account has a three-active-key cap. A new raw key is shown once; store it privately. Rotation replaces the old key. Revoked keys must not be reused.
 
-Production Clerk login and verified signup are configured on the Oddswire workspace. A CLI-issued local session is development-only evidence. New provider identities get **zero** API and Terminal grants. Signup, checkout redirects and client plan/role claims do not grant access.
+Send exactly one `X-API-Key` header to `https://api.oddswire.io`. Never put credentials in URLs, documentation, browser code, chat or email. Do not send both a data key and a session token. A data key cannot manage account membership, create other keys, operate billing or administer the beta.
 
-API and Terminal are separate product scopes under one account. The root account ledger is authoritative for current grants, suspension and quota. The beta also requires exact recipient/region binding and current source-use approvals. Revocation and expiry apply to data reads, 304 revalidation and streams.
+Start with `GET /v1/account/entitlements`. It is free, even without data credits, and tells you the account's current `namespaces` and `features`. An empty scope is a valid access result, not an instruction to try a different namespace. Data requests require the corresponding scope and allocation.
 
-## Account selection
+## Account management sessions
 
-Management operations accept `X-Oddswire-Account` where listed by the contract. This selects an account in which the signed-in user must already have membership. It never changes tenant authorization. Free account introspection is useful before making a metered request.
+The workspace manages its Clerk session for you. Direct management endpoints in the reference require an appropriate bearer session, current account membership and the documented role. Ordinary data reads use API keys. Do not copy a session token from browser storage into examples.
 
-Billing is **test mode only** and requires explicit enrollment. The test prices are fixtures, not a commercial offer. Source customer-use rights, Stripe sandbox verification and launch terms remain separate gates.
+`X-Oddswire-Account` selects an account only where the operation documents it; it cannot add membership or change authorization. Only owners change member roles. Beta operator administration is separate from owner/admin membership.
+
+The CLI-issued local-session mechanism is for development and is rejected in production. It is not an alternative sign-in method for this hosted service. API and Terminal are separate product scopes, and every read rechecks current grants, expiry, suspension and source-use permission.
+
+## Access problems
+
+A 401 means the header credential is missing, invalid, expired or revoked. A 403 means the authenticated request is not permitted. A 402 can mean no data allocation or exhausted included credits. Use [Errors and credits](/errors) and contact support with the request ID; never send the credential itself.

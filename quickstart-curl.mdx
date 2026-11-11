@@ -1,29 +1,42 @@
 ---
 title: "cURL quick start"
-description: "Discover one fixture through the local gateway."
+description: "Check access against the hosted HTTPS API, then request a fixture only if your scope is approved."
 ---
 
-These examples require the private product checkout and reviewed access. They are local development examples, not installation instructions for this public docs repository.
+Use cURL 7.76+ in a trusted terminal. No local server or private checkout is required. Create your own key in [the workspace](https://oddswire.io/app/keys) and load it into `ODDSWIRE_API_KEY` through your usual secret manager or a private environment file. Never paste it into documentation, email, a URL or a shared shell history.
 
-Start the existing local services and gateway using the repository setup instructions. Create an account-owned key in the [workspace](https://oddswire.io/app/keys), set `ODDSWIRE_API_KEY` privately, and choose an entitled `ODDSWIRE_NAMESPACE`. Run `sh examples/quickstart.sh` from the checkout. This example needs cURL 7.76+ and deliberately accepts only the HTTP 127.0.0.1 origin.
+## 1. Check access without spending credits
+
+Save this as `check-access.sh`, then run `sh check-access.sh`:
 
 ```sh
 #!/bin/sh
 set -eu
-# Set ODDSWIRE_API_KEY privately. Never put a key in a URL or enable shell tracing.
-: "${ODDSWIRE_API_KEY:?Set ODDSWIRE_API_KEY}"
-: "${ODDSWIRE_NAMESPACE:?Choose an entitled namespace}"
-base="${ODDSWIRE_BASE_URL:-http://127.0.0.1:9113}"
-# Local-only example: do not change the origin without reviewing credential handling.
-case "$base" in
-  http://127.0.0.1:*) port="${base##*:}"; case "$port" in ""|*[!0-9]*) echo 'Invalid local port' >&2; exit 1;; esac ;;
-  *) echo 'This cURL example requires the local gateway.' >&2; exit 1;;
+: "${ODDSWIRE_API_KEY:?Load your own API key into the environment}"
+case "$ODDSWIRE_API_KEY" in
+  *[!A-Za-z0-9_-]*) echo 'Unexpected key format' >&2; exit 1 ;;
 esac
-# Header configuration goes over stdin, not the process argument list.
-case "$ODDSWIRE_API_KEY" in *[!A-Za-z0-9_-]*) echo 'Invalid example key format' >&2; exit 1;; esac
+# The header is read from stdin instead of being placed in curl's arguments.
 printf 'header = "X-API-Key: %s"\n' "$ODDSWIRE_API_KEY" |
   curl --config - --silent --show-error --fail-with-body --max-time 10 \
-    --get "$base/v1/fixtures" --data-urlencode "namespace=$ODDSWIRE_NAMESPACE" --data-urlencode 'limit=1'
+    'https://api.oddswire.io/v1/account/entitlements'
 ```
 
-A successful fixture page costs one credit, even when empty. Errors return a nonzero cURL exit status and a structured problem body. The script has no automatic retries or redirect following. Use `/v1/account/entitlements` for free access introspection; use the returned fixture ID in `/v1/odds?namespace=...&fixture=...`. [Exact odds parameters](/reference/listOdds).
+The response is a page with `data`, `missing` and `meta`. Inspect `data[0].namespaces` and `data[0].features`. Empty arrays mean no scope is granted; that is expected for a new account. This account introspection call is free, including when no data credits are allocated. A 401 means authentication failed; a 403 is not solved by changing the base URL.
+
+## 2. Discover a fixture only after approval
+
+Set `ODDSWIRE_NAMESPACE` to a value actually returned by your access check. Do not copy a founder namespace or invent one. Run this separate command only when the account has `fixtures` access and an allocation:
+
+```sh
+: "${ODDSWIRE_NAMESPACE:?Choose an approved namespace from entitlements}"
+printf 'header = "X-API-Key: %s"\n' "$ODDSWIRE_API_KEY" |
+  curl --config - --silent --show-error --fail-with-body --max-time 10 \
+    --get 'https://api.oddswire.io/v1/fixtures' \
+    --data-urlencode "namespace=$ODDSWIRE_NAMESPACE" \
+    --data-urlencode 'limit=1'
+```
+
+A completed successful data page costs one credit, including an empty page. Inspect `missing[]` as well as `data`. Use a returned `fixture.id` with [List odds](/reference/listOdds), in the same namespace. Do not assume an ID exists in another namespace.
+
+These commands do not follow redirects or retry automatically. If a request times out, its delivery outcome may be unknown; inspect usage before deliberately retrying. Read [Errors and credits](/errors).

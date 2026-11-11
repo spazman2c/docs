@@ -3,7 +3,7 @@ title: "Line-move alerts and webhooks"
 description: "Native-price rules, current access, signed at-least-once delivery and receiver deduplication."
 ---
 
-Alerts are a local private pilot. Owner/admin sessions configure targets/rules and inspect delivery logs. API keys and viewers cannot manage them. Control calls and outbound attempts are free, including at zero REST credits; no paid plan or external origin is enabled automatically.
+**Availability:** this is the implemented webhook contract. General customer outbound delivery, destination configuration and source-use approval are not enabled. Signup does not activate alerts. See [Current availability](/availability). Owner/admin sessions configure targets/rules and inspect delivery logs. API keys and viewers cannot manage them. Control calls and outbound attempts are free, including at zero REST credits; no paid plan or external origin is enabled automatically.
 
 ## Create a target and rule
 
@@ -18,6 +18,8 @@ This watches adjacent observations of one native offer/outcome/side/depth. Uncha
 ## Receive signed raw bytes
 
 The POST includes `Oddswire-Signature: t=<unix-seconds>,v1=<hex HMAC-SHA256>`. The signed message is the ASCII timestamp, a period, then the **exact raw request body**. Verify before JSON parsing with a ±300-second tolerance:
+
+The following helper names belong to the private SDK preview, not published packages. Use them only if you were explicitly supplied that artifact; otherwise implement the HMAC procedure above. See [SDK availability](/packages).
 
 ```python
 from oddswire import verify_webhook_signature

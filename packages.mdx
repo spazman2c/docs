@@ -1,39 +1,18 @@
 ---
-title: "SDK preview packages"
-description: "Build, verify and install exact local release artifacts."
+title: "SDK availability"
+description: "SDK artifacts remain private previews; use standard HTTP examples for the hosted API."
 ---
 
-The Python and TypeScript 0.1.0 preview packages derive from the current REST v1
-contract. New integrations use `oddswire`, `@oddswire/client` and `@oddswire/mcp`.
-Legacy Python imports, API headers and namespace names remain accepted for compatibility.
-Registry publication and licensing are pending.
+Python and TypeScript client implementations exist as **private preview artifacts**. They have not been published to PyPI or npm and are not included in the public documentation repository. Do not run `pip install oddswire` or `npm install @oddswire/client` based on these docs.
 
-## Build and verify
+## Integrate without an SDK
 
-In the developer checkout, with pinned web and MCP dependencies installed:
+Use the working standard HTTP examples: [cURL](/quickstart-curl), [Python standard library](/quickstart-python), or [Node.js fetch](/quickstart-typescript). None requires a private checkout or an SDK installation.
 
-```sh
-make release-build
-make release-test
-```
+The [OpenAPI contract](/openapi.json) describes the request/response structures. Generating your own client does not grant API scope, source rights or credits. Use the HTTPS server address, keep keys in headers, preserve decimal strings and missing coverage, and avoid automatic retries of uncertain metered requests.
 
-Read `.cache/releases/latest.json` for the release directory. Its `manifest.json`
-records SHA-256 values, archive inventories and the exact contract/source hashes.
-The release contains a Python wheel/source archive, `@oddswire/client` tarball and
-`@oddswire/mcp` tarball. The npm packages remain private and UNLICENSED.
+## If you were given a private preview
 
-Install only an artifact you built and verified, using an absolute local path:
+Use only the exact artifact and installation instructions supplied with it. Do not assume that the public docs repository contains the SDK source, a `Makefile` or engine services. The preview API uses `oddswire` and `@oddswire/client`; legacy imports remain a compatibility detail of the supplied artifact.
 
-```sh
-python3 -m pip install /path/to/oddswire_client-0.1.0-py3-none-any.whl
-npm install /path/to/oddswire-client-0.1.0.tgz
-```
-
-These are local install commands, not claims that a package is published to npm or
-PyPI. The source archive and wheel retain Python typing metadata. TypeScript emits
-ES modules and declarations. Both clients preserve the complete API page,
-`missing[]`, canonical decimal strings and safe credit/error metadata.
-
-Follow the exact [Python quick start](/quickstart-python),
-[TypeScript quick start](/quickstart-typescript), [error handling](/errors)
-and [local MCP guide](/mcp-client). Never send credentials to a documentation page.
+The [data MCP client](/mcp-client) is also a private preview. Mintlify's documentation MCP endpoint searches these public docs and is a separate service; it does not provide odds data or accept your Oddswire data key.

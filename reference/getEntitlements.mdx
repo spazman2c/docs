@@ -4,7 +4,7 @@ description: "Get entitlements: request contract, authentication, parameters and
 openapi: "GET /v1/account/entitlements"
 ---
 
-Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.
+Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
 
 `GET /v1/account/entitlements`
 
@@ -22,7 +22,7 @@ Private local pilot with account-wide included credits. Namespace-scoped IDs; ov
 
 | Status | Meaning |
 | --- | --- |
-| 200 | A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query. |
+| 200 | Successful account/control response; zero REST data credits. |
 | 304 | Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota. |
 | 400 | Structured problem; see [error handling](/errors). |
 | 401 | Structured problem; see [error handling](/errors). |

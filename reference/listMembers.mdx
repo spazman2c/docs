@@ -4,6 +4,9 @@ description: "List members: request contract, authentication, parameters and res
 openapi: "GET /v1/account/members"
 ---
 
+Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
+
+
 Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.
 
 `GET /v1/account/members`

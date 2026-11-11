@@ -3,7 +3,9 @@ title: "Prices, coverage and fair values"
 description: "Read source identity, units, freshness and explicit missing data correctly."
 ---
 
-Every data request names a namespace. Bulk odds also requires a `fixture` or `competition` filter. Discover fixtures and sources inside that namespace; never join separate stores by coincident numeric IDs. `books` contains **source/region IDs**, not brand slugs. Kambi brands share a pricing group and do not become independent sharp references.
+For current deployment and access limits, read [Current availability](/availability).
+
+Every data request names a namespace. Bulk odds also requires a `fixture` or `competition` filter. Discover fixtures and sources inside that namespace; never join separate stores by coincident numeric IDs. `books` contains **source/region IDs**, not brand slugs. Correlated brands in the same feed family do not become independent sharp references.
 
 ## Quote identity and units
 
@@ -27,8 +29,7 @@ There is currently **no configured eligible sharp reference**, so the pilot cons
 
 ## In-play availability
 
-Real working collectors remain pre-match-only. P4-08 adds a synthetic local
-regulation-1X2 capability with an explicit API `inplay` feature grant. Read
+Working collection remains pre-match-only. The implemented in-play lifecycle has only synthetic development validation and requires an explicit API `inplay` grant. Read
 `inplay.mode` on source/coverage metadata and `fixture_phase` on quotes; a
 `local_test_only` mode is not real provider coverage. See [in-play scope and
 session recovery](/inplay) before requesting `status=live`.

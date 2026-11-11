@@ -4,6 +4,9 @@ description: "Review beta source: request contract, authentication, parameters a
 openapi: "PUT /v1/admin/beta/sources"
 ---
 
+Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
+
+
 Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.
 
 `PUT /v1/admin/beta/sources`

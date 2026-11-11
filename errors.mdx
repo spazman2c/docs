@@ -1,65 +1,43 @@
 ---
 title: "Errors, credits and pagination"
-description: "Handle missing data, structured failures, conditional requests and bounded traversal."
+description: "Handle hosted API errors, empty coverage and uncertain delivery without automatic retries."
 ---
 
-Both clients return a result containing the HTTP status, parsed page, `not_modified` (Python) / `notModified` (TypeScript), and selected response headers. `APIError` exposes status, problem code, request ID, structured problem and safe headers. Configuration/transport/protocol failures raise `ClientError`. No client automatically retries, logs a key or includes a raw response body in a transport exception.
+HTTP responses use typed pages or structured problem objects. Read `data`, `missing[]` and `meta` together. A successful HTTP status does not mean every requested source is covered.
 
-| Status    | Action                                                                                                                      |
-| --------- | --------------------------------------------------------------------------------------------------------------------------- |
-| 200 / 201 | Inspect `data`, `missing` and `meta`; do not infer complete coverage.                                                       |
-| 304       | No body. Reuse only the representation matching your ETag and query; current access and freshness were revalidated.         |
-| 400 / 422 | Fix `invalid_params`; do not retry unchanged.                                                                               |
-| 401 / 403 | Check key/session, current roles, entitlements and beta source permissions. Signup is not a grant.                          |
-| 402       | Included quota unavailable/exhausted. Read free account usage and reset metadata; overage stays off.                        |
-| 409       | A cursor or mutation conflicts with current authority. Restart discovery explicitly or reconcile the existing request UUID. |
-| 410       | A beta invitation has expired; request a new reviewed invitation.                                                           |
-| 429       | Abuse window, separate from billable credits. Inspect `Retry-After`; retry only deliberately.                               |
-| 503 / 504 | Data/control unavailable or deadline exceeded. Preserve the error and request ID; never substitute cached active prices.    |
+## What to do with a response
 
-Transport timeouts or disconnects have an unknown delivery outcome. A completed data page may have been charged. Check free account usage by request ID where available; do not silently retry or create a fresh billing mutation UUID. Refunds and payment invoices are separate from API credit counters.
+| Status | Meaning and next step |
+| --- | --- |
+| 200 / 201 | Inspect the returned page, missing coverage and current state. An empty data page can be a valid result. |
+| 304 | No response body. Reuse only the cached representation for the same query and ETag; do not parse a JSON body. |
+| 400 / 422 | Fix the named `invalid_params` or narrow the request. Retrying unchanged input will not help. |
+| 401 | Check the header key or session. It may be missing, invalid, expired or revoked. |
+| 403 | The current role, feature, namespace or source-purpose access does not permit this request. Signup is not a grant. |
+| 402 | No data allocation or insufficient included credits. Inspect free usage/entitlements; overage is disabled. |
+| 409 | Query/cursor or mutation state changed. Explicitly restart a read traversal, or reconcile the existing mutation request ID. |
+| 410 | A beta invitation expired. Ask support rather than changing or reusing an invitation. |
+| 429 | A separate abuse/rate window applied. Read `Retry-After` and decide when to try again. |
+| 503 / 504 | A required data/control dependency is unavailable or a deadline expired. Keep the request ID; do not substitute cached active odds. |
+
+A problem includes `code`, `request_id`, `detail`, `invalid_params` and `missing`. Report the operation and request ID to support. Do not send keys, bearer tokens or raw private customer data.
+
+## Credits and uncertain delivery
+
+Completed successful data pages cost one included credit, including empty and insufficient results. Account/control/coverage requests, errors, 304 responses and WebSocket messages are free. This does not allocate any credits to a new account.
+
+A timeout or disconnected client can have an **unknown delivery outcome**. The server may have completed a response even if your program did not receive it. Never assume an interrupted call was free or retry it silently. Inspect [Usage](https://oddswire.io/app/usage) and request metadata before a deliberate retry. The quick starts make no automatic retries.
+
+`X-Oddswire-Credits-*`, `X-Oddswire-Credit-Cost`, `X-Oddswire-Usage-State` and `X-Request-ID` describe admission/delivery state. Current account usage is authoritative; these headers are not proof the client received every byte.
 
 ## Conditional requests
 
-```python
-first = client.list_odds({"namespace": namespace, "fixture": str(fixture_id)})
-etag = first.headers.get("etag")
-if etag:
-    again = client.list_odds({"namespace": namespace, "fixture": str(fixture_id), "If-None-Match": etag})
-    if again.not_modified:
-        quotes = first.data  # Only this matching representation.
-```
+For an identical query, you may send the previous `ETag` as `If-None-Match`. A 304 is only usable with the matching locally stored representation. Current access and freshness still apply; a former permission or price cannot be kept active by caching.
 
-```typescript
-const first = await client.listOdds({ namespace, fixture: String(fixtureId) });
-const etag = first.headers.etag;
-if (etag) {
-  const again = await client.listOdds({
-    namespace,
-    fixture: String(fixtureId),
-    "If-None-Match": etag,
-  });
-  if (again.notModified) console.log("Matching representation unchanged");
-}
-```
+## Bounded pagination
 
-## Explicitly bounded pages
+When `meta.next_cursor` is nonempty, pass it unchanged as `cursor` with the same namespace and filters. Follow pages explicitly, set your own page/row limit, and stop on errors or repeated cursors. Each completed data page may cost a credit. An empty cursor ends traversal; do not fabricate one.
 
-Use `meta.next_cursor` unchanged with the same filters. Cursors bind query, scope, namespace and semantic data. A 409 requires an explicit fresh traversal; the client never restarts it automatically. The helpers below stop at the requested bound, propagate errors, and detect cursor cycles. Each successful page costs one credit.
+A 409 means the cursor no longer matches current query/authority/data semantics. Start a fresh traversal only after deciding that is appropriate. Metadata or coverage changes must not be hidden by silently continuing an old result set.
 
-```python
-for page in client.pages("listOdds", {"namespace": namespace, "fixture": str(fixture_id)}, max_pages=3):
-    print(page.data["missing"])
-```
-
-```typescript
-for await (const page of client.pages(
-  "listOdds",
-  { namespace, fixture: String(fixtureId) },
-  3,
-)) {
-  console.log(page.status);
-}
-```
-
-Only completed successful data deliveries consume a credit, including empty/insufficient pages. Errors, 304, account/control/coverage and WebSocket messages are free, including at zero quota. `X-Oddswire-Credits-*`, `X-Oddswire-Credit-Cost`, `X-Oddswire-Usage-State` and `X-Request-ID` are admission/delivery metadata; free usage introspection is the final account authority.
+For management operations that accept a UUID `request_id`, preserve that ID and identical input when reconciling an uncertain mutation. Do not create a new billing request ID to recover from a lost response. Billing remains a restricted test contract, not public checkout.

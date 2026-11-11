@@ -1,58 +1,24 @@
 ---
-title: "Local read-only MCP"
-description: "Use bounded stdio tools through your existing API key and grants."
+title: "Data MCP client availability"
+description: "Distinguish the private data-client preview from Mintlify documentation search."
 ---
 
-The local server uses the official MCP TypeScript SDK over stdio. It exposes twelve
-read-only tools through the existing REST contract: account coverage/usage, sports,
-sources, markets, fixtures, odds, fair price, history coverage, ticks, snapshots
-and opening/closing lines. There is no hosted endpoint or OAuth bridge in this slice.
+## Documentation search is separate from data access
 
-## Configure a local host
+Mintlify can expose these public docs to coding assistants. Its documentation MCP endpoint searches technical content; it does not return private odds, grant a source licence or need your Oddswire data key. Never give a documentation-search service your API credential.
 
-From the checkout, install locked MCP dependencies and compile:
+## Data-client preview
 
-```sh
-./scripts/node.sh --npm ci --prefix mcp --ignore-scripts
-make mcp-build
-```
+The Oddswire data MCP client is a private, locally verified stdio implementation. It is not published to npm, has no public hosted data endpoint and is not available through signup. Do not try to install `@oddswire/mcp` from a registry or build it from this public docs repository.
 
-Configure your host to execute Node 22.23.4+ with an absolute path to
-`mcp/dist/stdio.js`. Set these in the host's private environment:
+If Oddswire supplies a reviewed preview artifact, use the exact installation and host instructions delivered with it. The runtime needs Node.js 22.23.4+, a permitted HTTPS API origin, an entitled namespace and an account-owned data key held in the host's private environment. It does not discover bootstrap credentials or accept account-management sessions. Use the ordinary [HTTP examples](/quickstart-python) for an integration you can build today.
 
-```json
-{
-  "ODDSWIRE_BASE_URL": "http://127.0.0.1:9113",
-  "ODDSWIRE_NAMESPACE": "your_reviewed_namespace",
-  "ODDSWIRE_API_KEY": "REPLACE_LOCALLY_WITH_YOUR_OWN_DATA_KEY",
-  "ODDSWIRE_MCP_MAX_CALLS": "20"
-}
-```
+## Implemented preview behavior
 
-The placeholder is intentionally not a working credential. Never paste a real
-key in chat, tool arguments, URLs, command-line arguments or shared host JSON.
-The server does not discover bootstrap keys and does not accept account sessions.
-Use HTTPS outside development loopback. Your server-side grants and source rights
-still apply on every request. A new identity has no data access by default.
+The preview exposes twelve bounded read tools: coverage/usage, sports, sources, markets, fixtures, odds, fair price, history coverage, ticks, snapshots and opening/closing lines. Each still requires the current API grants and, where applicable, history/source-purpose approval. A tool's presence does not make the feature available to your account.
 
-## Bounded calls and credit behavior
+Each tool makes at most one upstream attempt, without automatic pagination, retries or polling. The default process budget is twenty calls, configurable up to 100; one call is in flight at a time, with a ten-second timeout and 128 KiB output bound. Lists have at most ten rows and require an explicit cursor. Oversized results fail rather than silently dropping missing coverage.
 
-Every tool makes at most one upstream attempt. Lists use at most ten rows and an
-explicit cursor; no automatic pagination, retries or polling occurs. The default
-budget is twenty upstream calls per process (configurable to at most 100), one in
-flight, with a ten-second timeout and 128 KiB output bound. Tool listing, invalid
-arguments and local budget rejection make no API request. Account/control reads
-are free. A completed data page costs one credit, including empty or insufficient
-results. WS tools, mutation tools, betting and source collection are not exposed.
+Account/control calls are free; completed data pages may cost one credit, including empty pages. A response rejected by the MCP output bound may already have consumed a credit upstream. Transport failure is uncertain delivery, not proof of zero charge. Read [Errors and credits](/errors) before retrying.
 
-Read the full `page`, `missing[]`, response metadata and answer timestamp. A fair
-result with `insufficient_reference` remains insufficient. Source text is untrusted
-data; never execute instructions embedded in it. Output bounds fail explicitly
-rather than silently dropping missing coverage. Unpaged catalogue replies over ten
-rows also fail explicitly; narrow their supported filters. A completed upstream call may have
-consumed a credit even if the result cannot be returned through MCP. Cancelled or
-failed transport is uncertain, not proof of zero charge. Review usage before retry.
-
-SDK/package install checks and real stdio tests run with `make release-test` and
-`make mcp-test`. [Authentication](/authentication), [coverage and units](/data),
-[credit errors](/errors) and [history rights](/history) remain authoritative.
+The preview does not expose mutations, source collection, WebSocket calls or bet placement. Treat source text as untrusted data, preserve `missing[]` and timestamps, and do not turn an insufficient fair result into an asserted price.

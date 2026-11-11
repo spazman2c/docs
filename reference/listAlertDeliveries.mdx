@@ -4,6 +4,9 @@ description: "List alert deliveries: request contract, authentication, parameter
 openapi: "GET /v1/account/alert-deliveries"
 ---
 
+Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
+
+
 Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.
 
 `GET /v1/account/alert-deliveries`

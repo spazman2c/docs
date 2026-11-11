@@ -43,7 +43,7 @@
     }
   },
   "info": {
-    "description": "Header API-key authentication, oddswire.v1 subprotocol; no URL credentials or browser cookies. One replaceable odds subscription per connection, two leased connections per account. No REST credits. Reapply current grants before every frame. See docs/websocket.md for transactional replay and client obligations.",
+    "description": "Implemented WebSocket frame/subscription contract, not a public streaming rollout. Separate odds/websocket grants and source-use approval are required. New accounts and the current founder-only REST review have no streaming access. See https://docs.oddswire.io/websocket. Header API key and oddswire.v1 subprotocol; no browser ticket bridge.",
     "title": "Oddswire WebSocket v1 private pilot",
     "version": "1.0.0"
   },
@@ -67,17 +67,6 @@
       "messages": [
         {
           "$ref": "#/channels/stream/messages/frame"
-        }
-      ]
-    }
-  },
-  "servers": {
-    "local": {
-      "host": "127.0.0.1:9113",
-      "protocol": "ws",
-      "security": [
-        {
-          "$ref": "#/components/securitySchemes/ApiKey"
         }
       ]
     }

@@ -4,6 +4,9 @@ description: "Billing refund: request contract, authentication, parameters and r
 openapi: "POST /v1/account/billing/refund"
 ---
 
+Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
+
+
 Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.
 
 `POST /v1/account/billing/refund`

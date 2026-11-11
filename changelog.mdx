@@ -1,12 +1,20 @@
 ---
-title: "Contract status and changelog"
-description: "Implemented local surfaces and remaining deployment boundaries."
+title: "Status and changelog"
+description: "Hosted documentation, workspace and API updates, with explicit current availability."
 ---
 
-## 10 November 2026 · REST v1 local pilot
+## 11 November 2026 · Hosted docs and account access
 
-Generated REST reference, Markdown/LLM exports and Python/TypeScript clients now follow the existing OpenAPI contract. Account/key, atomic credit, WebSocket, test-billing and invite-only beta services are available for local validation. Stable generated operation names are used by both clients; Python uses snake_case.
+- Documentation is live at `https://docs.oddswire.io` on Mintlify, with search, Markdown exports, machine-readable contracts and its own sitemap.
+- Existing `https://oddswire.io/docs/...` links permanently redirect to the matching hosted docs pages. The data MCP guide is `/mcp-client`; `/mcp` is reserved by Mintlify.
+- Production email/password login and email verification are configured at `https://oddswire.io/app`. Verified signup creates an empty personal workspace automatically.
+- The HTTPS API is deployed at `https://api.oddswire.io`. Real retained pre-match data reads have been verified under a separate founder-only internal review. This does not grant customer access.
+- Public quick starts use cURL, Python standard-library HTTP and Node.js fetch. They do not require the private product checkout or unpublished packages.
 
-The current API remains `/v1`. Within this version, consumers should tolerate added optional response fields and new missing/error codes. A future incompatible change requires a new version and a reviewed migration/deprecation policy. No six-month deprecation SLA or production uptime claim is established by this local build.
+## Current limits
 
-Real Clerk login, source customer-use rights, provider sandbox billing, package registry releases, Mintlify hosting/domain and public API deployment remain open. Roadmap data-proof and independent reference/recovery gates continue separately.
+New signups have no data grants or allocation. There is no public paid checkout, general source-data licence or registry release of the SDKs. Streaming, history/export, outbound alerts, Terminal and the data MCP client have separate restricted or preview boundaries. In-play has synthetic local validation only. See [Current availability](/availability).
+
+## Contract version
+
+The API uses `/v1`. Request/response schemas derive from the implemented gateway contract; hosted documentation supplies the HTTPS server address and current availability notes. Readers should tolerate added optional fields and new missing/error codes. No production uptime, latency or six-month deprecation SLA is promised by publishing this contract.

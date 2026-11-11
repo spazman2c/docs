@@ -1,0 +1,42 @@
+---
+title: "Current availability"
+description: "What is deployed, what a new account receives, and which documented capabilities require separate approval."
+---
+
+Last reviewed: **11 November 2026**.
+
+## Deployed today
+
+| Surface | What is working | What a new user receives |
+| --- | --- | --- |
+| Public docs and calculators | Hosted documentation and free browser tools | No account is needed for docs or [calculators](https://oddswire.io/tools) |
+| Customer workspace | Production email/password login, email verification and automatic personal workspace setup | An account with no API/Terminal data grants or credit allocation |
+| Account controls | Keys, usage, coverage and account permissions in the signed-in workspace | Controls appropriate to your role; they do not unlock a feed |
+| HTTPS REST API | `https://api.oddswire.io/v1/...` authenticates requests and enforces permissions, freshness and quota | Data requires an explicitly approved scope and allocation |
+
+Production Google/GitHub social sign-in is not configured. Use the email/password flow currently offered by Oddswire; logging in to another service with Google does not configure Oddswire social login.
+
+Retained pre-match football data from Polymarket, BetRivers and ATG has been read through the deployed API under a separate, expiring founder-only internal review. **That review is not customer availability, a data licence, or an entitlement included with signup.** It does not provide a coverage, freshness or uptime guarantee for your account. Coverage must be read for the account, namespace and time of the request.
+
+## Documented contracts that are not public launches
+
+| Capability | Current boundary |
+| --- | --- |
+| WebSocket stream | Implemented protocol, independently gated `websocket` and odds grants; no new-user stream access or browser ticket bridge |
+| History and exports | Implemented bounded contracts; separate history/export grants and source-purpose review required; not enabled for new accounts |
+| Line-move webhooks | Implemented signing/retry contract; production outbound delivery and source-use approval are not configured for general customers |
+| Fair-price consensus | No configured eligible sharp reference; an insufficient result is not a fair price |
+| In-play | Synthetic local validation only; working collection remains pre-match-only |
+| Terminal | Local implementation and separate Terminal permissions; no customer rollout |
+| Python/TypeScript SDKs and data MCP client | Private preview artifacts; no npm/PyPI release, public installation or hosted data MCP endpoint |
+| Billing and beta administration | Restricted test/operator contracts; no public paid checkout, automatic data grant or general beta enrollment |
+
+Pinnacle's access stop remains in place. BetCity is blocked, and the 1xBet/MELBET work remains access-only rather than a working odds feed. Planned providers are not current customer coverage.
+
+## Choose your next step
+
+- New account: review [authentication](/authentication), then run a free [access check](/quickstart-curl).
+- Approved REST integration: use namespaces and features returned by [Get entitlements](/reference/getEntitlements), then discover fixtures before requesting odds.
+- No approved data scope: use the public calculators, inspect the contracts, or contact support. Repeating a denied request will not enable access.
+
+These docs do not change source permissions, country/region restrictions, account expiry, or the applicable use review. Published schemas, successful technical collection and account signup are separate from permission to display or redistribute data.

@@ -1,26 +1,33 @@
 ---
-title: "Build with Oddswire"
-description: "Explore the Oddswire sports odds API, including authentication, football fixtures, REST odds, WebSocket updates, and historical prices."
+title: "Start with Oddswire"
+description: "Create your workspace, check access, and use the hosted API when your account has been approved."
 ---
 
-One odds engine, explicit source coverage, predictable API behavior.
+Oddswire is a private sports-data pilot. The workspace and HTTPS API are deployed, but **creating an account does not unlock odds data or allocate credits**.
 
-Start with a [cURL](/quickstart-curl), [Python](/quickstart-python) or [TypeScript](/quickstart-typescript) quick start. Read the [REST reference](/reference/listOdds) when you need exact parameters.
+## What you can do now
 
-## Before the first request
+1. [Create an account or sign in](https://oddswire.io/app). Complete the email verification shown by the sign-in flow. Your personal workspace is created automatically; there is no local installation or separate workspace-creation command.
+2. Open [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage). They show your account's actual permissions and allocation. An empty scope is expected for a new account.
+3. If your account is approved for API access, an owner or admin can create a key in [API keys](https://oddswire.io/app/keys). A key authenticates you; it does not add permissions or credits.
+4. Start with the free access check in the [cURL](/quickstart-curl), [Python](/quickstart-python) or [JavaScript / TypeScript](/quickstart-typescript) guide. Only request data after your returned entitlements include the required scope.
 
-Oddswire is a **private pilot**. The customer workspace uses production Clerk login at `https://oddswire.io/app`; signup creates a workspace with zero data grants. The deployed API at `https://api.oddswire.io` requires separately reviewed access. Local quick starts still target `http://127.0.0.1:9113` and install clients from a private product checkout; packages are not published to registries. This public documentation repository does not contain the engine or SDK source.
+If you need access, [contact Oddswire](mailto:spazman2c@gmail.com) with your intended use and required coverage. Access is reviewed; there is no public self-serve paid plan or guaranteed approval. Do not email API keys or session tokens. A beta invitation is only relevant when one has actually been issued to your account.
 
-1. Sign in to the [workspace](https://oddswire.io/app) and complete [invite-only onboarding](https://oddswire.io/beta). Production Clerk login is configured. CLI-issued sessions remain development-only access.
-2. Review current API entitlements and [coverage](https://oddswire.io/app/coverage). New identities start with zero grants. Technical source access does not establish customer display or redistribution rights.
-3. Create an account-owned key in [API keys](https://oddswire.io/app/keys). Copy it once into a private environment variable. API keys belong in headers.
-4. Run one example. Successful data pages consume credits, including empty or insufficient results. Account/control calls and errors are free.
+## API address
 
-## Contracts and local clients
+Use `https://api.oddswire.io` as the base URL. Endpoint paths already include `/v1`, for example `https://api.oddswire.io/v1/account/entitlements`. Do not add a second `/v1`.
 
-- [OpenAPI 3.1.2](/openapi.json): REST requests, parameters, response schemas and account controls.
-- [AsyncAPI](/asyncapi.json) and [WebSocket wire schema](/websocket.schema.json): the separate streaming protocol.
-- [Authentication](/authentication), [data and coverage](/data), [errors and credits](/errors), [streaming](/websocket).
-- Every guide has a `.md` representation. Machine-readable indexes: [/llms.txt](https://docs.oddswire.io/llms.txt) and [/llms-full.txt](https://docs.oddswire.io/llms-full.txt).
+The examples on this site use standard HTTP tools. They require no private repository, SDK package, local server, Docker or `make` command. Use [the signed-in playground](https://oddswire.io/app/playground) if you prefer not to write code.
 
-The documentation exposes technical contracts without collecting your credentials. Use the authenticated [playground](https://oddswire.io/app/playground) for requests. [Historical prices and closing lines](/history) require separate grants and source-use review. Fair-price consensus currently has no configured eligible sharp reference.
+## Understand availability before integrating
+
+Read [Current availability](/availability) for the difference between deployed account/REST access and features documented as restricted previews. A published endpoint schema is not a promise that your account can use it. New users do not inherit founder-only internal access.
+
+Keep decimal values as strings, preserve native identifiers, inspect every `missing[]` entry, and respect quote freshness. See [Data and coverage](/data) and [Errors and credits](/errors).
+
+## Contracts and documentation tools
+
+Download [OpenAPI](/openapi.json), [AsyncAPI](/asyncapi.json) or the [WebSocket schema](/websocket.schema.json). OpenAPI uses the hosted HTTPS base URL; schemas describe implementation contracts and do not activate restricted features.
+
+Each guide is available as Markdown. Coding assistants can read [/llms.txt](https://docs.oddswire.io/llms.txt) and [/llms-full.txt](https://docs.oddswire.io/llms-full.txt). These contain documentation, not API credentials or source prices.

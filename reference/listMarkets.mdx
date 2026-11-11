@@ -4,7 +4,7 @@ description: "List markets: request contract, authentication, parameters and res
 openapi: "GET /v1/markets"
 ---
 
-Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.
+Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain. See [Current availability](/availability).
 
 `GET /v1/markets`
 

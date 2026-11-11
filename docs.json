@@ -20,27 +20,38 @@
   "navigation": {
     "groups": [
       {
-        "group": "Start building",
+        "group": "Start here",
         "pages": [
           "index",
-          "quickstart-curl",
-          "quickstart-python",
-          "quickstart-typescript",
-          "history"
+          "availability",
+          "authentication",
+          "quickstart-curl"
         ]
       },
       {
-        "group": "Guides",
+        "group": "HTTP integration",
         "pages": [
-          "authentication",
+          "quickstart-python",
+          "quickstart-typescript",
           "data",
-          "errors",
+          "errors"
+        ]
+      },
+      {
+        "group": "Restricted features and previews",
+        "pages": [
           "websocket",
+          "history",
+          "alerts",
           "inplay",
           "terminal",
-          "alerts",
           "packages",
-          "mcp-client",
+          "mcp-client"
+        ]
+      },
+      {
+        "group": "Updates",
+        "pages": [
           "changelog"
         ]
       },

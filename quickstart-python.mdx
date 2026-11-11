@@ -1,44 +1,73 @@
 ---
 title: "Python quick start"
-description: "A dependency-free Python 3.9+ client, installed from the checkout."
+description: "Call the hosted API with the Python standard library; no SDK installation or private checkout required."
 ---
 
-These examples require the private product checkout and reviewed access. They are local development examples, not installation instructions for this public docs repository.
+Use Python 3.9+ and your own account key in `ODDSWIRE_API_KEY`. This example uses the standard library; there is no `pip install oddswire` step. Do not copy a real key into the script.
 
-Run from the repository root. These packages are local pilot builds, not published registry packages.
-
-```sh
-python3 -m pip install ./sdk/python
-# Set ODDSWIRE_API_KEY privately; do not paste it into chat or commit it.
-export ODDSWIRE_NAMESPACE='oddswire_kambi'
-python3 examples/quickstart.py
-```
-
-Choose a namespace listed by `get_entitlements()`. The name above is an example, not an access grant. The example makes one free introspection and up to two metered data calls. Fixture IDs come from discovery; numeric IDs in separate namespaces are unrelated.
+Save the following as `check_access.py` and run `python3 check_access.py`. With only an API key set, it makes one free entitlements request. Data requests require an additional, explicit `ODDSWIRE_NAMESPACE` from your approved scope.
 
 ```python
+import json
 import os
-from oddswire import APIError, Client
+from urllib.error import HTTPError
+from urllib.parse import urlencode
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
-client = Client(base_url=os.environ.get("ODDSWIRE_BASE_URL", "http://127.0.0.1:9113"),
-                api_key=os.environ["ODDSWIRE_API_KEY"])
+BASE_URL = "https://api.oddswire.io"
+
+class NoRedirects(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+key = os.environ["ODDSWIRE_API_KEY"]
+if not key or any(c in key for c in "\r\n"):
+    raise SystemExit("Load a valid API key through your private environment")
+opener = build_opener(NoRedirects())
+
+def get_page(path, params=None):
+    query = "?" + urlencode(params) if params else ""
+    request = Request(BASE_URL + path + query, headers={"X-API-Key": key})
+    with opener.open(request, timeout=10) as response:
+        body = response.read(4 * 1024 * 1024 + 1)
+        if len(body) > 4 * 1024 * 1024:
+            raise ValueError("Response exceeds this example's size limit")
+        return json.loads(body)
+
 try:
-    access = client.get_entitlements()  # Free; does not grant access.
-    namespace = os.environ["ODDSWIRE_NAMESPACE"]  # Choose an entitled namespace.
-    fixtures = client.list_fixtures({"namespace": namespace, "limit": 1})
-    print("Fixture coverage:", fixtures.data["missing"])
-    if fixtures.data["data"]:
-        fixture_id = fixtures.data["data"][0]["fixture"]["id"]
-        odds = client.list_odds({"namespace": namespace, "fixture": str(fixture_id), "limit": 3})
-        print("Price coverage:", odds.data["missing"])
-        for quote in odds.data["data"]:
-            # Inspect state, eligibility, confirmation age, units and settlement.
-            print(quote["quote_key"], quote["delivery"]["price"]["observation"]["value"])
+    page = get_page("/v1/account/entitlements")  # Free access check.
+    access = page["data"][0] if page["data"] else {}
+    print("Namespaces:", access.get("namespaces", []))
+    print("Features:", access.get("features", []))
+    namespace = os.environ.get("ODDSWIRE_NAMESPACE")
+    if namespace:
+        if namespace not in access.get("namespaces", []):
+            raise ValueError("Choose a namespace returned by entitlements")
+        if "fixtures" not in access.get("features", []):
+            raise ValueError("Fixture access has not been granted")
+        fixtures = get_page("/v1/fixtures", {"namespace": namespace, "limit": 1})
+        print("Fixture coverage:", fixtures["missing"])
+        if fixtures["data"] and "odds" in access.get("features", []):
+            fixture_id = fixtures["data"][0]["fixture"]["id"]
+            odds = get_page("/v1/odds", {
+                "namespace": namespace, "fixture": str(fixture_id), "limit": 3
+            })
+            print("Odds rows:", len(odds["data"]))
+            print("Price coverage:", odds["missing"])
     else:
-        print("No fixtures in the current scope.")
-except APIError as error:
-    print(error.status, error.code, error.request_id)
+        print("No data request made. Set an approved namespace only when ready.")
+except HTTPError as error:
+    try:
+        problem = json.loads(error.read(65536))
+    except (ValueError, UnicodeError):
+        problem = {}
+    print("Request failed:", error.code, problem.get("code"), problem.get("request_id"))
+    raise SystemExit(1) from None
+except (OSError, ValueError, KeyError):
+    print("Check configuration or delivery status; no automatic retry was attempted.")
     raise SystemExit(1) from None
 ```
 
-Odds, probabilities and sizes stay strings. Use `decimal.Decimal` for calculations. Inspect `missing`, state, confirmation age, settlement and native units before comparing prices. An empty response is a valid result. [Error handling and conditional requests](/errors) explains timeouts, credit exhaustion, 304 and pagination.
+The optional fixture/odds flow makes at most two data requests, which can consume two credits even when the responses are empty. No request retries or redirects occur. Network failures can leave delivery uncertain; check usage before retrying.
+
+Prices and probabilities remain strings in JSON. Use `decimal.Decimal(value)` for arithmetic and retain `missing[]`, native identity and timestamps. Read [Data and coverage](/data) before comparing quotes.

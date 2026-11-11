@@ -4919,7 +4919,7 @@
     },
     "securitySchemes": {
       "AccountSession": {
-        "description": "Clerk session JWT, or one-hour CLI-only local session. No cookie authentication.",
+        "description": "Production Clerk bearer session for documented account-management/introspection operations; current membership and roles required. CLI local sessions are development-only and rejected in production.",
         "scheme": "bearer",
         "type": "http"
       },
@@ -4931,19 +4931,19 @@
     }
   },
   "externalDocs": {
-    "description": "WebSocket v1 AsyncAPI contract",
-    "url": "http://127.0.0.1:9113/asyncapi.json"
+    "description": "Current feature availability",
+    "url": "https://docs.oddswire.io/availability"
   },
   "info": {
-    "description": "Generated from canonical/account/usage DTOs and handler registries. Atomic included credits and durable usage, UTC monthly cycles, overage off. Full local response write/flush is the observable completion boundary; uncertain crash/outage deliveries recover free. Live Clerk login needs provider setup. Test-only Stripe billing uses signed durable receipts and reconciled app entitlements; real sandbox verification remains open. Dashboard and WebSocket are local pilots. Bounded history/as-of/lines and CSV/Parquet exports require separate current history/export grants and source-purpose reviews. Public launch remains gated. Namespaces are never joined by coincident IDs.",
-    "title": "Oddswire REST v1 local pilot",
+    "description": "Implemented REST v1 contract. Hosted account login and HTTPS API are deployed; signup grants no source data or credits. Core data requires explicit approved scope. History, streaming, alerts, Terminal and test billing have separate availability limits. Read https://docs.oddswire.io/availability. Namespaces, decimal strings, native identity and missing coverage retain their contract meaning.",
+    "title": "Oddswire REST v1 private pilot",
     "version": "1.0.0"
   },
   "openapi": "3.1.2",
   "paths": {
     "/v1/account": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply.",
         "operationId": "getAccount",
         "parameters": [
           {
@@ -4965,7 +4965,7 @@
                 }
               }
             },
-            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "description": "Successful account/control response; zero REST data credits. A typed page. missing[] covers the full query.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5082,12 +5082,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "getAccount"
+        "summary": "getAccount",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/alert-deliveries": {
       "get": {
-        "description": "Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
         "operationId": "listAlertDeliveries",
         "parameters": [
           {
@@ -5110,7 +5111,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5183,12 +5184,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "listAlertDeliveries"
+        "summary": "listAlertDeliveries",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       }
     },
     "/v1/account/alert-rules": {
       "get": {
-        "description": "Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
         "operationId": "listAlertRules",
         "parameters": [
           {
@@ -5211,7 +5213,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5284,10 +5286,11 @@
             "AccountSession": []
           }
         ],
-        "summary": "listAlertRules"
+        "summary": "listAlertRules",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       },
       "post": {
-        "description": "Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
         "operationId": "createAlertRule",
         "parameters": [
           {
@@ -5320,7 +5323,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5393,12 +5396,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "createAlertRule"
+        "summary": "createAlertRule",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       }
     },
     "/v1/account/alert-rules/{rule_id}/disable": {
       "post": {
-        "description": "Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
         "operationId": "disableAlertRule",
         "parameters": [
           {
@@ -5440,7 +5444,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5513,12 +5517,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "disableAlertRule"
+        "summary": "disableAlertRule",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       }
     },
     "/v1/account/audit": {
       "get": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "listAccountAudit",
         "parameters": [
           {
@@ -5541,7 +5546,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5614,12 +5619,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "listAccountAudit"
+        "summary": "listAccountAudit",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/beta": {
       "get": {
-        "description": "Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
+        "description": "Restricted invitation contract. Use only an invitation actually issued for your enrolled identity; signup does not provide one. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
         "operationId": "getBeta",
         "parameters": [
           {
@@ -5642,7 +5648,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5715,12 +5721,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "getBeta"
+        "summary": "getBeta",
+        "x-oddswire-availability": "Restricted invitation contract. Use only an invitation actually issued for your enrolled identity; signup does not provide one."
       }
     },
     "/v1/account/beta/accept": {
       "post": {
-        "description": "Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
+        "description": "Restricted invitation contract. Use only an invitation actually issued for your enrolled identity; signup does not provide one. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
         "operationId": "acceptBeta",
         "parameters": [
           {
@@ -5753,7 +5760,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5829,12 +5836,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "acceptBeta"
+        "summary": "acceptBeta",
+        "x-oddswire-availability": "Restricted invitation contract. Use only an invitation actually issued for your enrolled identity; signup does not provide one."
       }
     },
     "/v1/account/billing": {
       "get": {
-        "description": "Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
         "operationId": "getBilling",
         "parameters": [
           {
@@ -5857,7 +5865,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -5930,12 +5938,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "getBilling"
+        "summary": "getBilling",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       }
     },
     "/v1/account/billing/cancel": {
       "post": {
-        "description": "Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
+        "description": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
         "operationId": "billingCancel",
         "parameters": [
           {
@@ -5968,7 +5977,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6041,12 +6050,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "billingCancel"
+        "summary": "billingCancel",
+        "x-oddswire-availability": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers."
       }
     },
     "/v1/account/billing/change": {
       "post": {
-        "description": "Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
+        "description": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
         "operationId": "billingChange",
         "parameters": [
           {
@@ -6079,7 +6089,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6152,12 +6162,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "billingChange"
+        "summary": "billingChange",
+        "x-oddswire-availability": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers."
       }
     },
     "/v1/account/billing/checkout": {
       "post": {
-        "description": "Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
+        "description": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
         "operationId": "billingCheckout",
         "parameters": [
           {
@@ -6190,7 +6201,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6263,12 +6274,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "billingCheckout"
+        "summary": "billingCheckout",
+        "x-oddswire-availability": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers."
       }
     },
     "/v1/account/billing/portal": {
       "post": {
-        "description": "Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
+        "description": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
         "operationId": "billingPortal",
         "parameters": [
           {
@@ -6301,7 +6313,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6374,12 +6386,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "billingPortal"
+        "summary": "billingPortal",
+        "x-oddswire-availability": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers."
       }
     },
     "/v1/account/billing/reconcile": {
       "post": {
-        "description": "Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
+        "description": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
         "operationId": "billingReconcile",
         "parameters": [
           {
@@ -6412,7 +6425,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6485,12 +6498,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "billingReconcile"
+        "summary": "billingReconcile",
+        "x-oddswire-availability": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers."
       }
     },
     "/v1/account/billing/refund": {
       "post": {
-        "description": "Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
+        "description": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.",
         "operationId": "billingRefund",
         "parameters": [
           {
@@ -6523,7 +6537,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6596,12 +6610,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "billingRefund"
+        "summary": "billingRefund",
+        "x-oddswire-availability": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers."
       }
     },
     "/v1/account/coverage": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply.",
         "operationId": "getAccountCoverage",
         "parameters": [
           {
@@ -6623,7 +6638,7 @@
                 }
               }
             },
-            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "description": "Successful account/control response; zero REST data credits. A typed page. missing[] covers the full query.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6740,12 +6755,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "getAccountCoverage"
+        "summary": "getAccountCoverage",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/entitlements": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply.",
         "operationId": "getEntitlements",
         "parameters": [
           {
@@ -6767,7 +6783,7 @@
                 }
               }
             },
-            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "description": "Successful account/control response; zero REST data credits. A typed page. missing[] covers the full query.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6884,12 +6900,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "getEntitlements"
+        "summary": "getEntitlements",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/keys": {
       "get": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "listKeys",
         "parameters": [
           {
@@ -6912,7 +6929,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -6985,10 +7002,11 @@
             "AccountSession": []
           }
         ],
-        "summary": "listKeys"
+        "summary": "listKeys",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       },
       "post": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "createKey",
         "parameters": [
           {
@@ -7021,7 +7039,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -7094,12 +7112,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "createKey"
+        "summary": "createKey",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/keys/{key_id}": {
       "delete": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "revokeKey",
         "parameters": [
           {
@@ -7131,7 +7150,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -7204,12 +7223,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "revokeKey"
+        "summary": "revokeKey",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/keys/{key_id}/rotate": {
       "post": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "rotateKey",
         "parameters": [
           {
@@ -7251,7 +7271,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -7324,12 +7344,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "rotateKey"
+        "summary": "rotateKey",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/members": {
       "get": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "listMembers",
         "parameters": [
           {
@@ -7352,7 +7373,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -7425,12 +7446,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "listMembers"
+        "summary": "listMembers",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/members/{user_id}": {
       "put": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "setMemberRole",
         "parameters": [
           {
@@ -7472,7 +7494,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -7545,12 +7567,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "setMemberRole"
+        "summary": "setMemberRole",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/usage": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply.",
         "operationId": "getUsage",
         "parameters": [
           {
@@ -7572,7 +7595,7 @@
                 }
               }
             },
-            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "description": "Successful account/control response; zero REST data credits. A typed page. missing[] covers the full query.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -7689,12 +7712,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "getUsage"
+        "summary": "getUsage",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/account/webhook-targets": {
       "get": {
-        "description": "Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
         "operationId": "listWebhookTargets",
         "parameters": [
           {
@@ -7717,7 +7741,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -7790,10 +7814,11 @@
             "AccountSession": []
           }
         ],
-        "summary": "listWebhookTargets"
+        "summary": "listWebhookTargets",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       },
       "post": {
-        "description": "Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
         "operationId": "createWebhookTarget",
         "parameters": [
           {
@@ -7826,7 +7851,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -7899,12 +7924,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "createWebhookTarget"
+        "summary": "createWebhookTarget",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       }
     },
     "/v1/account/webhook-targets/{target_id}/disable": {
       "post": {
-        "description": "Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
         "operationId": "disableWebhookTarget",
         "parameters": [
           {
@@ -7946,7 +7972,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -8019,12 +8045,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "disableWebhookTarget"
+        "summary": "disableWebhookTarget",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       }
     },
     "/v1/account/webhook-targets/{target_id}/rotate": {
       "post": {
-        "description": "Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
+        "description": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Owner/admin session only; API keys and viewers cannot manage alerts. Control calls and outbound attempts use no REST credits. Separate alerts/odds grants, account-owned key, expiring alerts purpose review and current source access are required for rules and dispatch. POST request_id is an account-wide UUID idempotency key; retry identical content. Signing secrets appear once, including after rotation; duplicate mutation responses omit them. No external delivery is enabled automatically.",
         "operationId": "rotateWebhookTarget",
         "parameters": [
           {
@@ -8066,7 +8093,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -8139,12 +8166,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "rotateWebhookTarget"
+        "summary": "rotateWebhookTarget",
+        "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       }
     },
     "/v1/admin/beta": {
       "get": {
-        "description": "Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
+        "description": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
         "operationId": "reportBeta",
         "parameters": [
           {
@@ -8167,7 +8195,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -8240,12 +8268,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "reportBeta"
+        "summary": "reportBeta",
+        "x-oddswire-availability": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled."
       }
     },
     "/v1/admin/beta/invites": {
       "post": {
-        "description": "Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
+        "description": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
         "operationId": "inviteBeta",
         "parameters": [
           {
@@ -8278,7 +8307,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -8351,12 +8380,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "inviteBeta"
+        "summary": "inviteBeta",
+        "x-oddswire-availability": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled."
       }
     },
     "/v1/admin/beta/invites/{invite_id}/revoke": {
       "post": {
-        "description": "Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
+        "description": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
         "operationId": "revokeBeta",
         "parameters": [
           {
@@ -8398,7 +8428,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -8471,12 +8501,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "revokeBeta"
+        "summary": "revokeBeta",
+        "x-oddswire-availability": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled."
       }
     },
     "/v1/admin/beta/sources": {
       "put": {
-        "description": "Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
+        "description": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
         "operationId": "reviewBetaSource",
         "parameters": [
           {
@@ -8509,7 +8540,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -8582,12 +8613,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "reviewBetaSource"
+        "summary": "reviewBetaSource",
+        "x-oddswire-availability": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled."
       }
     },
     "/v1/auth/session": {
       "delete": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Development-session contract only. CLI-issued local sessions are rejected by the production service; use the workspace login. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "endLocalSession",
         "parameters": [
           {
@@ -8610,7 +8642,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -8683,10 +8715,11 @@
             "AccountSession": []
           }
         ],
-        "summary": "endLocalSession"
+        "summary": "endLocalSession",
+        "x-oddswire-availability": "Development-session contract only. CLI-issued local sessions are rejected by the production service; use the workspace login."
       },
       "post": {
-        "description": "Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
         "operationId": "enrollSession",
         "parameters": [
           {
@@ -8709,7 +8742,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -8782,7 +8815,8 @@
             "AccountSession": []
           }
         ],
-        "summary": "enrollSession"
+        "summary": "enrollSession",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       }
     },
     "/v1/billing/webhook": {
@@ -8817,7 +8851,7 @@
                 }
               }
             },
-            "description": "Durably accepted; fulfillment is asynchronous reconciliation."
+            "description": "Successful account/control response; zero REST data credits. Durably accepted; fulfillment is asynchronous reconciliation."
           },
           "400": {
             "$ref": "#/components/responses/Problem"
@@ -8833,12 +8867,14 @@
           }
         },
         "security": [],
-        "summary": "Signed test-mode Stripe inbox receipt"
+        "summary": "Signed test-mode Stripe inbox receipt",
+        "description": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply.",
+        "x-oddswire-availability": "Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers."
       }
     },
     "/v1/bookmakers": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listSources",
         "parameters": [
           {
@@ -9004,12 +9040,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "listSources"
+        "summary": "listSources",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
       }
     },
     "/v1/competitions": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listCompetitions",
         "parameters": [
           {
@@ -9184,12 +9221,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "listCompetitions"
+        "summary": "listCompetitions",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
       }
     },
     "/v1/fair": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Restricted fair-price contract. No eligible sharp reference is configured; an insufficient result must not be interpreted as a fair price. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "getFair",
         "parameters": [
           {
@@ -9403,12 +9441,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "getFair"
+        "summary": "getFair",
+        "x-oddswire-availability": "Restricted fair-price contract. No eligible sharp reference is configured; an insufficient result must not be interpreted as a fair price."
       }
     },
     "/v1/fixtures": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listFixtures",
         "parameters": [
           {
@@ -9643,12 +9682,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "listFixtures"
+        "summary": "listFixtures",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
       }
     },
     "/v1/history/coverage": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply.",
         "operationId": "getHistoryCoverage",
         "parameters": [
           {
@@ -9745,7 +9785,7 @@
                 }
               }
             },
-            "description": "Free bounded PG evidence coverage, not a continuous-coverage or whole-sink audit. Explicit history grants/reviews required.",
+            "description": "Successful account/control response; zero REST data credits. Free bounded PG evidence coverage, not a continuous-coverage or whole-sink audit. Explicit history grants/reviews required.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -9859,12 +9899,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "getHistoryCoverage"
+        "summary": "getHistoryCoverage",
+        "x-oddswire-availability": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required."
       }
     },
     "/v1/history/export": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "exportHistory",
         "parameters": [
           {
@@ -10106,12 +10147,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "exportHistory"
+        "summary": "exportHistory",
+        "x-oddswire-availability": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required."
       }
     },
     "/v1/history/lines": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "getHistoryLines",
         "parameters": [
           {
@@ -10322,12 +10364,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "getHistoryLines"
+        "summary": "getHistoryLines",
+        "x-oddswire-availability": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required."
       }
     },
     "/v1/history/snapshot": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "getHistorySnapshot",
         "parameters": [
           {
@@ -10529,12 +10572,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "getHistorySnapshot"
+        "summary": "getHistorySnapshot",
+        "x-oddswire-availability": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required."
       }
     },
     "/v1/history/ticks": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listHistoryTicks",
         "parameters": [
           {
@@ -10745,12 +10789,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "listHistoryTicks"
+        "summary": "listHistoryTicks",
+        "x-oddswire-availability": "Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required."
       }
     },
     "/v1/mappings": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listMappings",
         "parameters": [
           {
@@ -10994,12 +11039,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "listMappings"
+        "summary": "listMappings",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
       }
     },
     "/v1/markets": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listMarkets",
         "parameters": [
           {
@@ -11196,12 +11242,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "listMarkets"
+        "summary": "listMarkets",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
       }
     },
     "/v1/odds": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listOdds",
         "parameters": [
           {
@@ -11489,12 +11536,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "listOdds"
+        "summary": "listOdds",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
       }
     },
     "/v1/sports": {
       "get": {
-        "description": "Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listSports",
         "parameters": [
           {
@@ -11660,12 +11708,13 @@
             "ApiKey": []
           }
         ],
-        "summary": "listSports"
+        "summary": "listSports",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
       }
     },
     "/v1/terminal/board": {
       "post": {
-        "description": "Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.",
+        "description": "Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.",
         "operationId": "terminalBoard",
         "parameters": [
           {
@@ -11698,7 +11747,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -11771,12 +11820,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "terminalBoard"
+        "summary": "terminalBoard",
+        "x-oddswire-availability": "Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required."
       }
     },
     "/v1/terminal/chart": {
       "post": {
-        "description": "Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.",
+        "description": "Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.",
         "operationId": "terminalChart",
         "parameters": [
           {
@@ -11809,7 +11859,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -11882,12 +11932,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "terminalChart"
+        "summary": "terminalChart",
+        "x-oddswire-availability": "Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required."
       }
     },
     "/v1/terminal/context": {
       "get": {
-        "description": "Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.",
+        "description": "Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.",
         "operationId": "terminalContext",
         "parameters": [
           {
@@ -11910,7 +11961,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -11983,12 +12034,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "terminalContext"
+        "summary": "terminalContext",
+        "x-oddswire-availability": "Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required."
       }
     },
     "/v1/terminal/preferences": {
       "put": {
-        "description": "Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.",
+        "description": "Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.",
         "operationId": "terminalPreferences",
         "parameters": [
           {
@@ -12021,7 +12073,7 @@
                 }
               }
             },
-            "description": "Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -12094,13 +12146,15 @@
             "AccountSession": []
           }
         ],
-        "summary": "terminalPreferences"
+        "summary": "terminalPreferences",
+        "x-oddswire-availability": "Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required."
       }
     }
   },
   "servers": [
     {
-      "url": "http://127.0.0.1:9113"
+      "url": "https://api.oddswire.io",
+      "description": "Hosted HTTPS API; account grants and allocation are required for data."
     }
   ],
   "webhooks": {
@@ -12165,5 +12219,10 @@
         "summary": "Signed native line-move notification"
       }
     }
+  },
+  "x-oddswire-documentation": {
+    "upstream_contract_sha256": "f2372f784d7957dbff98d3132a10913c101fddb14fd2749a92e81ea9b4556e44",
+    "reviewed": "2026-11-11",
+    "changes": "Hosting and availability prose only; request parameters, response schemas and canonical DTOs are unchanged."
   }
 }

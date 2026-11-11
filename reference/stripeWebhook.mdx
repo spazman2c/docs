@@ -4,6 +4,9 @@ description: "Signed test-mode Stripe inbox receipt: request contract, authentic
 openapi: "POST /v1/billing/webhook"
 ---
 
+Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
+
+
 Provider-signed incoming webhook. Application SDKs do not send this request.
 
 `POST /v1/billing/webhook`

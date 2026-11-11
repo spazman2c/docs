@@ -1,0 +1,96 @@
+{
+  "asyncapi": "3.0.0",
+  "channels": {
+    "stream": {
+      "address": "/v1/ws",
+      "messages": {
+        "command": {
+          "$ref": "#/components/messages/Command"
+        },
+        "frame": {
+          "$ref": "#/components/messages/Frame"
+        }
+      }
+    }
+  },
+  "components": {
+    "messages": {
+      "Command": {
+        "name": "WSCommand",
+        "payload": {
+          "schema": {
+            "$ref": "./websocket.v1.schema.json#/$defs/WSCommand"
+          },
+          "schemaFormat": "application/schema+json;version=draft2020-12"
+        }
+      },
+      "Frame": {
+        "name": "WSFrame",
+        "payload": {
+          "schema": {
+            "$ref": "./websocket.v1.schema.json#/$defs/WSFrame"
+          },
+          "schemaFormat": "application/schema+json;version=draft2020-12"
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "in": "header",
+        "name": "X-API-Key",
+        "type": "httpApiKey"
+      }
+    }
+  },
+  "info": {
+    "description": "Header API-key authentication, oddswire.v1 subprotocol; no URL credentials or browser cookies. One replaceable odds subscription per connection, two leased connections per account. No REST credits. Reapply current grants before every frame. See docs/websocket.md for transactional replay and client obligations.",
+    "title": "Oddswire WebSocket v1 private pilot",
+    "version": "1.0.0"
+  },
+  "operations": {
+    "receiveCommands": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/stream"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/stream/messages/command"
+        }
+      ]
+    },
+    "sendFrames": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/stream"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/stream/messages/frame"
+        }
+      ]
+    }
+  },
+  "servers": {
+    "local": {
+      "host": "127.0.0.1:9113",
+      "protocol": "ws",
+      "security": [
+        {
+          "$ref": "#/components/securitySchemes/ApiKey"
+        }
+      ]
+    }
+  },
+  "x-pilot-limits": {
+    "command_bytes": 4096,
+    "journal_backlog_events": 2048,
+    "journal_retention_seconds": 360,
+    "protocol": "oddswire.v1",
+    "resume_seconds": 300,
+    "server_frame_bytes": 2097152,
+    "state_revalidation_ms": 1000,
+    "subscription_entries": 2000,
+    "write_deadline_ms": 2000
+  }
+}

@@ -1,0 +1,34 @@
+---
+title: "Prices, coverage and fair values"
+description: "Read source identity, units, freshness and explicit missing data correctly."
+---
+
+Every data request names a namespace. Bulk odds also requires a `fixture` or `competition` filter. Discover fixtures and sources inside that namespace; never join separate stores by coincident numeric IDs. `books` contains **source/region IDs**, not brand slugs. Kambi brands share a pricing group and do not become independent sharp references.
+
+## Quote identity and units
+
+Preserve `quote_key`, native fixture/offer/outcome IDs, source/region, side and depth. More than one native offer may exist on the same canonical line. Reviewed grouping/orientation is explicit; source-local identity is not a reviewed match. Market family, period, quarter line and settlement terms must be compatible before comparison.
+
+`decimal_odds`, native probabilities and sizes are decimal **strings**. A probability is not decimal odds. A team's NO contract is not the opposing 1X2 outcome. Fees, commissions, liquidity and settlement metadata remain source-specific. Unknown/nonzero exchange fees and push/split payouts are unsupported in the fair service.
+
+## Freshness and missing coverage
+
+`source_ts` is nullable. `seen_ts` is observation time. `confirmed_ts` records the last successful confirmation; unchanged successful observations refresh it without another price tick. `sent_ts` only records delivery and cannot refresh source freshness.
+
+Read quote eligibility/state and age against `freshness_limit_seconds`; distinguish active, suspended, unavailable and stale states. Read **all** `missing[]` entries, including when `data` is nonempty. They identify uncollected, denied, stale, blocked, incompatible or insufficient coverage. A response is never proof that every planned bookmaker or market is covered.
+
+The read-only API does not collect new prices. Free account coverage describes available scope and retained freshness; it is not an uptime guarantee. Fixture discovery may return no data. Bounded retained history requires separate history/export grants; opening/closing and as-of eligibility remain pre-match-only. Production coverage guarantees remain unverified.
+
+## Fair price
+
+`GET /v1/fair` requires fixture and settlement rule as well as namespace. Use discovered market metadata. The service reevaluates current reviewed inputs, eligibility, feed groups and configured weights. It exposes sources/method/filters and explicit insufficiency rather than serving an expired calculation.
+
+There is currently **no configured eligible sharp reference**, so the pilot consensus is insufficient. Diagnostic vectors are not consensus prices. A 200 insufficient result still costs one credit. Technical source access does not confer customer display, derived-use or redistribution rights.
+
+## In-play availability
+
+Real working collectors remain pre-match-only. P4-08 adds a synthetic local
+regulation-1X2 capability with an explicit API `inplay` feature grant. Read
+`inplay.mode` on source/coverage metadata and `fixture_phase` on quotes; a
+`local_test_only` mode is not real provider coverage. See [in-play scope and
+session recovery](/inplay) before requesting `status=live`.

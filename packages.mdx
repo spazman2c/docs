@@ -1,0 +1,39 @@
+---
+title: "SDK preview packages"
+description: "Build, verify and install exact local release artifacts."
+---
+
+The Python and TypeScript 0.1.0 preview packages derive from the current REST v1
+contract. New integrations use `oddswire`, `@oddswire/client` and `@oddswire/mcp`.
+Legacy Python imports, API headers and namespace names remain accepted for compatibility.
+Registry publication and licensing are pending.
+
+## Build and verify
+
+In the developer checkout, with pinned web and MCP dependencies installed:
+
+```sh
+make release-build
+make release-test
+```
+
+Read `.cache/releases/latest.json` for the release directory. Its `manifest.json`
+records SHA-256 values, archive inventories and the exact contract/source hashes.
+The release contains a Python wheel/source archive, `@oddswire/client` tarball and
+`@oddswire/mcp` tarball. The npm packages remain private and UNLICENSED.
+
+Install only an artifact you built and verified, using an absolute local path:
+
+```sh
+python3 -m pip install /path/to/oddswire_client-0.1.0-py3-none-any.whl
+npm install /path/to/oddswire-client-0.1.0.tgz
+```
+
+These are local install commands, not claims that a package is published to npm or
+PyPI. The source archive and wheel retain Python typing metadata. TypeScript emits
+ES modules and declarations. Both clients preserve the complete API page,
+`missing[]`, canonical decimal strings and safe credit/error metadata.
+
+Follow the exact [Python quick start](/quickstart-python),
+[TypeScript quick start](/quickstart-typescript), [error handling](/errors)
+and [local MCP guide](/mcp). Never send credentials to a documentation page.

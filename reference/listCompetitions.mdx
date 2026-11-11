@@ -1,0 +1,45 @@
+---
+title: "List competitions"
+description: "List competitions: request contract, authentication, parameters and response behavior for the Oddswire private pilot."
+openapi: "GET /v1/competitions"
+---
+
+Private local pilot with account-wide included credits. Namespace-scoped IDs; overage off. Successful data pages cost one credit; account/errors/304/aborted or timed-out deliveries are free. No payment or source distribution rights are implied.
+
+`GET /v1/competitions`
+
+## Authentication
+
+`ApiKey`
+
+## Parameters
+
+| Name | Location | Required | Description |
+| --- | --- | --- | --- |
+| `namespace` | query | Yes | Explicit pilot namespace; numeric IDs are scoped to it. |
+| `limit` | query | No | Page size 1..100; default 25. |
+| `cursor` | query | No | Opaque query-bound cursor; restart on 409 after data changes. |
+| `sport` | query | No | Comma-separated sport IDs. |
+| `If-None-Match` | header | No | Weak semantic ETag; freshness and access are revalidated before 304. |
+
+## Responses
+
+| Status | Meaning |
+| --- | --- |
+| 200 | A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query. |
+| 304 | Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota. |
+| 400 | Structured problem; see [error handling](/errors). |
+| 401 | Structured problem; see [error handling](/errors). |
+| 402 | Structured problem; see [error handling](/errors). |
+| 403 | Structured problem; see [error handling](/errors). |
+| 404 | Structured problem; see [error handling](/errors). |
+| 405 | Structured problem; see [error handling](/errors). |
+| 409 | Structured problem; see [error handling](/errors). |
+| 414 | Structured problem; see [error handling](/errors). |
+| 422 | Structured problem; see [error handling](/errors). |
+| 429 | Structured problem; see [error handling](/errors). |
+| 500 | Structured problem; see [error handling](/errors). |
+| 503 | Structured problem; see [error handling](/errors). |
+| 504 | Structured problem; see [error handling](/errors). |
+
+Full request and response schemas: [OpenAPI](/openapi.json). [Authentication](/authentication) · [Prices and coverage](/data) · [Errors and credits](/errors).

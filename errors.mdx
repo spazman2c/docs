@@ -1,0 +1,65 @@
+---
+title: "Errors, credits and pagination"
+description: "Handle missing data, structured failures, conditional requests and bounded traversal."
+---
+
+Both clients return a result containing the HTTP status, parsed page, `not_modified` (Python) / `notModified` (TypeScript), and selected response headers. `APIError` exposes status, problem code, request ID, structured problem and safe headers. Configuration/transport/protocol failures raise `ClientError`. No client automatically retries, logs a key or includes a raw response body in a transport exception.
+
+| Status    | Action                                                                                                                      |
+| --------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 200 / 201 | Inspect `data`, `missing` and `meta`; do not infer complete coverage.                                                       |
+| 304       | No body. Reuse only the representation matching your ETag and query; current access and freshness were revalidated.         |
+| 400 / 422 | Fix `invalid_params`; do not retry unchanged.                                                                               |
+| 401 / 403 | Check key/session, current roles, entitlements and beta source permissions. Signup is not a grant.                          |
+| 402       | Included quota unavailable/exhausted. Read free account usage and reset metadata; overage stays off.                        |
+| 409       | A cursor or mutation conflicts with current authority. Restart discovery explicitly or reconcile the existing request UUID. |
+| 410       | A beta invitation has expired; request a new reviewed invitation.                                                           |
+| 429       | Abuse window, separate from billable credits. Inspect `Retry-After`; retry only deliberately.                               |
+| 503 / 504 | Data/control unavailable or deadline exceeded. Preserve the error and request ID; never substitute cached active prices.    |
+
+Transport timeouts or disconnects have an unknown delivery outcome. A completed data page may have been charged. Check free account usage by request ID where available; do not silently retry or create a fresh billing mutation UUID. Refunds and payment invoices are separate from API credit counters.
+
+## Conditional requests
+
+```python
+first = client.list_odds({"namespace": namespace, "fixture": str(fixture_id)})
+etag = first.headers.get("etag")
+if etag:
+    again = client.list_odds({"namespace": namespace, "fixture": str(fixture_id), "If-None-Match": etag})
+    if again.not_modified:
+        quotes = first.data  # Only this matching representation.
+```
+
+```typescript
+const first = await client.listOdds({ namespace, fixture: String(fixtureId) });
+const etag = first.headers.etag;
+if (etag) {
+  const again = await client.listOdds({
+    namespace,
+    fixture: String(fixtureId),
+    "If-None-Match": etag,
+  });
+  if (again.notModified) console.log("Matching representation unchanged");
+}
+```
+
+## Explicitly bounded pages
+
+Use `meta.next_cursor` unchanged with the same filters. Cursors bind query, scope, namespace and semantic data. A 409 requires an explicit fresh traversal; the client never restarts it automatically. The helpers below stop at the requested bound, propagate errors, and detect cursor cycles. Each successful page costs one credit.
+
+```python
+for page in client.pages("listOdds", {"namespace": namespace, "fixture": str(fixture_id)}, max_pages=3):
+    print(page.data["missing"])
+```
+
+```typescript
+for await (const page of client.pages(
+  "listOdds",
+  { namespace, fixture: String(fixtureId) },
+  3,
+)) {
+  console.log(page.status);
+}
+```
+
+Only completed successful data deliveries consume a credit, including empty/insufficient pages. Errors, 304, account/control/coverage and WebSocket messages are free, including at zero quota. `X-Oddswire-Credits-*`, `X-Oddswire-Credit-Cost`, `X-Oddswire-Usage-State` and `X-Request-ID` are admission/delivery metadata; free usage introspection is the final account authority.

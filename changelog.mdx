@@ -1,0 +1,12 @@
+---
+title: "Contract status and changelog"
+description: "Implemented local surfaces and remaining deployment boundaries."
+---
+
+## 10 November 2026 · REST v1 local pilot
+
+Generated REST reference, Markdown/LLM exports and Python/TypeScript clients now follow the existing OpenAPI contract. Account/key, atomic credit, WebSocket, test-billing and invite-only beta services are available for local validation. Stable generated operation names are used by both clients; Python uses snake_case.
+
+The current API remains `/v1`. Within this version, consumers should tolerate added optional response fields and new missing/error codes. A future incompatible change requires a new version and a reviewed migration/deprecation policy. No six-month deprecation SLA or production uptime claim is established by this local build.
+
+Real Clerk login, source customer-use rights, provider sandbox billing, package registry releases, Mintlify hosting/domain and public API deployment remain open. Roadmap data-proof and independent reference/recovery gates continue separately.

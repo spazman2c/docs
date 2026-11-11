@@ -1,127 +1,172 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Oddswire",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#a3e635",
+    "light": "#4d7c0f",
+    "dark": "#bef264"
   },
-  "favicon": "/favicon.svg",
+  "appearance": {
+    "default": "dark"
+  },
+  "api": {
+    "openapi": "openapi.json",
+    "playground": {
+      "display": "none",
+      "proxy": false
+    }
+  },
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
+        "group": "Start building",
+        "pages": [
+          "index",
+          "quickstart-curl",
+          "quickstart-python",
+          "quickstart-typescript",
+          "history"
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
+        "group": "Guides",
+        "pages": [
+          "authentication",
+          "data",
+          "errors",
+          "websocket",
+          "inplay",
+          "terminal",
+          "alerts",
+          "packages",
+          "mcp",
+          "changelog"
+        ]
+      },
+      {
+        "group": "REST v1 reference",
+        "pages": [
+          "reference/listSports",
+          "reference/listSources",
+          "reference/listCompetitions",
+          "reference/listMarkets",
+          "reference/listFixtures",
+          "reference/listOdds",
+          "reference/getFair",
+          "reference/listMappings"
+        ]
+      },
+      {
+        "group": "History reference",
+        "pages": [
+          "reference/getHistoryCoverage",
+          "reference/exportHistory",
+          "reference/getHistoryLines",
+          "reference/getHistorySnapshot",
+          "reference/listHistoryTicks"
+        ]
+      },
+      {
+        "group": "Account and control reference",
+        "pages": [
+          "reference/getAccount",
+          "reference/listAlertDeliveries",
+          "reference/listAlertRules",
+          "reference/createAlertRule",
+          "reference/disableAlertRule",
+          "reference/listAccountAudit",
+          "reference/getBeta",
+          "reference/acceptBeta",
+          "reference/getBilling",
+          "reference/billingCancel",
+          "reference/billingChange",
+          "reference/billingCheckout",
+          "reference/billingPortal",
+          "reference/billingReconcile",
+          "reference/billingRefund",
+          "reference/getAccountCoverage",
+          "reference/getEntitlements",
+          "reference/listKeys",
+          "reference/createKey",
+          "reference/revokeKey",
+          "reference/rotateKey",
+          "reference/listMembers",
+          "reference/setMemberRole",
+          "reference/getUsage",
+          "reference/listWebhookTargets",
+          "reference/createWebhookTarget",
+          "reference/disableWebhookTarget",
+          "reference/rotateWebhookTarget",
+          "reference/reportBeta",
+          "reference/inviteBeta",
+          "reference/revokeBeta",
+          "reference/reviewBetaSource",
+          "reference/endLocalSession",
+          "reference/enrollSession",
+          "reference/stripeWebhook",
+          "reference/terminalBoard",
+          "reference/terminalChart",
+          "reference/terminalContext",
+          "reference/terminalPreferences"
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
+  "favicon": "/favicon.svg",
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "href": "https://oddswire.io"
   },
   "navbar": {
     "links": [
       {
+        "label": "Website",
+        "href": "https://oddswire.io"
+      },
+      {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:spazman2c@gmail.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Workspace",
+      "href": "https://oddswire.io/app"
     }
+  },
+  "footer": {
+    "links": [
+      {
+        "header": "Oddswire",
+        "items": [
+          {
+            "label": "Privacy",
+            "href": "https://oddswire.io/privacy"
+          },
+          {
+            "label": "Terms",
+            "href": "https://oddswire.io/terms"
+          },
+          {
+            "label": "Free tools",
+            "href": "https://oddswire.io/tools"
+          }
+        ]
+      }
+    ]
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity"
+    ]
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+  "seo": {
+    "indexing": "all"
   }
 }

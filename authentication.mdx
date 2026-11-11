@@ -1,0 +1,24 @@
+---
+title: "Authentication and accounts"
+description: "Keep data keys, management sessions, roles and product grants distinct."
+---
+
+## Data keys
+
+Send exactly one `X-API-Key` header. Never place credentials in URLs, cookies or WebSocket subprotocol values. The API rejects conflicting credentials. Create, rotate or revoke keys through the [workspace](https://oddswire.io/app/keys) or account-session endpoints. Raw keys are shown once; stored keys are hashes. Rotation atomically replaces the old key. The account has a three-active-key cap.
+
+Both clients require exactly one `api_key` / `apiKey` or `session_token` / `sessionToken`. Their generated methods enforce the operation's credential type before making a network request. They accept HTTPS origins and development HTTP loopback origins, reject credential-bearing base URLs, and never follow redirects.
+
+## Management sessions
+
+`Authorization: Bearer <session>` manages the account. Data keys cannot create keys, change roles, enroll identities or operate billing/beta controls. Owner/admin sessions manage keys; only an owner changes existing member roles. Beta administration requires a separate global operator. Authentication does not imply these roles.
+
+Production Clerk login and verified signup are configured on the Oddswire workspace. A CLI-issued local session is development-only evidence. New provider identities get **zero** API and Terminal grants. Signup, checkout redirects and client plan/role claims do not grant access.
+
+API and Terminal are separate product scopes under one account. The root account ledger is authoritative for current grants, suspension and quota. The beta also requires exact recipient/region binding and current source-use approvals. Revocation and expiry apply to data reads, 304 revalidation and streams.
+
+## Account selection
+
+Management operations accept `X-Oddswire-Account` where listed by the contract. This selects an account in which the signed-in user must already have membership. It never changes tenant authorization. Free account introspection is useful before making a metered request.
+
+Billing is **test mode only** and requires explicit enrollment. The test prices are fixtures, not a commercial offer. Source customer-use rights, Stripe sandbox verification and launch terms remain separate gates.

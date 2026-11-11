@@ -1,0 +1,44 @@
+---
+title: "Python quick start"
+description: "A dependency-free Python 3.9+ client, installed from the checkout."
+---
+
+These examples require the private product checkout and reviewed access. They are local development examples, not installation instructions for this public docs repository.
+
+Run from the repository root. These packages are local pilot builds, not published registry packages.
+
+```sh
+python3 -m pip install ./sdk/python
+# Set ODDSWIRE_API_KEY privately; do not paste it into chat or commit it.
+export ODDSWIRE_NAMESPACE='oddswire_kambi'
+python3 examples/quickstart.py
+```
+
+Choose a namespace listed by `get_entitlements()`. The name above is an example, not an access grant. The example makes one free introspection and up to two metered data calls. Fixture IDs come from discovery; numeric IDs in separate namespaces are unrelated.
+
+```python
+import os
+from oddswire import APIError, Client
+
+client = Client(base_url=os.environ.get("ODDSWIRE_BASE_URL", "http://127.0.0.1:9113"),
+                api_key=os.environ["ODDSWIRE_API_KEY"])
+try:
+    access = client.get_entitlements()  # Free; does not grant access.
+    namespace = os.environ["ODDSWIRE_NAMESPACE"]  # Choose an entitled namespace.
+    fixtures = client.list_fixtures({"namespace": namespace, "limit": 1})
+    print("Fixture coverage:", fixtures.data["missing"])
+    if fixtures.data["data"]:
+        fixture_id = fixtures.data["data"][0]["fixture"]["id"]
+        odds = client.list_odds({"namespace": namespace, "fixture": str(fixture_id), "limit": 3})
+        print("Price coverage:", odds.data["missing"])
+        for quote in odds.data["data"]:
+            # Inspect state, eligibility, confirmation age, units and settlement.
+            print(quote["quote_key"], quote["delivery"]["price"]["observation"]["value"])
+    else:
+        print("No fixtures in the current scope.")
+except APIError as error:
+    print(error.status, error.code, error.request_id)
+    raise SystemExit(1) from None
+```
+
+Odds, probabilities and sizes stay strings. Use `decimal.Decimal` for calculations. Inspect `missing`, state, confirmation age, settlement and native units before comparing prices. An empty response is a valid result. [Error handling and conditional requests](/errors) explains timeouts, credit exhaustion, 304 and pagination.

@@ -1,0 +1,39 @@
+---
+title: "Revoke key"
+description: "Revoke key: request contract, authentication, parameters and response behavior for the Oddswire private pilot."
+openapi: "DELETE /v1/account/keys/{key_id}"
+---
+
+Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.
+
+`DELETE /v1/account/keys/{key_id}`
+
+## Authentication
+
+`AccountSession`
+
+## Parameters
+
+| Name | Location | Required | Description |
+| --- | --- | --- | --- |
+| `X-Oddswire-Account` | header | No | UUID of an account where the signed-in user is a member; defaults to their oldest account. |
+| `key_id` | path | Yes | See the OpenAPI schema. |
+
+## Responses
+
+| Status | Meaning |
+| --- | --- |
+| 200 | Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first. |
+| 400 | Structured problem; see [error handling](/errors). |
+| 401 | Structured problem; see [error handling](/errors). |
+| 403 | Structured problem; see [error handling](/errors). |
+| 404 | Structured problem; see [error handling](/errors). |
+| 405 | Structured problem; see [error handling](/errors). |
+| 409 | Structured problem; see [error handling](/errors). |
+| 422 | Structured problem; see [error handling](/errors). |
+| 429 | Structured problem; see [error handling](/errors). |
+| 500 | Structured problem; see [error handling](/errors). |
+| 503 | Structured problem; see [error handling](/errors). |
+| 504 | Structured problem; see [error handling](/errors). |
+
+Full request and response schemas: [OpenAPI](/openapi.json). [Authentication](/authentication) · [Prices and coverage](/data) · [Errors and credits](/errors).

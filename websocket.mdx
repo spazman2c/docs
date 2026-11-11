@@ -1,0 +1,37 @@
+---
+title: "WebSocket protocol"
+description: "Server-client connection, snapshot/delta ordering and safe recovery."
+---
+
+The REST clients ship the generated `WSCommand` and `WSFrame` types. WebSocket networking is a separate integration: use a server-side WebSocket library that sets headers. The existing gateway accepts `ws://127.0.0.1:9113/v1/ws`, one `X-API-Key` header, and subprotocol `oddswire.v1`. Use WSS for any future remote deployment. Require explicit API `odds` and `websocket` grants; REST/Terminal access alone is insufficient. Messages cost no REST credits.
+
+Native browser WebSocket constructors cannot supply the required header. Origin-bearing upgrades are rejected; a reviewed short-lived ticket bridge remains open. Never put a key in the URL or subprotocol.
+
+After `hello`, send this **illustrative** subscription, replacing IDs with discovered, entitled ones:
+
+```json
+{
+  "type": "subscribe",
+  "id": "first",
+  "params": { "namespace": "oddswire_kambi", "fixture": "100", "books": "5,7" }
+}
+```
+
+Filters are strings. Namespace plus fixture(s) or competition(s) is required. One active subscription is supported per connection. No REST page `limit` or `cursor` inside `params`. For resume, put the last fully applied opaque cursor at the command's top level.
+
+## State application
+
+1. Treat `delivery_seq` and namespace positions as exact decimal strings; never convert them to JavaScript numbers. Delivery sequence resets per connection.
+2. A `snapshot`, `resumed` or `state` frame with `replace: true` replaces the **entire** view, including an empty array. Retain `missing[]`.
+3. Apply each `delta` frame's ordered changes atomically, keyed by native `quote_key`. Preserve event IDs and A → B → A changes; filtered positions may jump.
+4. Persist the cursor only after the whole frame is applied. Heartbeat/pong may renew it at the same position. Resume is bounded to five minutes and retained journal capacity.
+5. `resnapshot_required` clears view and cursor. Subscribe again without a cursor. Disconnect marks retained quotes unconfirmed/non-executable. Never treat a heartbeat or `sent_ts` as a new source confirmation.
+6. Keep a continuous reader active to answer protocol pings, including between price updates. Respect bounded input/backlog/write/pong behavior. Slow clients are disconnected; reconnect deliberately with the last fully applied cursor, or take a fresh snapshot.
+
+Metadata, mapping, lineage, entitlement or journal gaps can require a resnapshot. Current source/rights/freshness checks still apply during recovery. The [AsyncAPI](/asyncapi.json), [wire schema](/websocket.schema.json) and local `make ws-test` define/test the transport. This docs task does not claim a hosted stream or browser ticket bridge.
+
+## Local launch checks
+
+`make ws-launch-test` exercises 16 local clients, saved-source persistence, gateway-instance shutdown/resume, explicit capacity rejection and synthetic signed billing events against connected streams. `make ws-benchmark` writes a private workload/timing report under `.cache/ws-validation`. The harness uses race detection and full client wire validation; archive/drain-to-consumer timings are not production or provider latency.
+
+Current limits remain 16 connections/process, two/account and one subscription/connection. The gateway instances share one test process/host/PG domain. Independent production failover, larger/multi-subscription capacity, real provider login/billing and source-use rights remain open.

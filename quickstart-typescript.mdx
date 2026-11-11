@@ -1,0 +1,47 @@
+---
+title: "TypeScript quick start"
+description: "Generated REST types and a small fetch client for Node 22.23.4+."
+---
+
+These examples require the private product checkout and reviewed access. They are local development examples, not installation instructions for this public docs repository.
+
+Build the local client from the repository root:
+
+```sh
+./scripts/node.sh --npm ci --prefix web
+make sdk-build
+# In your own TypeScript app, use its absolute checkout path:
+npm install /absolute/path/to/Oddswire/sdk/typescript
+# Set ODDSWIRE_API_KEY privately, and choose an entitled namespace.
+export ODDSWIRE_NAMESPACE='oddswire_kambi'
+```
+
+The client is a local `@oddswire/client` package. It has not been published to npm. Compile the following as part of your Node TypeScript application. The checked-in source is `examples/quickstart.ts`; local tests compile and run that exact file.
+
+```typescript
+import { Client, APIError } from "@oddswire/client";
+
+const client = new Client({baseUrl: process.env.ODDSWIRE_BASE_URL ?? "http://127.0.0.1:9113", apiKey: process.env.ODDSWIRE_API_KEY});
+try {
+  await client.getEntitlements(); // Free; does not grant access.
+  const namespace = process.env.ODDSWIRE_NAMESPACE;
+  if (!namespace) throw new Error("Choose an entitled ODDSWIRE_NAMESPACE.");
+  const fixtures = await client.listFixtures({namespace, limit: 1});
+  console.log("Fixture coverage:", fixtures.data!.missing);
+  const fixture = fixtures.data!.data[0];
+  if (fixture) {
+    const odds = await client.listOdds({namespace, fixture: String(fixture.fixture.id), limit: 3});
+    console.log("Price coverage:", odds.data!.missing);
+    for (const quote of odds.data!.data) {
+      // Inspect state, eligibility, confirmation age, units and settlement.
+      console.log(quote.quote_key, quote.delivery.price.observation.value);
+    }
+  } else console.log("No fixtures in the current scope.");
+} catch (error) {
+  if (error instanceof APIError) console.error(error.status, error.code, error.requestId);
+  else console.error("Local configuration or transport failure.");
+  process.exitCode = 1;
+}
+```
+
+One free introspection and up to two metered data calls. Decimal values stay strings; avoid `Number()` for price arithmetic. Responses include `missing[]`, request metadata and credit headers. API keys stay on the server; use the authenticated [playground](https://oddswire.io/app/playground) from a browser. [Errors and pagination](/errors).

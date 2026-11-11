@@ -1,0 +1,4815 @@
+{
+  "$defs": {
+    "Account": {
+      "additionalProperties": false,
+      "properties": {
+        "credential_kind": {
+          "type": "string"
+        },
+        "entitlements": {
+          "$ref": "#/$defs/Entitlements"
+        },
+        "id": {
+          "type": "string"
+        },
+        "metering": {
+          "enum": [
+            "not_configured",
+            "credits"
+          ],
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "local_operator",
+            "account_ledger"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer"
+        },
+        "role": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "mode",
+        "metering",
+        "entitlements"
+      ],
+      "type": "object"
+    },
+    "AccountPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Account"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "AlertDeliveriesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/AlertDelivery"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "AlertDelivery": {
+      "additionalProperties": false,
+      "properties": {
+        "attempts": {
+          "type": "integer"
+        },
+        "due_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "event_id": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "logs": {
+          "items": {
+            "$ref": "#/$defs/AlertLog"
+          },
+          "type": "array"
+        },
+        "status": {
+          "type": "string"
+        },
+        "target_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "event_id",
+        "target_id",
+        "status",
+        "attempts",
+        "due_at",
+        "expires_at",
+        "logs"
+      ],
+      "type": "object"
+    },
+    "AlertEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "$ref": "#/$defs/PriceObservation"
+        },
+        "before": {
+          "$ref": "#/$defs/PriceObservation"
+        },
+        "before_confirmed_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "change_bps": {
+          "type": "string"
+        },
+        "detected_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "direction": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "identity_scope": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "source_region": {
+          "type": "string"
+        },
+        "threshold_bps": {
+          "type": "integer"
+        },
+        "type": {
+          "enum": [
+            "line_move.v1"
+          ],
+          "type": "string"
+        },
+        "within_seconds": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_region",
+        "threshold_bps",
+        "within_seconds",
+        "direction",
+        "id",
+        "type",
+        "rule_id",
+        "namespace",
+        "identity_scope",
+        "method",
+        "change_bps",
+        "before",
+        "after",
+        "before_confirmed_ts",
+        "detected_at",
+        "expires_at"
+      ],
+      "type": "object"
+    },
+    "AlertLog": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "attempt": {
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "type": "integer"
+        },
+        "http_status": {
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "at",
+        "attempt",
+        "state",
+        "reason",
+        "http_status",
+        "elapsed_ms"
+      ],
+      "type": "object"
+    },
+    "AlertMutation": {
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id"
+      ],
+      "type": "object"
+    },
+    "AlertRule": {
+      "additionalProperties": false,
+      "properties": {
+        "cursor_seq": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "input": {
+          "$ref": "#/$defs/AlertRuleInput"
+        },
+        "last_error": {
+          "type": "string"
+        },
+        "processed": {
+          "type": "integer"
+        },
+        "suppressed": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "input",
+        "enabled",
+        "cursor_seq",
+        "last_error",
+        "processed",
+        "suppressed"
+      ],
+      "type": "object"
+    },
+    "AlertRuleInput": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "either",
+            "up",
+            "down"
+          ],
+          "type": "string"
+        },
+        "key_id": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "native_fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "quote_key": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "target_id": {
+          "type": "string"
+        },
+        "threshold_bps": {
+          "type": "integer"
+        },
+        "within_seconds": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "request_id",
+        "target_id",
+        "key_id",
+        "namespace",
+        "source_id",
+        "native_fixture_id",
+        "quote_key",
+        "threshold_bps",
+        "within_seconds",
+        "direction"
+      ],
+      "type": "object"
+    },
+    "AlertRulesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/AlertRule"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "AlertTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "url",
+        "enabled",
+        "revision",
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "AlertTargetCreated": {
+      "additionalProperties": false,
+      "properties": {
+        "shown_once": {
+          "type": "boolean"
+        },
+        "signing_secret": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/AlertTarget"
+        }
+      },
+      "required": [
+        "target",
+        "shown_once"
+      ],
+      "type": "object"
+    },
+    "AlertTargetCreatedPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/AlertTargetCreated"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "AlertTargetInput": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "name",
+        "url"
+      ],
+      "type": "object"
+    },
+    "AlertTargetsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/AlertTarget"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "Audit": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "actor_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "detail": {
+          "type": "object"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "seq": {
+          "type": "integer"
+        },
+        "target_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "seq",
+        "action",
+        "request_id",
+        "detail",
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "AuditPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Audit"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "BetaAccept": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledged": {
+          "type": "boolean"
+        },
+        "country": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "token",
+        "country",
+        "acknowledged"
+      ],
+      "type": "object"
+    },
+    "BetaInvite": {
+      "additionalProperties": false,
+      "properties": {
+        "access_until": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "recipient_id": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "account_id",
+        "recipient_id",
+        "country",
+        "expires_at",
+        "access_until",
+        "state"
+      ],
+      "type": "object"
+    },
+    "BetaInviteCreated": {
+      "additionalProperties": false,
+      "properties": {
+        "invite": {
+          "$ref": "#/$defs/BetaInvite"
+        },
+        "secret": {
+          "type": "string"
+        },
+        "shown_once": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "invite",
+        "secret",
+        "shown_once"
+      ],
+      "type": "object"
+    },
+    "BetaInviteCreatedPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/BetaInviteCreated"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "BetaInviteInput": {
+      "additionalProperties": false,
+      "properties": {
+        "access_until": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "credits": {
+          "type": "integer"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "recipient_id": {
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Entitlements"
+        }
+      },
+      "required": [
+        "account_id",
+        "recipient_id",
+        "country",
+        "scope",
+        "credits",
+        "expires_at",
+        "access_until",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "BetaPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/BetaView"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "BetaPermission": {
+      "additionalProperties": false,
+      "properties": {
+        "approved": {
+          "type": "boolean"
+        },
+        "countries": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer"
+        },
+        "source_id": {
+          "type": "integer"
+        },
+        "source_region": {
+          "type": "string"
+        },
+        "use_class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "use_class",
+        "namespace",
+        "source_id",
+        "provenance",
+        "source_region",
+        "countries",
+        "approved",
+        "evidence",
+        "reason",
+        "expires_at",
+        "revision"
+      ],
+      "type": "object"
+    },
+    "BetaReport": {
+      "additionalProperties": false,
+      "properties": {
+        "accounts": {
+          "items": {
+            "$ref": "#/$defs/BetaView"
+          },
+          "type": "array"
+        },
+        "activated": {
+          "type": "integer"
+        },
+        "activated_within_24h": {
+          "type": "integer"
+        },
+        "active": {
+          "type": "integer"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "enrolled": {
+          "type": "integer"
+        },
+        "environment": {
+          "type": "string"
+        },
+        "invites": {
+          "items": {
+            "$ref": "#/$defs/BetaInvite"
+          },
+          "type": "array"
+        },
+        "pending_notices": {
+          "type": "integer"
+        },
+        "permissions": {
+          "items": {
+            "$ref": "#/$defs/BetaPermission"
+          },
+          "type": "array"
+        },
+        "reserved_seats": {
+          "type": "integer"
+        },
+        "retained_after_24h": {
+          "type": "integer"
+        },
+        "seat_limit": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "environment",
+        "seat_limit",
+        "reserved_seats",
+        "enrolled",
+        "active",
+        "activated",
+        "activated_within_24h",
+        "retained_after_24h",
+        "pending_notices",
+        "accounts",
+        "invites",
+        "permissions",
+        "detail"
+      ],
+      "type": "object"
+    },
+    "BetaReportPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/BetaReport"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "BetaRevoke": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "type": "object"
+    },
+    "BetaView": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "data_calls": {
+          "type": "integer"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "environment": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "first_data_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "first_key_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "first_websocket_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "free_calls": {
+          "type": "integer"
+        },
+        "is_operator": {
+          "type": "boolean"
+        },
+        "notice_delivery": {
+          "type": "string"
+        },
+        "pending_calls": {
+          "type": "integer"
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Entitlements"
+        },
+        "state": {
+          "type": "string"
+        },
+        "usage_viewed_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "environment",
+        "user_id",
+        "account_id",
+        "state",
+        "detail",
+        "is_operator",
+        "notice_delivery",
+        "country",
+        "scope",
+        "provenance",
+        "data_calls",
+        "free_calls",
+        "pending_calls"
+      ],
+      "type": "object"
+    },
+    "BillingActionInput": {
+      "additionalProperties": false,
+      "properties": {
+        "amount_minor": {
+          "type": "integer"
+        },
+        "invoice_id": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "product": {
+          "type": "string"
+        },
+        "request_key": {
+          "type": "string"
+        },
+        "trial": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "request_key",
+        "product"
+      ],
+      "type": "object"
+    },
+    "BillingActionPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/BillingActionResult"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "BillingActionResult": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "provider_id": {
+          "type": "string"
+        },
+        "request": {
+          "$ref": "#/$defs/BillingActionInput"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "state": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "retryable",
+        "id",
+        "state",
+        "detail"
+      ],
+      "type": "object"
+    },
+    "BillingInvoice": {
+      "additionalProperties": false,
+      "properties": {
+        "amount_paid": {
+          "type": "integer"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "customer": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "period_end": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "price_id": {
+          "type": "string"
+        },
+        "refund_pending": {
+          "type": "integer"
+        },
+        "refunded": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        },
+        "subscription": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "customer",
+        "subscription",
+        "price_id",
+        "currency",
+        "amount_paid",
+        "refunded",
+        "refund_pending",
+        "status",
+        "period_end"
+      ],
+      "type": "object"
+    },
+    "BillingNotice": {
+      "additionalProperties": false,
+      "properties": {
+        "delivery": {
+          "type": "string"
+        },
+        "due_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "subscription_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "subscription_id",
+        "kind",
+        "due_at",
+        "delivery"
+      ],
+      "type": "object"
+    },
+    "BillingPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/BillingView"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "BillingPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "amount_minor": {
+          "type": "integer"
+        },
+        "credits": {
+          "type": "integer"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "product": {
+          "type": "string"
+        },
+        "websocket": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "product",
+        "amount_minor",
+        "currency",
+        "credits",
+        "websocket"
+      ],
+      "type": "object"
+    },
+    "BillingSubscription": {
+      "additionalProperties": false,
+      "properties": {
+        "cancel_at_period_end": {
+          "type": "boolean"
+        },
+        "current_plan": {
+          "type": "string"
+        },
+        "customer": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "invoice_id": {
+          "type": "string"
+        },
+        "next_plan": {
+          "type": "string"
+        },
+        "paid_until": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "period_end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "price_id": {
+          "type": "string"
+        },
+        "product": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer"
+        },
+        "risk_hold": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string"
+        },
+        "trial_end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "customer",
+        "product",
+        "price_id",
+        "status",
+        "current_plan",
+        "next_plan",
+        "period_end",
+        "trial_end",
+        "paid_until",
+        "cancel_at_period_end",
+        "invoice_id",
+        "risk_hold",
+        "revision"
+      ],
+      "type": "object"
+    },
+    "BillingView": {
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "items": {
+            "$ref": "#/$defs/BillingActionResult"
+          },
+          "type": "array"
+        },
+        "blocked": {
+          "type": "string"
+        },
+        "credit_cycle": {
+          "type": "string"
+        },
+        "enrolled": {
+          "type": "boolean"
+        },
+        "invoices": {
+          "items": {
+            "$ref": "#/$defs/BillingInvoice"
+          },
+          "type": "array"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "notices": {
+          "items": {
+            "$ref": "#/$defs/BillingNotice"
+          },
+          "type": "array"
+        },
+        "pending_events": {
+          "type": "integer"
+        },
+        "plans": {
+          "items": {
+            "$ref": "#/$defs/BillingPlan"
+          },
+          "type": "array"
+        },
+        "provider_ready": {
+          "type": "boolean"
+        },
+        "subscriptions": {
+          "items": {
+            "$ref": "#/$defs/BillingSubscription"
+          },
+          "type": "array"
+        },
+        "tax": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode",
+        "provider_ready",
+        "enrolled",
+        "blocked",
+        "plans",
+        "subscriptions",
+        "invoices",
+        "notices",
+        "actions",
+        "pending_events",
+        "tax",
+        "credit_cycle"
+      ],
+      "type": "object"
+    },
+    "Binding": {
+      "additionalProperties": false,
+      "properties": {
+        "group_fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "native_fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "revision": {
+          "type": "integer"
+        },
+        "source_fixture_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "source_swapped": {
+          "type": "boolean"
+        },
+        "state": {
+          "type": "string"
+        },
+        "swapped": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "source_fixture_id",
+        "native_fixture_id",
+        "state",
+        "revision",
+        "swapped",
+        "source_swapped"
+      ],
+      "type": "object"
+    },
+    "Brand": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "slug": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "slug",
+        "name"
+      ],
+      "type": "object"
+    },
+    "Competition": {
+      "additionalProperties": false,
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "external_ids": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "slug": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sport_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "id",
+        "sport_id",
+        "slug",
+        "name"
+      ],
+      "type": "object"
+    },
+    "CompetitionsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Competition"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "CoveragePage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/CoverageView"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "CoverageSource": {
+      "additionalProperties": false,
+      "properties": {
+        "brand": {
+          "$ref": "#/$defs/Brand"
+        },
+        "collection": {
+          "type": "string"
+        },
+        "entitled": {
+          "type": "boolean"
+        },
+        "families": {
+          "items": {
+            "$ref": "#/$defs/Family"
+          },
+          "type": "array"
+        },
+        "fixture_count": {
+          "type": "integer"
+        },
+        "fresh_slots": {
+          "type": "integer"
+        },
+        "inplay": {
+          "$ref": "#/$defs/InPlayCoverage"
+        },
+        "last_confirmed": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "quote_slots": {
+          "type": "integer"
+        },
+        "rights": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "inplay",
+        "source",
+        "brand",
+        "namespace",
+        "collection",
+        "families",
+        "entitled",
+        "state",
+        "rights"
+      ],
+      "type": "object"
+    },
+    "CoverageView": {
+      "additionalProperties": false,
+      "properties": {
+        "competitions": {
+          "items": {
+            "$ref": "#/$defs/Competition"
+          },
+          "type": "array"
+        },
+        "fixtures": {
+          "items": {
+            "$ref": "#/$defs/NamespaceFixture"
+          },
+          "type": "array"
+        },
+        "measured_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/CoverageSource"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "sources",
+        "fixtures",
+        "competitions",
+        "measured_at",
+        "scope"
+      ],
+      "type": "object"
+    },
+    "CreateKey": {
+      "additionalProperties": false,
+      "properties": {
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "Daily": {
+      "additionalProperties": false,
+      "properties": {
+        "credits": {
+          "type": "integer"
+        },
+        "date": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "integer"
+        },
+        "requests": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "date",
+        "requests",
+        "credits",
+        "errors"
+      ],
+      "type": "object"
+    },
+    "Decimal": {
+      "pattern": "^(0|[1-9][0-9]{0,15})\\.[0-9]{8}$",
+      "type": "string"
+    },
+    "Entitlements": {
+      "additionalProperties": false,
+      "properties": {
+        "families": {
+          "items": {
+            "$ref": "#/$defs/Family"
+          },
+          "type": "array"
+        },
+        "features": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "max_page_size": {
+          "type": "integer"
+        },
+        "namespaces": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "public_distribution": {
+          "type": "boolean"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/ID"
+          },
+          "type": "array"
+        },
+        "sports": {
+          "items": {
+            "$ref": "#/$defs/ID"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "namespaces",
+        "sources",
+        "sports",
+        "families",
+        "features",
+        "max_page_size",
+        "public_distribution"
+      ],
+      "type": "object"
+    },
+    "EntitlementsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Entitlements"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "FairInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "recomputed": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/$defs/FairResult"
+        }
+      },
+      "required": [
+        "result",
+        "recomputed"
+      ],
+      "type": "object"
+    },
+    "FairLatest": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/$defs/FairResult"
+        },
+        "sequence": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence",
+        "result"
+      ],
+      "type": "object"
+    },
+    "FairMarket": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "$ref": "#/$defs/Family"
+        },
+        "fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "line_quarters": {
+          "type": "integer"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "settlement_rule": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fixture_id",
+        "family",
+        "period",
+        "settlement_rule"
+      ],
+      "type": "object"
+    },
+    "FairOffer": {
+      "additionalProperties": false,
+      "properties": {
+        "native_offer": {
+          "type": "string"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "native_offer",
+        "reasons"
+      ],
+      "type": "object"
+    },
+    "FairPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/FairInfo"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "FairProbability": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "decimal_odds": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "probability": {
+          "$ref": "#/$defs/Decimal"
+        }
+      },
+      "required": [
+        "code",
+        "probability",
+        "decimal_odds"
+      ],
+      "type": "object"
+    },
+    "FairQuoteRef": {
+      "additionalProperties": false,
+      "properties": {
+        "latest_revision": {
+          "type": "integer"
+        },
+        "mapping_revision": {
+          "type": "integer"
+        },
+        "mapping_swapped": {
+          "type": "boolean"
+        },
+        "market_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "native_settlement_rule": {
+          "type": "string"
+        },
+        "price": {
+          "$ref": "#/$defs/LatestPrice"
+        },
+        "source_swapped": {
+          "type": "boolean"
+        },
+        "target_code": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "price",
+        "latest_revision",
+        "mapping_revision",
+        "market_id",
+        "target_code",
+        "native_settlement_rule",
+        "mapping_swapped",
+        "source_swapped"
+      ],
+      "type": "object"
+    },
+    "FairResult": {
+      "additionalProperties": false,
+      "properties": {
+        "evaluated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "independent_groups": {
+          "type": "integer"
+        },
+        "market": {
+          "$ref": "#/$defs/FairMarket"
+        },
+        "max_confirmation_skew_seconds": {
+          "type": "integer"
+        },
+        "method": {
+          "enum": [
+            "multiplicative",
+            "power"
+          ],
+          "type": "string"
+        },
+        "min_independent_groups": {
+          "type": "integer"
+        },
+        "min_sharp_groups": {
+          "type": "integer"
+        },
+        "missing": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "policy_sha256": {
+          "type": "string"
+        },
+        "probabilities": {
+          "items": {
+            "$ref": "#/$defs/FairProbability"
+          },
+          "type": "array"
+        },
+        "sharp_groups": {
+          "type": "integer"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/FairSource"
+          },
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "insufficient_reference"
+          ],
+          "type": "string"
+        },
+        "valid_until": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "evaluated_at",
+        "market",
+        "method",
+        "policy_id",
+        "policy_sha256",
+        "status",
+        "missing",
+        "independent_groups",
+        "sharp_groups",
+        "min_independent_groups",
+        "min_sharp_groups",
+        "max_confirmation_skew_seconds",
+        "sources"
+      ],
+      "type": "object"
+    },
+    "FairSource": {
+      "additionalProperties": false,
+      "properties": {
+        "configured_weight": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "effective_weight": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "feed_group_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "max_age_seconds": {
+          "type": "integer"
+        },
+        "max_probability_spread": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "min_size": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "offers": {
+          "items": {
+            "$ref": "#/$defs/FairOffer"
+          },
+          "type": "array"
+        },
+        "power_exponent": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "probabilities": {
+          "items": {
+            "$ref": "#/$defs/FairProbability"
+          },
+          "type": "array"
+        },
+        "quotes": {
+          "items": {
+            "$ref": "#/$defs/FairQuoteRef"
+          },
+          "type": "array"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "region": {
+          "type": "string"
+        },
+        "selected": {
+          "type": "boolean"
+        },
+        "selected_offer": {
+          "type": "string"
+        },
+        "sharp": {
+          "type": "boolean"
+        },
+        "size_unit": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "source_id",
+        "region",
+        "reasons",
+        "offers",
+        "quotes",
+        "selected",
+        "sharp",
+        "max_age_seconds",
+        "min_size",
+        "max_probability_spread"
+      ],
+      "type": "object"
+    },
+    "Family": {
+      "enum": [
+        "1x2",
+        "total",
+        "asian_handicap"
+      ],
+      "type": "string"
+    },
+    "FeedGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "slug": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "slug",
+        "name"
+      ],
+      "type": "object"
+    },
+    "Fixture": {
+      "additionalProperties": false,
+      "properties": {
+        "away_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "competition_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "external_ids": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "home_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "previous_fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "reissued_fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "sport_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "start_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "scheduled",
+            "live",
+            "ended",
+            "cancelled"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "sport_id",
+        "competition_id",
+        "home_id",
+        "away_id",
+        "start_ts",
+        "status"
+      ],
+      "type": "object"
+    },
+    "FixtureInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "away": {
+          "$ref": "#/$defs/Participant"
+        },
+        "bindings": {
+          "items": {
+            "$ref": "#/$defs/Binding"
+          },
+          "type": "array"
+        },
+        "fixture": {
+          "$ref": "#/$defs/Fixture"
+        },
+        "home": {
+          "$ref": "#/$defs/Participant"
+        },
+        "identity_scope": {
+          "enum": [
+            "reviewed_group",
+            "source_local"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "fixture",
+        "home",
+        "away",
+        "identity_scope",
+        "bindings"
+      ],
+      "type": "object"
+    },
+    "FixturesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/FixtureInfo"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "HistoryBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "freshness_limit_seconds": {
+          "type": "integer"
+        },
+        "known": {
+          "type": "boolean"
+        },
+        "native_fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "source_region": {
+          "type": "string"
+        },
+        "sport_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "source_id",
+        "source_region",
+        "native_fixture_id",
+        "known",
+        "freshness_limit_seconds"
+      ],
+      "type": "object"
+    },
+    "HistoryConfirmation": {
+      "additionalProperties": false,
+      "properties": {
+        "capture_id": {
+          "type": "string"
+        },
+        "capture_seq": {
+          "type": "string"
+        },
+        "confirmed_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "recorded_fixture_status": {
+          "type": "string"
+        },
+        "recorded_scheduled_start": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "capture_id",
+        "capture_seq",
+        "confirmed_ts",
+        "recorded_scheduled_start",
+        "recorded_fixture_status"
+      ],
+      "type": "object"
+    },
+    "HistoryCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "binding": {
+          "$ref": "#/$defs/HistoryBinding"
+        },
+        "first_confirmation": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "first_tick": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "gaps": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "last_confirmation": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "last_tick": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "max_confirmation_gap_seconds": {
+          "type": "number"
+        },
+        "recorded_confirmations": {
+          "type": "integer"
+        },
+        "retained_ticks": {
+          "type": "integer"
+        },
+        "source_pending_captures": {
+          "type": "integer"
+        },
+        "source_quarantined_captures": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "binding",
+        "status",
+        "retained_ticks",
+        "recorded_confirmations",
+        "source_pending_captures",
+        "source_quarantined_captures",
+        "gaps"
+      ],
+      "type": "object"
+    },
+    "HistoryMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_sink_verified": {
+          "type": "boolean"
+        },
+        "capture_high_seq": {
+          "type": "string"
+        },
+        "closing_policy": {
+          "type": "string"
+        },
+        "confirmation_policy": {
+          "type": "string"
+        },
+        "coverage": {
+          "items": {
+            "$ref": "#/$defs/HistoryCoverage"
+          },
+          "type": "array"
+        },
+        "historical_only": {
+          "type": "boolean"
+        },
+        "history_high_seq": {
+          "type": "string"
+        },
+        "identity_scope": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "opening_policy": {
+          "type": "string"
+        },
+        "query": {
+          "$ref": "#/$defs/HistoryQuery"
+        },
+        "timeline": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "version",
+        "identity_scope",
+        "timeline",
+        "query",
+        "coverage",
+        "history_high_seq",
+        "capture_high_seq",
+        "confirmation_policy",
+        "closing_policy",
+        "opening_policy",
+        "historical_only",
+        "canonical_sink_verified"
+      ],
+      "type": "object"
+    },
+    "HistoryPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/HistoryRecord"
+          },
+          "type": "array"
+        },
+        "history": {
+          "$ref": "#/$defs/HistoryMetadata"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta",
+        "history"
+      ],
+      "type": "object"
+    },
+    "HistoryQuery": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "books": {
+          "items": {
+            "$ref": "#/$defs/ID"
+          },
+          "type": "array"
+        },
+        "families": {
+          "items": {
+            "$ref": "#/$defs/Family"
+          },
+          "type": "array"
+        },
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "native_fixture_ids": {
+          "items": {
+            "$ref": "#/$defs/ID"
+          },
+          "type": "array"
+        },
+        "scheduled_start": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "until": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "books",
+        "native_fixture_ids",
+        "families"
+      ],
+      "type": "object"
+    },
+    "HistoryRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "confirmation": {
+          "$ref": "#/$defs/HistoryConfirmation"
+        },
+        "cutoff": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "ingest_seq": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "tick",
+            "snapshot",
+            "opening",
+            "closing"
+          ],
+          "type": "string"
+        },
+        "native_fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "observation": {
+          "$ref": "#/$defs/PriceObservation"
+        },
+        "quote_key": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "status": {
+          "enum": [
+            "recorded",
+            "available",
+            "missing",
+            "not_final"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "source_id",
+        "native_fixture_id",
+        "quote_key",
+        "status",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "ID": {
+      "maximum": 9007199254740991,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "InPlayCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "families": {
+          "items": {
+            "$ref": "#/$defs/Family"
+          },
+          "type": "array"
+        },
+        "freshness_limit_seconds": {
+          "type": "integer"
+        },
+        "mode": {
+          "enum": [
+            "pre_match_only",
+            "local_test_only"
+          ],
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode",
+        "families",
+        "freshness_limit_seconds",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "InPlayPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "freshness_seconds": {
+          "type": "integer"
+        },
+        "native_fixture_id": {
+          "type": "string"
+        },
+        "native_offer_id": {
+          "type": "string"
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "start_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "source_id",
+        "fixture_id",
+        "native_fixture_id",
+        "native_offer_id",
+        "start_ts",
+        "expires_at",
+        "freshness_seconds",
+        "provenance"
+      ],
+      "type": "object"
+    },
+    "InPlayState": {
+      "additionalProperties": false,
+      "properties": {
+        "closed_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "connected": {
+          "type": "boolean"
+        },
+        "last_capture_id": {
+          "type": "string"
+        },
+        "last_seen_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "phase": {
+          "enum": [
+            "scheduled",
+            "live",
+            "ended"
+          ],
+          "type": "string"
+        },
+        "phase_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "policy": {
+          "$ref": "#/$defs/InPlayPolicy"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "session_started_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "snapshot_ready": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "policy",
+        "session_id",
+        "session_started_ts",
+        "phase",
+        "phase_ts",
+        "connected",
+        "snapshot_ready"
+      ],
+      "type": "object"
+    },
+    "InvalidParam": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "Key": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "replaces_id": {
+          "type": "string"
+        },
+        "revoked_at": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "prefix",
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "KeyCreated": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/Key"
+        },
+        "secret": {
+          "type": "string"
+        },
+        "shown_once": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "key",
+        "secret",
+        "shown_once"
+      ],
+      "type": "object"
+    },
+    "KeyCreatedPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/KeyCreated"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "KeysPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Key"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "LatestPrice": {
+      "additionalProperties": false,
+      "properties": {
+        "confirmed_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "observation": {
+          "$ref": "#/$defs/PriceObservation"
+        }
+      },
+      "required": [
+        "observation",
+        "confirmed_ts"
+      ],
+      "type": "object"
+    },
+    "MappingsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Binding"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "Market": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "$ref": "#/$defs/Family"
+        },
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "line_quarters": {
+          "type": "integer"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "participant_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "settlement_rule": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sport_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "id",
+        "sport_id",
+        "family",
+        "period",
+        "settlement_rule",
+        "name"
+      ],
+      "type": "object"
+    },
+    "MarketInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "market": {
+          "$ref": "#/$defs/Market"
+        },
+        "outcomes": {
+          "items": {
+            "$ref": "#/$defs/Outcome"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "market",
+        "outcomes"
+      ],
+      "type": "object"
+    },
+    "MarketsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/MarketInfo"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "Member": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "owner",
+            "admin",
+            "viewer"
+          ],
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "role"
+      ],
+      "type": "object"
+    },
+    "MembersPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Member"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "Meta": {
+      "additionalProperties": false,
+      "properties": {
+        "consistency": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "next_cursor": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "sent_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "snapshot_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "request_id",
+        "sent_ts",
+        "snapshot_ts",
+        "next_cursor",
+        "count",
+        "consistency"
+      ],
+      "type": "object"
+    },
+    "Missing": {
+      "additionalProperties": false,
+      "properties": {
+        "detail": {
+          "type": "string"
+        },
+        "family": {
+          "$ref": "#/$defs/Family"
+        },
+        "fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "quote_key": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "reason",
+        "detail"
+      ],
+      "type": "object"
+    },
+    "NamespaceFixture": {
+      "additionalProperties": false,
+      "properties": {
+        "fixture": {
+          "$ref": "#/$defs/FixtureInfo"
+        },
+        "namespace": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "fixture"
+      ],
+      "type": "object"
+    },
+    "NativeUnit": {
+      "enum": [
+        "decimal_odds",
+        "probability"
+      ],
+      "type": "string"
+    },
+    "Notice": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "cycle_id": {
+          "type": "string"
+        },
+        "delivery": {
+          "enum": [
+            "local_only"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "threshold": {
+          "type": "integer"
+        },
+        "used": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "cycle_id",
+        "threshold",
+        "used",
+        "limit",
+        "created_at",
+        "delivery"
+      ],
+      "type": "object"
+    },
+    "OddsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Quote"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "OperationUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "credits": {
+          "type": "integer"
+        },
+        "errors": {
+          "type": "integer"
+        },
+        "operation": {
+          "type": "string"
+        },
+        "requests": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "operation",
+        "requests",
+        "credits",
+        "errors"
+      ],
+      "type": "object"
+    },
+    "Outcome": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "home",
+            "draw",
+            "away",
+            "over",
+            "under"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "market_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "market_id",
+        "code",
+        "name"
+      ],
+      "type": "object"
+    },
+    "Participant": {
+      "additionalProperties": false,
+      "properties": {
+        "external_ids": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "kind": {
+          "enum": [
+            "team",
+            "player"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sport_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "id",
+        "sport_id",
+        "name",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "enum": [
+        "full_time",
+        "first_half"
+      ],
+      "type": "string"
+    },
+    "PriceDelivery": {
+      "additionalProperties": false,
+      "properties": {
+        "price": {
+          "$ref": "#/$defs/LatestPrice"
+        },
+        "sent_ts": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "price",
+        "sent_ts"
+      ],
+      "type": "object"
+    },
+    "PriceKey": {
+      "additionalProperties": false,
+      "properties": {
+        "depth": {
+          "maximum": 3,
+          "type": "integer"
+        },
+        "fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "market_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "outcome_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "side": {
+          "$ref": "#/$defs/Side"
+        },
+        "source_fixture_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "source_market_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_outcome_id": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "fixture_id",
+        "market_id",
+        "outcome_id",
+        "source_fixture_id",
+        "source_market_id",
+        "source_outcome_id",
+        "side",
+        "depth"
+      ],
+      "type": "object"
+    },
+    "PriceObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "key": {
+          "$ref": "#/$defs/PriceKey"
+        },
+        "raw_payload_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "seen_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "source_sequence": {
+          "type": "string"
+        },
+        "source_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/PriceValue"
+        }
+      },
+      "required": [
+        "event_id",
+        "raw_payload_id",
+        "key",
+        "value",
+        "seen_ts"
+      ],
+      "type": "object"
+    },
+    "PriceState": {
+      "enum": [
+        "active",
+        "suspended",
+        "unavailable"
+      ],
+      "type": "string"
+    },
+    "PriceValue": {
+      "additionalProperties": false,
+      "properties": {
+        "available_size": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "commission_rate": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "currency": {
+          "pattern": "^[A-Z]{3}$",
+          "type": "string"
+        },
+        "decimal_odds": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "fee_rate": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "main_line": {
+          "type": "boolean"
+        },
+        "native_unit": {
+          "$ref": "#/$defs/NativeUnit"
+        },
+        "native_value": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "size_unit": {
+          "enum": [
+            "currency",
+            "contracts"
+          ],
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/PriceState"
+        }
+      },
+      "required": [
+        "state",
+        "native_unit"
+      ],
+      "type": "object"
+    },
+    "Problem": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "invalid_params": {
+          "items": {
+            "$ref": "#/$defs/InvalidParam"
+          },
+          "type": "array"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "title",
+        "status",
+        "detail",
+        "code",
+        "request_id",
+        "invalid_params",
+        "missing"
+      ],
+      "type": "object"
+    },
+    "Quote": {
+      "additionalProperties": false,
+      "properties": {
+        "age_seconds": {
+          "type": "number"
+        },
+        "delivery": {
+          "$ref": "#/$defs/PriceDelivery"
+        },
+        "display_format": {
+          "enum": [
+            "decimal",
+            "american"
+          ],
+          "type": "string"
+        },
+        "display_odds": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "fixture_phase": {
+          "enum": [
+            "scheduled",
+            "live",
+            "ended",
+            "cancelled"
+          ],
+          "type": "string"
+        },
+        "freshness_limit_seconds": {
+          "type": "integer"
+        },
+        "identity_scope": {
+          "enum": [
+            "reviewed_group",
+            "source_local"
+          ],
+          "type": "string"
+        },
+        "inplay": {
+          "$ref": "#/$defs/InPlayCoverage"
+        },
+        "mapping_revision": {
+          "type": "integer"
+        },
+        "mapping_swapped": {
+          "type": "boolean"
+        },
+        "market": {
+          "$ref": "#/$defs/Market"
+        },
+        "outcome": {
+          "$ref": "#/$defs/Outcome"
+        },
+        "quote_key": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source_swapped": {
+          "type": "boolean"
+        },
+        "source_ts": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "active",
+            "stale",
+            "suspended",
+            "unavailable"
+          ],
+          "type": "string"
+        },
+        "target_code": {
+          "type": "string"
+        },
+        "target_line_quarters": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "terms": {
+          "$ref": "#/$defs/Terms"
+        }
+      },
+      "required": [
+        "fixture_phase",
+        "quote_key",
+        "fixture_id",
+        "identity_scope",
+        "market",
+        "outcome",
+        "target_code",
+        "target_line_quarters",
+        "mapping_revision",
+        "source_swapped",
+        "mapping_swapped",
+        "delivery",
+        "source_ts",
+        "status",
+        "age_seconds",
+        "freshness_limit_seconds",
+        "display_format",
+        "display_odds",
+        "terms"
+      ],
+      "type": "object"
+    },
+    "RawCapture": {
+      "additionalProperties": false,
+      "properties": {
+        "capture_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "collector_session": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "object_key": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "seen_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "capture_id",
+        "source_id",
+        "seen_ts",
+        "object_key",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "Request": {
+      "additionalProperties": false,
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "credits": {
+          "type": "integer"
+        },
+        "cycle_id": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "finished_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "http_status": {
+          "type": "integer"
+        },
+        "key_id": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "operation": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "response_bytes": {
+          "type": "integer"
+        },
+        "state": {
+          "enum": [
+            "held",
+            "charged",
+            "free"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "account_id",
+        "operation",
+        "namespace",
+        "state",
+        "reason",
+        "http_status",
+        "response_bytes",
+        "credits",
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "RoleChange": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "type": "object"
+    },
+    "Side": {
+      "enum": [
+        "quote",
+        "back",
+        "lay",
+        "bid",
+        "ask"
+      ],
+      "type": "string"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "brand_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "feed_group_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "kind": {
+          "$ref": "#/$defs/SourceKind"
+        },
+        "region": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "slug": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "slug",
+        "brand_id",
+        "region",
+        "kind",
+        "enabled"
+      ],
+      "type": "object"
+    },
+    "SourceInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "brand": {
+          "$ref": "#/$defs/Brand"
+        },
+        "collection": {
+          "enum": [
+            "working",
+            "blocked",
+            "access_only",
+            "not_integrated"
+          ],
+          "type": "string"
+        },
+        "entitled": {
+          "type": "boolean"
+        },
+        "families": {
+          "items": {
+            "$ref": "#/$defs/Family"
+          },
+          "type": "array"
+        },
+        "inplay": {
+          "$ref": "#/$defs/InPlayCoverage"
+        },
+        "rights": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        }
+      },
+      "required": [
+        "inplay",
+        "source",
+        "brand",
+        "collection",
+        "families",
+        "rights",
+        "entitled"
+      ],
+      "type": "object"
+    },
+    "SourceKind": {
+      "enum": [
+        "sportsbook",
+        "exchange",
+        "prediction"
+      ],
+      "type": "string"
+    },
+    "SourcesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/SourceInfo"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "Sport": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/ID"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "slug": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "slug",
+        "name"
+      ],
+      "type": "object"
+    },
+    "SportsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Sport"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "Summary": {
+      "additionalProperties": false,
+      "properties": {
+        "cycle_id": {
+          "type": "string"
+        },
+        "cycle_kind": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "overage_budget": {
+          "type": "integer"
+        },
+        "overage_enabled": {
+          "type": "boolean"
+        },
+        "remaining": {
+          "type": "integer"
+        },
+        "reserved": {
+          "type": "integer"
+        },
+        "resets_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "starts_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "unconfigured",
+            "active",
+            "exhausted"
+          ],
+          "type": "string"
+        },
+        "used": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "status",
+        "limit",
+        "used",
+        "reserved",
+        "remaining",
+        "overage_enabled",
+        "overage_budget",
+        "cycle_kind"
+      ],
+      "type": "object"
+    },
+    "TerminalBoard": {
+      "additionalProperties": false,
+      "properties": {
+        "displayed_fixtures": {
+          "type": "integer"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "next_cursor": {
+          "type": "string"
+        },
+        "preferences_revision": {
+          "type": "integer"
+        },
+        "product": {
+          "type": "string"
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/TerminalRow"
+          },
+          "type": "array"
+        },
+        "server_now": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/TerminalSource"
+          },
+          "type": "array"
+        },
+        "total_fixtures": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "product",
+        "namespace",
+        "provenance",
+        "preferences_revision",
+        "server_now",
+        "rows",
+        "sources",
+        "missing",
+        "total_fixtures",
+        "displayed_fixtures",
+        "next_cursor"
+      ],
+      "type": "object"
+    },
+    "TerminalBoardInput": {
+      "additionalProperties": false,
+      "properties": {
+        "cursor": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TerminalBoardPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/TerminalBoard"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "TerminalCell": {
+      "additionalProperties": false,
+      "properties": {
+        "best": {
+          "type": "boolean"
+        },
+        "confirmed_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "decimal_odds": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "freshness_limit_seconds": {
+          "type": "integer"
+        },
+        "key": {
+          "$ref": "#/$defs/PriceKey"
+        },
+        "native_unit": {
+          "$ref": "#/$defs/NativeUnit"
+        },
+        "native_value": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "quote_key": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "seen_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "source_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "active",
+            "stale",
+            "suspended",
+            "unavailable"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "quote_key",
+        "key",
+        "status",
+        "reason",
+        "native_unit",
+        "seen_ts",
+        "confirmed_ts",
+        "freshness_limit_seconds",
+        "best"
+      ],
+      "type": "object"
+    },
+    "TerminalChart": {
+      "additionalProperties": false,
+      "properties": {
+        "metadata": {
+          "$ref": "#/$defs/HistoryMetadata"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/TerminalChartPoint"
+          },
+          "type": "array"
+        },
+        "product": {
+          "type": "string"
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "quote_key": {
+          "type": "string"
+        },
+        "server_now": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        },
+        "source_local_fixture_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "source_local_outcome_code": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "product",
+        "provenance",
+        "quote_key",
+        "source",
+        "source_local_fixture_id",
+        "source_local_outcome_code",
+        "server_now",
+        "points",
+        "metadata"
+      ],
+      "type": "object"
+    },
+    "TerminalChartInput": {
+      "additionalProperties": false,
+      "properties": {
+        "quote_key": {
+          "type": "string"
+        },
+        "window_hours": {
+          "enum": [
+            1,
+            6,
+            24
+          ],
+          "type": "integer"
+        }
+      },
+      "required": [
+        "quote_key",
+        "window_hours"
+      ],
+      "type": "object"
+    },
+    "TerminalChartPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/TerminalChart"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "TerminalChartPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "connect_previous": {
+          "type": "boolean"
+        },
+        "decimal_odds": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "event_id": {
+          "type": "string"
+        },
+        "ingest_seq": {
+          "type": "string"
+        },
+        "native_unit": {
+          "$ref": "#/$defs/NativeUnit"
+        },
+        "native_value": {
+          "$ref": "#/$defs/Decimal"
+        },
+        "seen_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/PriceState"
+        }
+      },
+      "required": [
+        "event_id",
+        "ingest_seq",
+        "seen_ts",
+        "state",
+        "native_unit",
+        "connect_previous"
+      ],
+      "type": "object"
+    },
+    "TerminalContext": {
+      "additionalProperties": false,
+      "properties": {
+        "account": {
+          "$ref": "#/$defs/Account"
+        },
+        "blocked": {
+          "type": "string"
+        },
+        "can_use": {
+          "type": "boolean"
+        },
+        "competitions": {
+          "items": {
+            "$ref": "#/$defs/Competition"
+          },
+          "type": "array"
+        },
+        "preferences": {
+          "$ref": "#/$defs/TerminalPreferences"
+        },
+        "product": {
+          "type": "string"
+        },
+        "refresh_seconds": {
+          "type": "integer"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/TerminalSource"
+          },
+          "type": "array"
+        },
+        "sports": {
+          "items": {
+            "$ref": "#/$defs/Sport"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "product",
+        "account",
+        "preferences",
+        "sources",
+        "sports",
+        "competitions",
+        "can_use",
+        "blocked",
+        "refresh_seconds"
+      ],
+      "type": "object"
+    },
+    "TerminalContextPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/TerminalContext"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "TerminalPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "revision": {
+          "type": "integer"
+        },
+        "settings": {
+          "$ref": "#/$defs/TerminalSettings"
+        }
+      },
+      "required": [
+        "revision",
+        "settings"
+      ],
+      "type": "object"
+    },
+    "TerminalPreferencesInput": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_revision": {
+          "type": "integer"
+        },
+        "settings": {
+          "$ref": "#/$defs/TerminalSettings"
+        }
+      },
+      "required": [
+        "expected_revision",
+        "settings"
+      ],
+      "type": "object"
+    },
+    "TerminalPreferencesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/TerminalPreferences"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "TerminalRow": {
+      "additionalProperties": false,
+      "properties": {
+        "cells": {
+          "items": {
+            "$ref": "#/$defs/TerminalCell"
+          },
+          "type": "array"
+        },
+        "code": {
+          "type": "string"
+        },
+        "family": {
+          "$ref": "#/$defs/Family"
+        },
+        "fixture": {
+          "$ref": "#/$defs/FixtureInfo"
+        },
+        "id": {
+          "type": "string"
+        },
+        "identity_scope": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/SourceKind"
+        },
+        "line_quarters": {
+          "type": "integer"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "reference": {
+          "$ref": "#/$defs/FairResult"
+        },
+        "reference_reason": {
+          "type": "string"
+        },
+        "settlement_rule": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "fixture",
+        "identity_scope",
+        "family",
+        "period",
+        "settlement_rule",
+        "code",
+        "kind",
+        "cells",
+        "reference_reason"
+      ],
+      "type": "object"
+    },
+    "TerminalSettings": {
+      "additionalProperties": false,
+      "properties": {
+        "books": {
+          "items": {
+            "$ref": "#/$defs/ID"
+          },
+          "type": "array"
+        },
+        "competitions": {
+          "items": {
+            "$ref": "#/$defs/ID"
+          },
+          "type": "array"
+        },
+        "country": {
+          "type": "string"
+        },
+        "family": {
+          "$ref": "#/$defs/Family"
+        },
+        "line_quarters": {
+          "type": "integer"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "phase": {
+          "enum": [
+            "prematch",
+            "live",
+            "all"
+          ],
+          "type": "string"
+        },
+        "show_fair": {
+          "type": "boolean"
+        },
+        "sport_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "country",
+        "state",
+        "namespace",
+        "books",
+        "sport_id",
+        "competitions",
+        "family",
+        "phase",
+        "show_fair"
+      ],
+      "type": "object"
+    },
+    "TerminalSource": {
+      "additionalProperties": false,
+      "properties": {
+        "chart_allowed": {
+          "type": "boolean"
+        },
+        "display_allowed": {
+          "type": "boolean"
+        },
+        "fair_allowed": {
+          "type": "boolean"
+        },
+        "info": {
+          "$ref": "#/$defs/SourceInfo"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "info",
+        "display_allowed",
+        "fair_allowed",
+        "chart_allowed",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "Terms": {
+      "additionalProperties": false,
+      "properties": {
+        "fee_model": {
+          "enum": [
+            "sportsbook_gross",
+            "native_schedule_unreviewed",
+            "unknown"
+          ],
+          "type": "string"
+        },
+        "fee_schedule": {
+          "type": "object"
+        },
+        "fees_enabled": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rules_sha256": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fee_model",
+        "fees_enabled",
+        "fee_schedule"
+      ],
+      "type": "object"
+    },
+    "UsagePage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/View"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "View": {
+      "additionalProperties": false,
+      "properties": {
+        "daily": {
+          "items": {
+            "$ref": "#/$defs/Daily"
+          },
+          "type": "array"
+        },
+        "notices": {
+          "items": {
+            "$ref": "#/$defs/Notice"
+          },
+          "type": "array"
+        },
+        "operations": {
+          "items": {
+            "$ref": "#/$defs/OperationUsage"
+          },
+          "type": "array"
+        },
+        "pending_analytics": {
+          "type": "integer"
+        },
+        "quota": {
+          "$ref": "#/$defs/Summary"
+        },
+        "recent_requests": {
+          "items": {
+            "$ref": "#/$defs/Request"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "quota",
+        "recent_requests",
+        "notices",
+        "pending_analytics",
+        "daily",
+        "operations"
+      ],
+      "type": "object"
+    },
+    "WSChange": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "removes": {
+          "items": {
+            "$ref": "#/$defs/WSRemoval"
+          },
+          "type": "array"
+        },
+        "upserts": {
+          "items": {
+            "$ref": "#/$defs/Quote"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "position",
+        "upserts",
+        "removes"
+      ],
+      "type": "object"
+    },
+    "WSCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "cursor": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "subscribe",
+            "unsubscribe",
+            "ping"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "type": "object"
+    },
+    "WSFrame": {
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/WSChange"
+          },
+          "type": "array"
+        },
+        "code": {
+          "type": "string"
+        },
+        "connection_limit": {
+          "type": "integer"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "data": {
+          "items": {
+            "$ref": "#/$defs/Quote"
+          },
+          "type": "array"
+        },
+        "delivery_seq": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "replace": {
+          "type": "boolean"
+        },
+        "resume_seconds": {
+          "type": "integer"
+        },
+        "sent_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "snapshot_ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "subscription_limit": {
+          "type": "integer"
+        },
+        "type": {
+          "enum": [
+            "hello",
+            "snapshot",
+            "delta",
+            "state",
+            "resumed",
+            "unsubscribed",
+            "pong",
+            "heartbeat",
+            "error",
+            "resnapshot_required"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "delivery_seq",
+        "sent_ts",
+        "data",
+        "changes",
+        "missing",
+        "replace"
+      ],
+      "type": "object"
+    },
+    "WSRemoval": {
+      "additionalProperties": false,
+      "properties": {
+        "quote_key": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "quote_key",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "WebhookReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "duplicate": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "accepted",
+        "duplicate"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://oddexa.local/contracts/websocket.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

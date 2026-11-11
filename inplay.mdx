@@ -1,0 +1,35 @@
+---
+title: "In-play scope and recovery"
+description: "Distinguish local lifecycle validation from real source coverage."
+---
+
+**Current working collectors are pre-match-only.** P4-08 verifies a synthetic local
+BetRivers PA regulation-1X2 continuation. It does not establish native in-play
+access, polling permission, latency, source rights or production availability.
+
+Read `inplay.mode` on source discovery and account coverage: `pre_match_only` is
+the default; `local_test_only` explicitly identifies the owned test capability.
+Quotes include `fixture_phase` and, for that capability, `inplay` scope metadata.
+No customer account or paid plan receives automatic in-play access.
+
+A `status=live` scope needs a separate API `inplay` feature grant, plus the ordinary
+source/family/namespace and odds grants. Streaming additionally requires
+`websocket`. Default odds omit unentitled live quotes with explicit missing
+reasons. Terminal access is separate.
+
+A native start signal changes fixture phase; the clock reaching kickoff cannot
+invent it. Suspension is a price state, separate from fixture phase. Disconnected,
+stale, missing-snapshot, expired-review and ended states cannot be active prices.
+`include_inactive=true` shows supported retained states and reasons.
+
+After a source session gap, old quotes remain unavailable until a complete fresh
+snapshot is accepted. Lifecycle/session metadata changes require clearing the
+WebSocket view and subscribing again. Ordinary price changes use the existing
+ordered snapshot/delta and cursor protocol. Delivery time, heartbeats and replay
+never refresh source confirmation time. Read [WebSocket recovery](/websocket)
+and [freshness and missing data](/data).
+
+The local test uses a five-second quote-age limit. This is a test policy, not a
+provider rate or latency promise. Fair calculations and historical opening/closing
+and as-of eligibility remain pre-match-only. No scores, game timer, results or
+settlement feed is included.

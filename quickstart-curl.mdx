@@ -1,0 +1,29 @@
+---
+title: "cURL quick start"
+description: "Discover one fixture through the local gateway."
+---
+
+These examples require the private product checkout and reviewed access. They are local development examples, not installation instructions for this public docs repository.
+
+Start the existing local services and gateway using the repository setup instructions. Create an account-owned key in the [workspace](https://oddswire.io/app/keys), set `ODDSWIRE_API_KEY` privately, and choose an entitled `ODDSWIRE_NAMESPACE`. Run `sh examples/quickstart.sh` from the checkout. This example needs cURL 7.76+ and deliberately accepts only the HTTP 127.0.0.1 origin.
+
+```sh
+#!/bin/sh
+set -eu
+# Set ODDSWIRE_API_KEY privately. Never put a key in a URL or enable shell tracing.
+: "${ODDSWIRE_API_KEY:?Set ODDSWIRE_API_KEY}"
+: "${ODDSWIRE_NAMESPACE:?Choose an entitled namespace}"
+base="${ODDSWIRE_BASE_URL:-http://127.0.0.1:9113}"
+# Local-only example: do not change the origin without reviewing credential handling.
+case "$base" in
+  http://127.0.0.1:*) port="${base##*:}"; case "$port" in ""|*[!0-9]*) echo 'Invalid local port' >&2; exit 1;; esac ;;
+  *) echo 'This cURL example requires the local gateway.' >&2; exit 1;;
+esac
+# Header configuration goes over stdin, not the process argument list.
+case "$ODDSWIRE_API_KEY" in *[!A-Za-z0-9_-]*) echo 'Invalid example key format' >&2; exit 1;; esac
+printf 'header = "X-API-Key: %s"\n' "$ODDSWIRE_API_KEY" |
+  curl --config - --silent --show-error --fail-with-body --max-time 10 \
+    --get "$base/v1/fixtures" --data-urlencode "namespace=$ODDSWIRE_NAMESPACE" --data-urlencode 'limit=1'
+```
+
+A successful fixture page costs one credit, even when empty. Errors return a nonzero cURL exit status and a structured problem body. The script has no automatic retries or redirect following. Use `/v1/account/entitlements` for free access introspection; use the returned fixture ID in `/v1/odds?namespace=...&fixture=...`. [Exact odds parameters](/reference/listOdds).

@@ -1,0 +1,39 @@
+---
+title: "Signed test-mode Stripe inbox receipt"
+description: "Signed test-mode Stripe inbox receipt: request contract, authentication, parameters and response behavior for the Oddswire private pilot."
+openapi: "POST /v1/billing/webhook"
+---
+
+Provider-signed incoming webhook. Application SDKs do not send this request.
+
+`POST /v1/billing/webhook`
+
+## Authentication
+
+Stripe signature verification; no customer API key.
+
+## Parameters
+
+| Name | Location | Required | Description |
+| --- | --- | --- | --- |
+| `Stripe-Signature` | header | Yes | See the OpenAPI schema. |
+
+## Request body
+
+```json
+{
+  "type": "object"
+}
+```
+
+## Responses
+
+| Status | Meaning |
+| --- | --- |
+| 202 | Durably accepted; fulfillment is asynchronous reconciliation. |
+| 400 | Structured problem; see [error handling](/errors). |
+| 409 | Structured problem; see [error handling](/errors). |
+| 413 | Structured problem; see [error handling](/errors). |
+| 503 | Structured problem; see [error handling](/errors). |
+
+Full request and response schemas: [OpenAPI](/openapi.json). [Authentication](/authentication) · [Prices and coverage](/data) · [Errors and credits](/errors).

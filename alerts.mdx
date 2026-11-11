@@ -1,0 +1,52 @@
+---
+title: "Line-move alerts and webhooks"
+description: "Native-price rules, current access, signed at-least-once delivery and receiver deduplication."
+---
+
+Alerts are a local private pilot. Owner/admin sessions configure targets/rules and inspect delivery logs. API keys and viewers cannot manage them. Control calls and outbound attempts are free, including at zero REST credits; no paid plan or external origin is enabled automatically.
+
+## Create a target and rule
+
+Use the account webhook-target and alert-rule endpoints in the reference. Each POST has a UUID `request_id`: retry identical content with the same ID, or receive 409 for conflicts. Target creation and rotation show a base64url signing secret **once**. A repeated response omits the secret; rotate explicitly if the first response was lost.
+
+A rule binds to an active key ID owned by the account, explicit namespace/source, permanent `native_fixture_id` and exact `quote_key`. It requires current `alerts` and `odds` API grants, source/sport/family/beta access, plus a separate expiring account/source/region **alerts-purpose** review. Ordinary REST, history/export or paid access does not establish outbound rights. Working-source customer webhook rights remain unresolved.
+
+Rules start at the current head without historical backfill. `threshold_bps` (1–10000) measures the **absolute change in gross probability**, not a relative odds percentage. `within_seconds` (1–3600) bounds the gap from the prior price's last recorded confirmation to the new observation. Direction `up|down|either` refers to probability; decimal 2.00→4.00 is −2500 bps. Comparisons are exact rational math; reported changes are strings with eight decimal places.
+
+This watches adjacent observations of one native offer/outcome/side/depth. Unchanged confirmations refresh the baseline without adding ticks. Tied-time A→B→A survives replay/restarts. Stale, suspended, unknown-liquidity, missing-baseline and changed-metadata evidence do not become alerts. There is no sharp, fair-price, arbitrage or rolling-high/low opportunity signal. Current reference coverage is insufficient for those products.
+
+## Receive signed raw bytes
+
+The POST includes `Oddswire-Signature: t=<unix-seconds>,v1=<hex HMAC-SHA256>`. The signed message is the ASCII timestamp, a period, then the **exact raw request body**. Verify before JSON parsing with a ±300-second tolerance:
+
+```python
+from oddswire import verify_webhook_signature
+
+valid = verify_webhook_signature(raw_body, signature_header, signing_secret)
+```
+
+```typescript
+import { verifyWebhookSignature } from "@oddswire/client";
+
+const valid = await verifyWebhookSignature(
+  rawBody,
+  signatureHeader,
+  signingSecret,
+);
+```
+
+After verification, parse the body and persistently deduplicate its `id`, atomically with your work/enqueue, before returning 2xx. The payload includes method, rule/region/threshold/window, canonical before/after observations with native identity, detected time and expiry. It is historical movement evidence, not a confirmed executable price. Never use an unsigned delivery header alone as your deduplication authority.
+
+## Retries, logs and withdrawal
+
+Delivery is **at least once**: retries preserve exact body/event/delivery IDs with a fresh timestamp and attempt number. A lost ACK or expired worker lease can duplicate a request; recovery records unknown delivery rather than inventing success. Targets serialize queued events, including retry waits.
+
+2xx acknowledges delivery. Network uncertainty, 408/425/429 and 5xx retry with bounded exponential backoff/Retry-After, at most six attempts. Other 4xx and redirects stop. Freshness/kickoff expiry can stop retries earlier. Current key, grants, purpose review, metadata and active/fresh quote are rechecked before sending. Revoking the bound key stops delivery even if a replacement key exists.
+
+Disable a rule/target to cancel its remaining work. An already in-flight request can finish after withdrawal or key rotation. Coordinate rotation with receivers that may briefly see the old in-flight signing key. Failed/blocked/expired deliveries remain in logs; there is no automatic dead-letter replay.
+
+Logs expose states, attempts, safe failure reasons, statuses and durations, without payloads, signing secrets or receiver bodies. API lists show the latest 100 entries and bounded transitions. Source gaps, metadata changes and a full backlog appear on the rule; durable cursors are retained for recovery.
+
+## Destination limits
+
+Targets require public HTTPS/443, no URL credentials/query/fragment, and an exact operator-configured origin. Delivery validates DNS addresses on every dial, pins a safe public IP, refuses redirects and ignores environment proxies. Loopback HTTP is reserved for disposable local tests. Creating a target sends no ping. Real destination configuration, source-use approval, production capacity/retention and Telegram/Discord adapters remain separate work.

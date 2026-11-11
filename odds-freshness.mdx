@@ -1,0 +1,22 @@
+---
+title: "Odds freshness versus price changes"
+description: "Technical guidance for handling odds API responses."
+---
+
+A price can stay unchanged while the source confirms it repeatedly. A useful odds feed preserves both the price-change clock and the confirmation clock.
+
+## Follow three clocks
+
+Suppose a source price changes at 12:00, is successfully confirmed at 12:03, and is delivered to an application at 12:03:02. The change age is three minutes. Confirmation age is two seconds. Delivery time describes transport to the consumer.
+
+Treating change age as freshness would mark this unchanged price as old. Treating delivery time as source freshness would make a delayed replay appear new. Keep the clocks attached to the original evidence.
+
+## Use explicit state
+
+A subsequent suspension must fence the preceding active quote. Consumers should not replace unavailable or suspended evidence with an older price because it looks complete.
+
+## Build the decision into your application
+
+Read age and state alongside the price, handle missing reasons, and preserve original timestamps in history. A retained range shows recorded prices. Continuous coverage requires separate measurement.
+
+See [data conventions](https://docs.oddswire.io/data), [historical prices](https://docs.oddswire.io/history), and [comparison checks](/guides/comparing-odds-safely). The [no-vig calculator](/tools/no-vig-calculator) can demonstrate arithmetic independently of a live feed.

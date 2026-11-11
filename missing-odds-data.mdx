@@ -1,0 +1,24 @@
+---
+title: "How to handle missing odds data in an API"
+description: "Technical guidance for handling odds API responses."
+---
+
+An odds response can contain useful prices and missing coverage at the same time. Inspect both before treating a market as complete.
+
+## Partial results are meaningful
+
+An application might receive home and away prices while the draw is unavailable. A list of prices alone does not tell the caller whether this is a two-outcome market or an incomplete three-outcome offer.
+
+## Preserve the reason
+
+A source can be uncollected, unavailable, stale, suspended, denied, or incompatible with a reviewed comparison. These states call for different decisions. Display missing coverage explicitly and withhold calculations that require a complete vector.
+
+## Keep control reads separate
+
+Read coverage and entitlement information before issuing a large data query. On the current contract, account/control reads and errors are free. A successfully delivered metered data page uses one credit, including an empty result. Follow the [credit and error rules](https://docs.oddswire.io/errors).
+
+## Check your implementation
+
+Exercise empty and partial responses, expired quotes, and suspended markets. Use the documented native identity fields and retain missing reasons through your own interface.
+
+Read the [odds reference](https://docs.oddswire.io/reference/listOdds), [settlement guide](/guides/comparing-odds-safely), and [freshness article](/odds-freshness).

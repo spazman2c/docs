@@ -121,6 +121,13 @@
           "reference/terminalContext",
           "reference/terminalPreferences"
         ]
+      },
+      {
+        "group": "Handling responses",
+        "pages": [
+          "odds-freshness",
+          "missing-odds-data"
+        ]
       }
     ]
   },

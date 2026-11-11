@@ -40,3 +40,7 @@ printf 'header = "X-API-Key: %s"\n' "$ODDSWIRE_API_KEY" |
 A completed successful data page costs one credit, including an empty page. Inspect `missing[]` as well as `data`. Use a returned `fixture.id` with [List odds](/reference/listOdds), in the same namespace. Do not assume an ID exists in another namespace.
 
 These commands do not follow redirects or retry automatically. If a request times out, its delivery outcome may be unknown; inspect usage before deliberately retrying. Read [Errors and credits](/errors).
+
+## Your first signed-in request
+
+After signup, [create a key](https://oddswire.io/app/keys) and open the [private playground](https://oddswire.io/app/playground) in the same tab. It starts with the free entitlements check; your selected tab-memory key is filled into the private cURL/Python snippet. Public docs never receive your key. Copied snippets contain a credential: keep them private. No card, data scope or credits are needed for this control response. This is an access check, not a successful odds-data request.

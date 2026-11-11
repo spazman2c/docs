@@ -9,7 +9,7 @@ Oddswire is a private sports-data pilot. The workspace and HTTPS API are deploye
 
 1. [Create an account or sign in](https://oddswire.io/app). Complete the email verification shown by the sign-in flow. Your personal workspace is created automatically; there is no local installation or separate workspace-creation command.
 2. Open [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage). They show your account's actual permissions and allocation. An empty scope is expected for a new account.
-3. If your account is approved for API access, an owner or admin can create a key in [API keys](https://oddswire.io/app/keys). A key authenticates you; it does not add permissions or credits.
+3. An owner or admin of a new empty workspace can create a key in [API keys](https://oddswire.io/app/keys) and run the free entitlements check. A key authenticates you; it does not add data permissions or credits.
 4. Start with the free access check in the [cURL](/quickstart-curl), [Python](/quickstart-python) or [JavaScript / TypeScript](/quickstart-typescript) guide. Only request data after your returned entitlements include the required scope.
 
 If you need access, [contact Oddswire](mailto:spazman2c@gmail.com) with your intended use and required coverage. Access is reviewed; there is no public self-serve paid plan or guaranteed approval. Do not email API keys or session tokens. A beta invitation is only relevant when one has actually been issued to your account.
@@ -34,4 +34,4 @@ Each guide is available as Markdown. Coding assistants can read [/llms.txt](http
 
 ## Your first signed-in request
 
-Key creation currently requires approved API access; a new workspace cannot create a data key while beta access is disabled. Once your account is eligible, [create a key](https://oddswire.io/app/keys) and open the [private playground](https://oddswire.io/app/playground) in the same tab. It starts with the free entitlements check; your selected tab-memory key is filled into the private cURL/Python snippet. Public docs never receive your key. Copied snippets contain a credential: keep them private. This control response needs no credits and is an access check, not an odds-data request. Instant API access after signup is not currently available.
+After verified signup, an owner or admin of a new empty workspace can [create a key](https://oddswire.io/app/keys) for the free entitlements check, without a beta invitation, data grants or credits. Open the [private playground](https://oddswire.io/app/playground) in the same tab: the entitlements endpoint is selected and your tab-memory key is filled into the private cURL/Python snippet. Public docs never receive your key. Copied snippets contain a credential: keep them private. A successful control response describes your current permissions; it does not grant odds-data access. Data reads still require separately reviewed access and an allocation.

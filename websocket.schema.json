@@ -2699,6 +2699,156 @@
       ],
       "type": "object"
     },
+    "KambiNativeFixture": {
+      "additionalProperties": false,
+      "properties": {
+        "capture_id": {
+          "type": "string"
+        },
+        "evidence_mode": {
+          "type": "string"
+        },
+        "fresh_for_live_use": {
+          "type": "boolean"
+        },
+        "native_event": {
+          "type": "object"
+        },
+        "native_event_id": {
+          "type": "string"
+        },
+        "player_prop_count": {
+          "type": "integer"
+        },
+        "received_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "record_count": {
+          "type": "integer"
+        },
+        "review_key": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "unresolved_offer_count": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_id",
+        "review_key",
+        "capture_id",
+        "native_event_id",
+        "received_at",
+        "evidence_mode",
+        "fresh_for_live_use",
+        "native_event",
+        "record_count",
+        "player_prop_count",
+        "unresolved_offer_count"
+      ],
+      "type": "object"
+    },
+    "KambiNativeFixturesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/KambiNativeFixture"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "KambiNativeOddsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/KambiNativeRecord"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "KambiNativeRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "capture_id": {
+          "type": "string"
+        },
+        "evidence_mode": {
+          "type": "string"
+        },
+        "fresh_for_live_use": {
+          "type": "boolean"
+        },
+        "native_event_id": {
+          "type": "string"
+        },
+        "native_market_id": {
+          "type": "string"
+        },
+        "native_selection_id": {
+          "type": "string"
+        },
+        "received_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "record": {
+          "type": "object"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "source_id",
+        "capture_id",
+        "native_event_id",
+        "native_market_id",
+        "native_selection_id",
+        "received_at",
+        "evidence_mode",
+        "fresh_for_live_use",
+        "record"
+      ],
+      "type": "object"
+    },
     "Key": {
       "additionalProperties": false,
       "properties": {
@@ -3064,6 +3214,282 @@
       "required": [
         "namespace",
         "fixture"
+      ],
+      "type": "object"
+    },
+    "NativeFixture": {
+      "additionalProperties": false,
+      "properties": {
+        "away": {
+          "type": "string"
+        },
+        "capture_id": {
+          "type": "string"
+        },
+        "competition": {
+          "type": "string"
+        },
+        "delay_seconds": {
+          "type": "integer"
+        },
+        "home": {
+          "type": "string"
+        },
+        "identity_scope": {
+          "type": "string"
+        },
+        "kickoff": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "native_away_id": {
+          "type": "string"
+        },
+        "native_event_id": {
+          "type": "string"
+        },
+        "native_home_id": {
+          "type": "string"
+        },
+        "native_sport_id": {
+          "type": "integer"
+        },
+        "player_prop_count": {
+          "type": "integer"
+        },
+        "price_count": {
+          "type": "integer"
+        },
+        "received_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "source_id",
+        "native_event_id",
+        "native_sport_id",
+        "native_home_id",
+        "native_away_id",
+        "home",
+        "away",
+        "competition",
+        "kickoff",
+        "capture_id",
+        "received_at",
+        "delay_seconds",
+        "price_count",
+        "player_prop_count",
+        "identity_scope"
+      ],
+      "type": "object"
+    },
+    "NativeFixturesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/NativeFixture"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "NativeKey": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "line": {
+          "type": "string"
+        },
+        "line_index": {
+          "type": "integer"
+        },
+        "market_id": {
+          "type": "string"
+        },
+        "selection_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "event_id",
+        "market_id",
+        "selection_id",
+        "line_index",
+        "type",
+        "line"
+      ],
+      "type": "object"
+    },
+    "NativeOddsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/NativeQuote"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "NativeQuote": {
+      "additionalProperties": false,
+      "properties": {
+        "capture_id": {
+          "type": "string"
+        },
+        "delay_seconds": {
+          "type": "integer"
+        },
+        "fee_model_verified": {
+          "type": "boolean"
+        },
+        "key": {
+          "$ref": "#/$defs/NativeKey"
+        },
+        "market_name": {
+          "type": "string"
+        },
+        "market_type": {
+          "type": "string"
+        },
+        "native_context_id": {
+          "type": "string"
+        },
+        "native_internal_event_id": {
+          "type": "string"
+        },
+        "native_player_id": {
+          "type": "string"
+        },
+        "native_player_name": {
+          "type": "string"
+        },
+        "native_unit": {
+          "type": "string"
+        },
+        "native_value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "period": {
+          "type": "string"
+        },
+        "player_identity_verified": {
+          "type": "boolean"
+        },
+        "player_prop_candidate": {
+          "type": "boolean"
+        },
+        "provider_delay_seconds": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "quote_key": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "received_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "selection_name": {
+          "type": "string"
+        },
+        "settlement_compatibility_verified": {
+          "type": "boolean"
+        },
+        "source_ts": {
+          "oneOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "quote_key",
+        "key",
+        "state",
+        "native_value",
+        "native_unit",
+        "market_type",
+        "market_name",
+        "period",
+        "selection_name",
+        "player_prop_candidate",
+        "player_identity_verified",
+        "settlement_compatibility_verified",
+        "fee_model_verified",
+        "capture_id",
+        "received_at",
+        "delay_seconds",
+        "source_ts",
+        "provider_delay_seconds"
       ],
       "type": "object"
     },

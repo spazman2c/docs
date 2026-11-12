@@ -5,7 +5,13 @@ description: "Read source identity, units, freshness and explicit missing data c
 
 For current deployment and access limits, read [Current availability](/availability).
 
-Every data request names a namespace. Bulk odds also requires a `fixture` or `competition` filter. Discover fixtures and sources inside that namespace; never join separate stores by coincident numeric IDs. `books` contains **source/region IDs**, not brand slugs. Correlated brands in the same feed family do not become independent sharp references.
+Every data request names a namespace. Canonical bulk odds also requires a `fixture` or `competition` filter. Discover fixtures and sources inside that namespace; never join separate stores by coincident numeric IDs. `books` contains **source/region IDs**, not brand slugs. Correlated brands in the same feed family do not become independent sharp references.
+
+## Choose canonical or native data
+
+The [endpoint guide](/endpoints) separates canonical `/v1/fixtures` and `/v1/odds` from the source-native route families. Native reads use `native_fixture`, not a canonical `fixture` ID. Kambi native odds also require the original `capture_id` returned by discovery; `mode=retained` preserves historical times and `mode=live` additionally checks the approved live scope and current controls.
+
+Native values retain `native_unit` or the original record's unit. Read player, fee and settlement verification fields explicitly; a native prop candidate is not a reviewed cross-source player market. `props_only=true` filters available native evidence, not a complete player-prop catalogue.
 
 ## Quote identity and units
 

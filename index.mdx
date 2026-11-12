@@ -1,37 +1,44 @@
 ---
-title: "Start with Oddswire"
-description: "Create your workspace, check access, and use the hosted API when your account has been approved."
+title: "Sports odds API"
+description: "Find fixtures, request odds and read native player props with the Oddswire REST API."
 ---
 
-Oddswire provides a private beta sports odds API. The workspace and HTTPS API are deployed, but **creating an account does not unlock odds data or allocate credits**.
+Discover sports and competitions, find fixtures, then request scoped odds. Native feeds preserve provider IDs and player-prop evidence alongside the canonical sports-data API.
 
-## What you can do now
+**Base URL:** `https://api.oddswire.io` · **Authentication:** `X-API-Key` header · **Version:** REST v1
 
-1. [Create an account or sign in](https://oddswire.io/app). Complete the email verification shown by the sign-in flow. Your personal workspace is created automatically; there is no local installation or separate workspace-creation command.
-2. Open [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage). They show your account's actual permissions and allocation. An empty scope is expected for a new account.
-3. An owner or admin of a new empty workspace can create a key in [API keys](https://oddswire.io/app/keys) and run the free entitlements check. A key authenticates you; it does not add data permissions or credits.
-4. Start with the free access check in the [cURL](/quickstart-curl), [Python](/quickstart-python) or [JavaScript / TypeScript](/quickstart-typescript) guide. Only request data after your returned entitlements include the required scope.
+## Make your first request
 
-If you need access, [contact Oddswire](mailto:admin@oddswire.io) with your intended use and required coverage. Access is reviewed; there is no public self-serve paid plan or guaranteed approval. Do not email API keys or session tokens. A beta invitation is only relevant when one has actually been issued to your account.
+```bash
+curl --request GET \
+  --url 'https://api.oddswire.io/v1/account/entitlements' \
+  --header "X-API-Key: $ODDSWIRE_API_KEY"
+```
 
-## API address
+API keys belong in headers, never in a URL or public documentation form.
 
-Use `https://api.oddswire.io` as the base URL. Endpoint paths already include `/v1`, for example `https://api.oddswire.io/v1/account/entitlements`. Do not add a second `/v1`.
+This access check is free. It returns your actual features, namespaces and source scope. Data calls require separately approved access and an allocation; an account or API key alone does not unlock a feed.
 
-The examples on this site use standard HTTP tools. They require no private repository, SDK package, local server, Docker or `make` command. Use [the signed-in playground](https://oddswire.io/app/playground) if you prefer not to write code.
+1. Sign in to your [workspace](https://oddswire.io/app) and create an account-owned key in [API keys](https://oddswire.io/app/keys). Keep the key private.
+2. Check [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage), then use the returned entitlements to choose a namespace and source.
+3. [Discover fixtures and request odds](/endpoints), or use the [signed-in playground](https://oddswire.io/app/playground). It starts with the same free access check; no request runs automatically.
 
-## Understand availability before integrating
+Need an approved data scope? [Contact support](mailto:admin@oddswire.io) with your intended use and required coverage. Do not send API keys. Access is reviewed; there is no public self-serve paid plan or automatic grant.
 
-Read [Current availability](/availability) for the difference between deployed account/REST access and features documented as restricted previews. A published endpoint schema is not a promise that your account can use it. New users do not inherit founder-only internal access.
+## Explore the API
 
-Keep decimal values as strings, preserve native identifiers, inspect every `missing[]` entry, and respect quote freshness. See [Data and coverage](/data) and [Errors and credits](/errors).
+| Need | Start here |
+| --- | --- |
+| Sports, bookmakers and competitions | [Sports data endpoints](/endpoints#sports-data) |
+| Fixtures and odds | [Fixture discovery](/reference/listFixtures) → [Odds](/reference/listOdds) |
+| Native odds and player props | [Native endpoint guide](/endpoints#native-odds-and-player-props) |
+| Requests, quota, pagination and errors | [Response handling](/errors) |
+| Code examples | [cURL](/quickstart-curl) · [Python](/quickstart-python) · [TypeScript](/quickstart-typescript) |
 
-## Contracts and documentation tools
+Keep decimal values as strings, preserve identifiers and inspect every `missing[]` entry. [Data and coverage](/data) explains units, freshness and source relationships.
 
-Download [OpenAPI](/openapi.json), [AsyncAPI](/asyncapi.json) or the [WebSocket schema](/websocket.schema.json). OpenAPI uses the hosted HTTPS base URL; schemas describe implementation contracts and do not activate restricted features.
+## Advanced integration
 
-Each guide is available as Markdown. Coding assistants can read [/llms.txt](https://docs.oddswire.io/llms.txt) and [/llms-full.txt](https://docs.oddswire.io/llms-full.txt). These contain documentation, not API credentials or source prices.
+History, WebSocket, fair prices and alerts are documented in **Advanced**. Account administration and restricted operator contracts live in **Workspace reference**. Check [current availability](/availability) before depending on any restricted capability. A published contract does not grant access or source-use rights.
 
-## Your first signed-in request
-
-After verified signup, an owner or admin of a new empty workspace can [create a key](https://oddswire.io/app/keys) for the free entitlements check, without a beta invitation, data grants or credits. Open the [private playground](https://oddswire.io/app/playground) in the same tab: the entitlements endpoint is selected and your tab-memory key is filled into the private cURL/Python snippet. Public docs never receive your key. Copied snippets contain a credential: keep them private. A successful control response describes your current permissions; it does not grant odds-data access. Data reads still require separately reviewed access and an allocation.
+Download [OpenAPI](/openapi.json), [AsyncAPI](/asyncapi.json) or the [WebSocket schema](/websocket.schema.json). The quick starts use standard HTTP tools against the hosted API; no private repository or SDK installation is required. Documentation is also available through [/llms.txt](https://docs.oddswire.io/llms.txt) and [/llms-full.txt](https://docs.oddswire.io/llms-full.txt).

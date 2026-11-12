@@ -2806,6 +2806,156 @@
         ],
         "type": "object"
       },
+      "KambiNativeFixture": {
+        "additionalProperties": false,
+        "properties": {
+          "capture_id": {
+            "type": "string"
+          },
+          "evidence_mode": {
+            "type": "string"
+          },
+          "fresh_for_live_use": {
+            "type": "boolean"
+          },
+          "native_event": {
+            "type": "object"
+          },
+          "native_event_id": {
+            "type": "string"
+          },
+          "player_prop_count": {
+            "type": "integer"
+          },
+          "received_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "record_count": {
+            "type": "integer"
+          },
+          "review_key": {
+            "type": "string"
+          },
+          "source_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "unresolved_offer_count": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "source_id",
+          "review_key",
+          "capture_id",
+          "native_event_id",
+          "received_at",
+          "evidence_mode",
+          "fresh_for_live_use",
+          "native_event",
+          "record_count",
+          "player_prop_count",
+          "unresolved_offer_count"
+        ],
+        "type": "object"
+      },
+      "KambiNativeFixturesPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/KambiNativeFixture"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "KambiNativeOddsPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/KambiNativeRecord"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "KambiNativeRecord": {
+        "additionalProperties": false,
+        "properties": {
+          "capture_id": {
+            "type": "string"
+          },
+          "evidence_mode": {
+            "type": "string"
+          },
+          "fresh_for_live_use": {
+            "type": "boolean"
+          },
+          "native_event_id": {
+            "type": "string"
+          },
+          "native_market_id": {
+            "type": "string"
+          },
+          "native_selection_id": {
+            "type": "string"
+          },
+          "received_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "record": {
+            "type": "object"
+          },
+          "source_id": {
+            "$ref": "#/components/schemas/ID"
+          }
+        },
+        "required": [
+          "source_id",
+          "capture_id",
+          "native_event_id",
+          "native_market_id",
+          "native_selection_id",
+          "received_at",
+          "evidence_mode",
+          "fresh_for_live_use",
+          "record"
+        ],
+        "type": "object"
+      },
       "Key": {
         "additionalProperties": false,
         "properties": {
@@ -3171,6 +3321,282 @@
         "required": [
           "namespace",
           "fixture"
+        ],
+        "type": "object"
+      },
+      "NativeFixture": {
+        "additionalProperties": false,
+        "properties": {
+          "away": {
+            "type": "string"
+          },
+          "capture_id": {
+            "type": "string"
+          },
+          "competition": {
+            "type": "string"
+          },
+          "delay_seconds": {
+            "type": "integer"
+          },
+          "home": {
+            "type": "string"
+          },
+          "identity_scope": {
+            "type": "string"
+          },
+          "kickoff": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "native_away_id": {
+            "type": "string"
+          },
+          "native_event_id": {
+            "type": "string"
+          },
+          "native_home_id": {
+            "type": "string"
+          },
+          "native_sport_id": {
+            "type": "integer"
+          },
+          "player_prop_count": {
+            "type": "integer"
+          },
+          "price_count": {
+            "type": "integer"
+          },
+          "received_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "source_id": {
+            "$ref": "#/components/schemas/ID"
+          }
+        },
+        "required": [
+          "source_id",
+          "native_event_id",
+          "native_sport_id",
+          "native_home_id",
+          "native_away_id",
+          "home",
+          "away",
+          "competition",
+          "kickoff",
+          "capture_id",
+          "received_at",
+          "delay_seconds",
+          "price_count",
+          "player_prop_count",
+          "identity_scope"
+        ],
+        "type": "object"
+      },
+      "NativeFixturesPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/NativeFixture"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "NativeKey": {
+        "additionalProperties": false,
+        "properties": {
+          "event_id": {
+            "type": "string"
+          },
+          "line": {
+            "type": "string"
+          },
+          "line_index": {
+            "type": "integer"
+          },
+          "market_id": {
+            "type": "string"
+          },
+          "selection_id": {
+            "type": "string"
+          },
+          "source_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_id",
+          "event_id",
+          "market_id",
+          "selection_id",
+          "line_index",
+          "type",
+          "line"
+        ],
+        "type": "object"
+      },
+      "NativeOddsPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/NativeQuote"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "NativeQuote": {
+        "additionalProperties": false,
+        "properties": {
+          "capture_id": {
+            "type": "string"
+          },
+          "delay_seconds": {
+            "type": "integer"
+          },
+          "fee_model_verified": {
+            "type": "boolean"
+          },
+          "key": {
+            "$ref": "#/components/schemas/NativeKey"
+          },
+          "market_name": {
+            "type": "string"
+          },
+          "market_type": {
+            "type": "string"
+          },
+          "native_context_id": {
+            "type": "string"
+          },
+          "native_internal_event_id": {
+            "type": "string"
+          },
+          "native_player_id": {
+            "type": "string"
+          },
+          "native_player_name": {
+            "type": "string"
+          },
+          "native_unit": {
+            "type": "string"
+          },
+          "native_value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "period": {
+            "type": "string"
+          },
+          "player_identity_verified": {
+            "type": "boolean"
+          },
+          "player_prop_candidate": {
+            "type": "boolean"
+          },
+          "provider_delay_seconds": {
+            "oneOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quote_key": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "received_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "selection_name": {
+            "type": "string"
+          },
+          "settlement_compatibility_verified": {
+            "type": "boolean"
+          },
+          "source_ts": {
+            "oneOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "quote_key",
+          "key",
+          "state",
+          "native_value",
+          "native_unit",
+          "market_type",
+          "market_name",
+          "period",
+          "selection_name",
+          "player_prop_candidate",
+          "player_identity_verified",
+          "settlement_compatibility_verified",
+          "fee_model_verified",
+          "capture_id",
+          "received_at",
+          "delay_seconds",
+          "source_ts",
+          "provider_delay_seconds"
         ],
         "type": "object"
       },
@@ -11246,6 +11672,811 @@
         "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
       }
     },
+    "/v1/native/fixtures": {
+      "get": {
+        "description": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free.",
+        "operationId": "listNativeFixtures",
+        "parameters": [
+          {
+            "description": "Native source11 (198Bet, default),12 (1xBit) or13 (20Bet); requires its explicit source grant.",
+            "in": "query",
+            "name": "source_id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Explicit native-evidence namespace: oddswire_bookmakers.",
+            "in": "query",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional delay0..3600 from original receive time; default0. Freshness90s relative to cutoff; current suspension/kickoff still fences delivery.",
+            "in": "query",
+            "name": "delay_seconds",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Page size1..100 within current grant.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Query/access/evidence-bound cursor; restart after409.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NativeFixturesPage"
+                }
+              }
+            },
+            "description": "Typed native page. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free. Read all missing[] entries.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "304": {
+            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "402": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "414": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "listNativeFixtures",
+        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied."
+      }
+    },
+    "/v1/native/kambi/fixtures": {
+      "get": {
+        "description": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free.",
+        "operationId": "listKambiNativeFixtures",
+        "parameters": [
+          {
+            "description": "retained (default) or founder-only live for sources14/15.",
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Explicit retained native namespace: oddswire_bookmakers.",
+            "in": "query",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Registered source5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Retained snapshots only.",
+            "in": "query",
+            "name": "source_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Page size1..100 within grant.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Query, archive and access-bound cursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KambiNativeFixturesPage"
+                }
+              }
+            },
+            "description": "Typed native page. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free. Read all missing[] entries.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "304": {
+            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "402": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "414": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "listKambiNativeFixtures",
+        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied."
+      }
+    },
+    "/v1/native/kambi/odds": {
+      "get": {
+        "description": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free.",
+        "operationId": "listKambiNativeOdds",
+        "parameters": [
+          {
+            "description": "retained (default) or founder-only live for sources14/15.",
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Explicit retained native namespace: oddswire_bookmakers.",
+            "in": "query",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Registered source5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Retained snapshots only.",
+            "in": "query",
+            "name": "source_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Page size1..100 within grant.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Query, archive and access-bound cursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Exact native event ID returned by retained fixtures.",
+            "in": "query",
+            "name": "native_fixture",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Exact retained capture ID returned by fixtures; mandatory to avoid implicit historical selection.",
+            "in": "query",
+            "name": "capture_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter source-labelled player-prop candidates; settlement and player identity remain unreviewed.",
+            "in": "query",
+            "name": "props_only",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KambiNativeOddsPage"
+                }
+              }
+            },
+            "description": "Typed native page. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free. Read all missing[] entries.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "304": {
+            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "402": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "414": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "listKambiNativeOdds",
+        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied."
+      }
+    },
+    "/v1/native/odds": {
+      "get": {
+        "description": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free.",
+        "operationId": "listNativeOdds",
+        "parameters": [
+          {
+            "description": "Native source11 (198Bet, default),12 (1xBit) or13 (20Bet); requires its explicit source grant.",
+            "in": "query",
+            "name": "source_id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Explicit native-evidence namespace: oddswire_bookmakers.",
+            "in": "query",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional delay0..3600 from original receive time; default0. Freshness90s relative to cutoff; current suspension/kickoff still fences delivery.",
+            "in": "query",
+            "name": "delay_seconds",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Page size1..100 within current grant.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Query/access/evidence-bound cursor; restart after409.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "One source-native fixture ID from native/fixtures.",
+            "in": "query",
+            "name": "native_fixture",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return only source-labelled player-prop candidates, without inferred canonical identity.",
+            "in": "query",
+            "name": "props_only",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NativeOddsPage"
+                }
+              }
+            },
+            "description": "Typed native page. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free. Read all missing[] entries.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "304": {
+            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "402": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "414": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "listNativeOdds",
+        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied."
+      }
+    },
     "/v1/odds": {
       "get": {
         "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
@@ -12221,7 +13452,7 @@
     }
   },
   "x-oddswire-documentation": {
-    "upstream_contract_sha256": "f2372f784d7957dbff98d3132a10913c101fddb14fd2749a92e81ea9b4556e44",
+    "upstream_contract_sha256": "d6f052c1a58930e0488e7d560bd5ccb527b89c862fd6388f25e28f727cb30ed6",
     "reviewed": "2026-11-11",
     "changes": "Hosting and availability prose only; request parameters, response schemas and canonical DTOs are unchanged."
   }

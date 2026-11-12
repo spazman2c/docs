@@ -24,7 +24,7 @@ A problem includes `code`, `request_id`, `detail`, `invalid_params` and `missing
 
 ## Credits and uncertain delivery
 
-Completed successful data pages cost one included credit, including empty and insufficient results. Account/control/coverage requests, errors, 304 responses and WebSocket messages are free. This does not allocate any credits to a new account.
+Completed successful canonical data pages cost one included credit, including empty and insufficient results. Native fixture pages with no fixtures and native odds pages with no eligible records are free; nonempty eligible native pages cost one credit. Account/control/coverage requests, errors, 304 responses and WebSocket messages are free. This does not allocate any credits to a new account.
 
 A timeout or disconnected client can have an **unknown delivery outcome**. The server may have completed a response even if your program did not receive it. Never assume an interrupted call was free or retry it silently. Inspect [Usage](https://oddswire.io/app/usage) and request metadata before a deliberate retry. The quick starts make no automatic retries.
 

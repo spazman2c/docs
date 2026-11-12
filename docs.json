@@ -18,115 +18,140 @@
     }
   },
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "Start here",
-        "pages": [
-          "index",
-          "availability",
-          "authentication",
-          "quickstart-curl"
+        "tab": "API",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "index",
+              "endpoints",
+              "quickstart-curl"
+            ]
+          },
+          {
+            "group": "Sports data",
+            "pages": [
+              "reference/listSports",
+              "reference/listSources",
+              "reference/listCompetitions",
+              "reference/listMarkets",
+              "reference/listFixtures",
+              "reference/listOdds"
+            ]
+          },
+          {
+            "group": "Native odds and props",
+            "pages": [
+              "reference/listNativeFixtures",
+              "reference/listNativeOdds",
+              "reference/listKambiNativeFixtures",
+              "reference/listKambiNativeOdds"
+            ]
+          },
+          {
+            "group": "Access and quota",
+            "pages": [
+              "reference/getEntitlements",
+              "reference/getUsage",
+              "reference/getAccountCoverage"
+            ]
+          },
+          {
+            "group": "Integration guides",
+            "pages": [
+              "authentication",
+              "errors",
+              "data",
+              "availability",
+              "quickstart-python",
+              "quickstart-typescript",
+              "odds-freshness",
+              "missing-odds-data"
+            ]
+          }
         ]
       },
       {
-        "group": "HTTP integration",
-        "pages": [
-          "quickstart-python",
-          "quickstart-typescript",
-          "data",
-          "errors"
+        "tab": "Advanced",
+        "groups": [
+          {
+            "group": "Restricted capabilities",
+            "pages": [
+              "history",
+              "websocket",
+              "alerts",
+              "inplay",
+              "terminal",
+              "packages",
+              "mcp-client"
+            ]
+          },
+          {
+            "group": "Advanced data reference",
+            "pages": [
+              "reference/getFair",
+              "reference/listMappings",
+              "reference/listHistoryTicks",
+              "reference/getHistorySnapshot",
+              "reference/getHistoryLines",
+              "reference/getHistoryCoverage",
+              "reference/exportHistory"
+            ]
+          },
+          {
+            "group": "Updates",
+            "pages": [
+              "changelog"
+            ]
+          }
         ]
       },
       {
-        "group": "Restricted features and previews",
-        "pages": [
-          "websocket",
-          "history",
-          "alerts",
-          "inplay",
-          "terminal",
-          "packages",
-          "mcp-client"
-        ]
-      },
-      {
-        "group": "Updates",
-        "pages": [
-          "changelog"
-        ]
-      },
-      {
-        "group": "REST v1 reference",
-        "pages": [
-          "reference/listSports",
-          "reference/listSources",
-          "reference/listCompetitions",
-          "reference/listMarkets",
-          "reference/listFixtures",
-          "reference/listOdds",
-          "reference/getFair",
-          "reference/listMappings"
-        ]
-      },
-      {
-        "group": "History reference",
-        "pages": [
-          "reference/getHistoryCoverage",
-          "reference/exportHistory",
-          "reference/getHistoryLines",
-          "reference/getHistorySnapshot",
-          "reference/listHistoryTicks"
-        ]
-      },
-      {
-        "group": "Account and control reference",
-        "pages": [
-          "reference/getAccount",
-          "reference/listAlertDeliveries",
-          "reference/listAlertRules",
-          "reference/createAlertRule",
-          "reference/disableAlertRule",
-          "reference/listAccountAudit",
-          "reference/getBeta",
-          "reference/acceptBeta",
-          "reference/getBilling",
-          "reference/billingCancel",
-          "reference/billingChange",
-          "reference/billingCheckout",
-          "reference/billingPortal",
-          "reference/billingReconcile",
-          "reference/billingRefund",
-          "reference/getAccountCoverage",
-          "reference/getEntitlements",
-          "reference/listKeys",
-          "reference/createKey",
-          "reference/revokeKey",
-          "reference/rotateKey",
-          "reference/listMembers",
-          "reference/setMemberRole",
-          "reference/getUsage",
-          "reference/listWebhookTargets",
-          "reference/createWebhookTarget",
-          "reference/disableWebhookTarget",
-          "reference/rotateWebhookTarget",
-          "reference/reportBeta",
-          "reference/inviteBeta",
-          "reference/revokeBeta",
-          "reference/reviewBetaSource",
-          "reference/endLocalSession",
-          "reference/enrollSession",
-          "reference/stripeWebhook",
-          "reference/terminalBoard",
-          "reference/terminalChart",
-          "reference/terminalContext",
-          "reference/terminalPreferences"
-        ]
-      },
-      {
-        "group": "Handling responses",
-        "pages": [
-          "odds-freshness",
-          "missing-odds-data"
+        "tab": "Workspace reference",
+        "groups": [
+          {
+            "group": "Workspace and operator reference",
+            "pages": [
+              "reference/getAccount",
+              "reference/listAlertDeliveries",
+              "reference/listAlertRules",
+              "reference/createAlertRule",
+              "reference/disableAlertRule",
+              "reference/listAccountAudit",
+              "reference/getBeta",
+              "reference/acceptBeta",
+              "reference/getBilling",
+              "reference/billingCancel",
+              "reference/billingChange",
+              "reference/billingCheckout",
+              "reference/billingPortal",
+              "reference/billingReconcile",
+              "reference/billingRefund",
+              "reference/listKeys",
+              "reference/createKey",
+              "reference/revokeKey",
+              "reference/rotateKey",
+              "reference/listMembers",
+              "reference/setMemberRole",
+              "reference/listWebhookTargets",
+              "reference/createWebhookTarget",
+              "reference/disableWebhookTarget",
+              "reference/rotateWebhookTarget",
+              "reference/reportBeta",
+              "reference/inviteBeta",
+              "reference/revokeBeta",
+              "reference/reviewBetaSource",
+              "reference/endLocalSession",
+              "reference/enrollSession",
+              "reference/stripeWebhook",
+              "reference/terminalBoard",
+              "reference/terminalChart",
+              "reference/terminalContext",
+              "reference/terminalPreferences"
+            ]
+          }
         ]
       }
     ]

@@ -1,0 +1,50 @@
+---
+title: "API overview"
+description: "Check access, discover fixtures and request odds through the current REST API."
+---
+
+Base URL: `https://api.oddswire.io`. Authenticate with an `X-API-Key` header. Paths already include `/v1`.
+
+## Start with three requests
+
+1. [Check access](/reference/getEntitlements). This free request returns your actual features, namespaces and source scope. A key does not grant data access.
+2. [Find fixtures](/reference/listFixtures) inside an entitled namespace. For a native-only source, use the native discovery routes below instead.
+3. [Get odds](/reference/listOdds) for a discovered fixture or competition. Keep identifiers as returned, read `missing[]`, and follow `meta.next_cursor` explicitly.
+
+Run requests in the [signed-in playground](https://oddswire.io/app/playground), or follow the [cURL quick start](/quickstart-curl). Nothing runs automatically in the playground.
+
+## Sports data
+
+| GET endpoint | Use it for |
+| --- | --- |
+| [`/v1/sports`](/reference/listSports) | Discover sports in your scope |
+| [`/v1/bookmakers`](/reference/listSources) | Source and region identities, including feed-family relationships |
+| [`/v1/competitions`](/reference/listCompetitions) | Competitions, optionally filtered by sport |
+| [`/v1/markets`](/reference/listMarkets) | Market families and periods |
+| [`/v1/fixtures`](/reference/listFixtures) | Fixtures filtered by source, sport, competition or time |
+| [`/v1/odds`](/reference/listOdds) | Scoped odds pages with explicit state, units and missing coverage |
+
+A single fixture is selected with the `fixture` filter; competition odds use `competition`. These are filters on the existing endpoints, not separate routes.
+
+## Native odds and player props
+
+Native-only observations have a separate contract from canonical odds. They preserve provider fixture/market/selection IDs and units; they do not establish reviewed cross-book matching, player identity or settlement compatibility.
+
+| GET endpoint | Use it for |
+| --- | --- |
+| [`/v1/native/fixtures`](/reference/listNativeFixtures) | Discover reviewed source11/12/13 fixtures using an explicit `source_id` |
+| [`/v1/native/odds`](/reference/listNativeOdds) | Request a returned `native_fixture`; `props_only=true` selects source-labelled prop candidates |
+| [`/v1/native/kambi/fixtures`](/reference/listKambiNativeFixtures) | Discover source5/14/15 snapshots in `retained` or separately approved `live` mode |
+| [`/v1/native/kambi/odds`](/reference/listKambiNativeOdds) | Request the exact returned `native_fixture` and `capture_id`; optionally filter with `props_only=true` |
+
+Both native families use namespace `oddswire_bookmakers` and require their own explicit account features and source scope. Kambi source5 supports retained mode only; live mode applies only to separately approved sources14/15. Rediscover when a live capture is superseded. Retained snapshots preserve original times and must never be labelled current odds.
+
+## Access and quota
+
+Use [entitlements](/reference/getEntitlements), [coverage](/reference/getAccountCoverage) and [usage](/reference/getUsage) before choosing a feed. These are free control reads. See [requests, credits and errors](/errors) for pagination, rate responses and uncertain delivery.
+
+## Advanced capabilities
+
+[Fair prices](/reference/getFair), [reviewed mappings](/reference/listMappings), [history](/history), [WebSocket](/websocket) and [alerts](/alerts) retain separate requirements. A documented schema does not mean a feature is available to your account. There is no eligible sharp reference configured for fair-price consensus.
+
+Scores, results/settlements, a standalone player catalogue, languages and public paid account provisioning are not current sports-data endpoints. Request only operations documented in the [OpenAPI contract](/openapi.json).

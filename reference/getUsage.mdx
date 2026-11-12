@@ -8,34 +8,4 @@ Account/workspace contract; current authentication, membership and the documente
 
 `GET /v1/account/usage`
 
-## Authentication
-
-`ApiKey` or `AccountSession`
-
-## Parameters
-
-| Name | Location | Required | Description |
-| --- | --- | --- | --- |
-| `If-None-Match` | header | No | Weak semantic ETag; freshness and access are revalidated before 304. |
-
-## Responses
-
-| Status | Meaning |
-| --- | --- |
-| 200 | Successful account/control response; zero REST data credits. |
-| 304 | Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota. |
-| 400 | Structured problem; see [error handling](/errors). |
-| 401 | Structured problem; see [error handling](/errors). |
-| 402 | Structured problem; see [error handling](/errors). |
-| 403 | Structured problem; see [error handling](/errors). |
-| 404 | Structured problem; see [error handling](/errors). |
-| 405 | Structured problem; see [error handling](/errors). |
-| 409 | Structured problem; see [error handling](/errors). |
-| 414 | Structured problem; see [error handling](/errors). |
-| 422 | Structured problem; see [error handling](/errors). |
-| 429 | Structured problem; see [error handling](/errors). |
-| 500 | Structured problem; see [error handling](/errors). |
-| 503 | Structured problem; see [error handling](/errors). |
-| 504 | Structured problem; see [error handling](/errors). |
-
-Full request and response schemas: [OpenAPI](/openapi.json). [Authentication](/authentication) · [Prices and coverage](/data) · [Errors and credits](/errors).
+[Authentication](/authentication) · [Requests, quota and errors](/errors) · [Coverage and units](/data).

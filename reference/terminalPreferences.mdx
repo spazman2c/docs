@@ -6,44 +6,6 @@ openapi: "PUT /v1/terminal/preferences"
 
 Terminal preview contract, not a deployed customer rollout. A separate Terminal grant and source-purpose reviews are required. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
 
-
-Session-only Terminal product. Separate current Terminal grants and display/chart source-purpose/region reviews; API plans/keys and REST credits are not used. Private, no-store, bounded polling and native recorded history only.
-
 `PUT /v1/terminal/preferences`
 
-## Authentication
-
-`AccountSession`
-
-## Parameters
-
-| Name | Location | Required | Description |
-| --- | --- | --- | --- |
-| `X-Oddswire-Account` | header | No | UUID of an account where the signed-in user is a member; defaults to their oldest account. |
-
-## Request body
-
-```json
-{
-  "$ref": "#/components/schemas/TerminalPreferencesInput"
-}
-```
-
-## Responses
-
-| Status | Meaning |
-| --- | --- |
-| 200 | Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first. |
-| 400 | Structured problem; see [error handling](/errors). |
-| 401 | Structured problem; see [error handling](/errors). |
-| 403 | Structured problem; see [error handling](/errors). |
-| 404 | Structured problem; see [error handling](/errors). |
-| 405 | Structured problem; see [error handling](/errors). |
-| 409 | Structured problem; see [error handling](/errors). |
-| 422 | Structured problem; see [error handling](/errors). |
-| 429 | Structured problem; see [error handling](/errors). |
-| 500 | Structured problem; see [error handling](/errors). |
-| 503 | Structured problem; see [error handling](/errors). |
-| 504 | Structured problem; see [error handling](/errors). |
-
-Full request and response schemas: [OpenAPI](/openapi.json). [Authentication](/authentication) · [Prices and coverage](/data) · [Errors and credits](/errors).
+[Authentication](/authentication) · [Requests, quota and errors](/errors) · [Coverage and units](/data).

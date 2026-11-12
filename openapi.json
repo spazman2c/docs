@@ -7182,7 +7182,21 @@
           }
         ],
         "summary": "getAccountCoverage",
-        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/account/coverage\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {}\nurl = \"https://api.oddswire.io/v1/account/coverage\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/account/coverage\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/account/entitlements": {
@@ -7327,7 +7341,21 @@
           }
         ],
         "summary": "getEntitlements",
-        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/account/entitlements\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {}\nurl = \"https://api.oddswire.io/v1/account/entitlements\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/account/entitlements\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/account/keys": {
@@ -8139,7 +8167,21 @@
           }
         ],
         "summary": "getUsage",
-        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/account/usage\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {}\nurl = \"https://api.oddswire.io/v1/account/usage\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/account/usage\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/account/webhook-targets": {
@@ -9467,7 +9509,21 @@
           }
         ],
         "summary": "listSources",
-        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/bookmakers\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/bookmakers\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/bookmakers\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/competitions": {
@@ -9648,7 +9704,21 @@
           }
         ],
         "summary": "listCompetitions",
-        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/competitions\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/competitions\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/competitions\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/fair": {
@@ -9868,7 +9938,21 @@
           }
         ],
         "summary": "getFair",
-        "x-oddswire-availability": "Restricted fair-price contract. No eligible sharp reference is configured; an insufficient result must not be interpreted as a fair price."
+        "x-oddswire-availability": "Restricted fair-price contract. No eligible sharp reference is configured; an insufficient result must not be interpreted as a fair price.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fair\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"fixture=$FIXTURE_ID\" \\\n  --data-urlencode \"settlement_rule=$SETTLEMENT_RULE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"fixture\": os.environ[\"FIXTURE_ID\"], \"settlement_rule\": os.environ[\"SETTLEMENT_RULE\"]}\nurl = \"https://api.oddswire.io/v1/fair\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fair\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"fixture\", required(\"FIXTURE_ID\"));\nurl.searchParams.set(\"settlement_rule\", required(\"SETTLEMENT_RULE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/fixtures": {
@@ -10109,7 +10193,21 @@
           }
         ],
         "summary": "listFixtures",
-        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fixtures\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/history/coverage": {
@@ -11466,7 +11564,21 @@
           }
         ],
         "summary": "listMappings",
-        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/mappings\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/mappings\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/mappings\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/markets": {
@@ -11669,7 +11781,21 @@
           }
         ],
         "summary": "listMarkets",
-        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/markets\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/markets\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/markets\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/native/fixtures": {
@@ -11859,7 +11985,21 @@
           }
         ],
         "summary": "listNativeFixtures",
-        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied."
+        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/native/fixtures\" \\\n  --data-urlencode \"source_id=$SOURCE_ID\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"source_id\": os.environ[\"SOURCE_ID\"], \"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/native/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/native/fixtures\");\nurl.searchParams.set(\"source_id\", required(\"SOURCE_ID\"));\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/native/kambi/fixtures": {
@@ -11877,7 +12017,7 @@
             }
           },
           {
-            "description": "Explicit retained native namespace: oddswire_bookmakers.",
+            "description": "Native namespace: oddswire_bookmakers. Mode does not change this namespace.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -11886,7 +12026,7 @@
             }
           },
           {
-            "description": "Registered source5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Retained snapshots only.",
+            "description": "Registered source5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Source5 is retained-only; live mode requires a separate approved source14/15 review.",
             "in": "query",
             "name": "source_id",
             "required": true,
@@ -12049,7 +12189,21 @@
           }
         ],
         "summary": "listKambiNativeFixtures",
-        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied."
+        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/native/kambi/fixtures\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"source_id=$SOURCE_ID\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"source_id\": os.environ[\"SOURCE_ID\"]}\nurl = \"https://api.oddswire.io/v1/native/kambi/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/native/kambi/fixtures\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"source_id\", required(\"SOURCE_ID\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/native/kambi/odds": {
@@ -12067,7 +12221,7 @@
             }
           },
           {
-            "description": "Explicit retained native namespace: oddswire_bookmakers.",
+            "description": "Native namespace: oddswire_bookmakers. Mode does not change this namespace.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -12076,7 +12230,7 @@
             }
           },
           {
-            "description": "Registered source5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Retained snapshots only.",
+            "description": "Registered source5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Source5 is retained-only; live mode requires a separate approved source14/15 review.",
             "in": "query",
             "name": "source_id",
             "required": true,
@@ -12106,7 +12260,7 @@
             }
           },
           {
-            "description": "Exact native event ID returned by retained fixtures.",
+            "description": "Exact native event ID returned by fixture discovery in the selected source and mode.",
             "in": "query",
             "name": "native_fixture",
             "required": true,
@@ -12115,7 +12269,7 @@
             }
           },
           {
-            "description": "Exact retained capture ID returned by fixtures; mandatory to avoid implicit historical selection.",
+            "description": "Exact capture ID returned by fixture discovery. Required in both modes; rediscover if a live capture is superseded.",
             "in": "query",
             "name": "capture_id",
             "required": true,
@@ -12266,7 +12420,21 @@
           }
         ],
         "summary": "listKambiNativeOdds",
-        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied."
+        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/native/kambi/odds\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"source_id=$SOURCE_ID\" \\\n  --data-urlencode \"native_fixture=$NATIVE_FIXTURE_ID\" \\\n  --data-urlencode \"capture_id=$CAPTURE_ID\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"source_id\": os.environ[\"SOURCE_ID\"], \"native_fixture\": os.environ[\"NATIVE_FIXTURE_ID\"], \"capture_id\": os.environ[\"CAPTURE_ID\"]}\nurl = \"https://api.oddswire.io/v1/native/kambi/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/native/kambi/odds\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"source_id\", required(\"SOURCE_ID\"));\nurl.searchParams.set(\"native_fixture\", required(\"NATIVE_FIXTURE_ID\"));\nurl.searchParams.set(\"capture_id\", required(\"CAPTURE_ID\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/native/odds": {
@@ -12474,7 +12642,21 @@
           }
         ],
         "summary": "listNativeOdds",
-        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied."
+        "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/native/odds\" \\\n  --data-urlencode \"source_id=$SOURCE_ID\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"native_fixture=$NATIVE_FIXTURE_ID\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"source_id\": os.environ[\"SOURCE_ID\"], \"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"native_fixture\": os.environ[\"NATIVE_FIXTURE_ID\"]}\nurl = \"https://api.oddswire.io/v1/native/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/native/odds\");\nurl.searchParams.set(\"source_id\", required(\"SOURCE_ID\"));\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"native_fixture\", required(\"NATIVE_FIXTURE_ID\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/odds": {
@@ -12768,7 +12950,21 @@
           }
         ],
         "summary": "listOdds",
-        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/odds\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"fixture=$FIXTURE_ID\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"fixture\": os.environ[\"FIXTURE_ID\"]}\nurl = \"https://api.oddswire.io/v1/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/odds\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"fixture\", required(\"FIXTURE_ID\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/sports": {
@@ -12940,7 +13136,21 @@
           }
         ],
         "summary": "listSports",
-        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data."
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/sports\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/sports\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/sports\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
       }
     },
     "/v1/terminal/board": {
@@ -13454,6 +13664,6 @@
   "x-oddswire-documentation": {
     "upstream_contract_sha256": "d6f052c1a58930e0488e7d560bd5ccb527b89c862fd6388f25e28f727cb30ed6",
     "reviewed": "2026-11-11",
-    "changes": "Hosting and availability prose only; request parameters, response schemas and canonical DTOs are unchanged."
+    "changes": "Hosting, availability, parameter descriptions and complete read examples only; request parameter wire shapes, response schemas and canonical DTOs are unchanged."
   }
 }

@@ -8,42 +8,6 @@ Restricted source-native REST contract. Requires its explicit native feature, na
 
 `GET /v1/native/kambi/odds`
 
-## Authentication
+Set the required IDs from [native fixture discovery](/endpoints#native-odds-and-player-props). Examples read IDs and namespace from your environment; use only values returned for your approved scope.
 
-`ApiKey`
-
-## Parameters
-
-| Name | Location | Required | Description |
-| --- | --- | --- | --- |
-| `mode` | query | No | retained (default) or founder-only live for sources14/15. |
-| `namespace` | query | Yes | Explicit retained native namespace: oddswire_bookmakers. |
-| `source_id` | query | Yes | Registered source5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Retained snapshots only. |
-| `limit` | query | No | Page size1..100 within grant. |
-| `cursor` | query | No | Query, archive and access-bound cursor. |
-| `native_fixture` | query | Yes | Exact native event ID returned by retained fixtures. |
-| `capture_id` | query | Yes | Exact retained capture ID returned by fixtures; mandatory to avoid implicit historical selection. |
-| `props_only` | query | No | Filter source-labelled player-prop candidates; settlement and player identity remain unreviewed. |
-| `If-None-Match` | header | No | Weak semantic ETag; freshness and access are revalidated before 304. |
-
-## Responses
-
-| Status | Meaning |
-| --- | --- |
-| 200 | Typed native page. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free. Read all missing[] entries. |
-| 304 | Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota. |
-| 400 | Structured problem; see [error handling](/errors). |
-| 401 | Structured problem; see [error handling](/errors). |
-| 402 | Structured problem; see [error handling](/errors). |
-| 403 | Structured problem; see [error handling](/errors). |
-| 404 | Structured problem; see [error handling](/errors). |
-| 405 | Structured problem; see [error handling](/errors). |
-| 409 | Structured problem; see [error handling](/errors). |
-| 414 | Structured problem; see [error handling](/errors). |
-| 422 | Structured problem; see [error handling](/errors). |
-| 429 | Structured problem; see [error handling](/errors). |
-| 500 | Structured problem; see [error handling](/errors). |
-| 503 | Structured problem; see [error handling](/errors). |
-| 504 | Structured problem; see [error handling](/errors). |
-
-Full request and response schemas: [OpenAPI](/openapi.json). [Authentication](/authentication) · [Prices and coverage](/data) · [Errors and credits](/errors).
+[Authentication](/authentication) · [Requests, quota and errors](/errors) · [Coverage and units](/data).

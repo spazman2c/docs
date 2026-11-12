@@ -6,44 +6,6 @@ openapi: "POST /v1/account/billing/portal"
 
 Restricted test billing contract. Production paid checkout and payment-provider fulfillment are not enabled for general customers. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
 
-
-Test-only billing; owner session required for mutations, owner/admin for reads. Fixed test catalogue; enrollment ceiling controls source access. Checkout returns do not activate grants. Retry unresolved mutations with the same request UUID. UTC credit cycles, no usage refill, overage off, no Terminal billing or data rights granted.
-
 `POST /v1/account/billing/portal`
 
-## Authentication
-
-`AccountSession`
-
-## Parameters
-
-| Name | Location | Required | Description |
-| --- | --- | --- | --- |
-| `X-Oddswire-Account` | header | No | UUID of an account where the signed-in user is a member; defaults to their oldest account. |
-
-## Request body
-
-```json
-{
-  "$ref": "#/components/schemas/BillingActionInput"
-}
-```
-
-## Responses
-
-| Status | Meaning |
-| --- | --- |
-| 200 | Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first. |
-| 400 | Structured problem; see [error handling](/errors). |
-| 401 | Structured problem; see [error handling](/errors). |
-| 403 | Structured problem; see [error handling](/errors). |
-| 404 | Structured problem; see [error handling](/errors). |
-| 405 | Structured problem; see [error handling](/errors). |
-| 409 | Structured problem; see [error handling](/errors). |
-| 422 | Structured problem; see [error handling](/errors). |
-| 429 | Structured problem; see [error handling](/errors). |
-| 500 | Structured problem; see [error handling](/errors). |
-| 503 | Structured problem; see [error handling](/errors). |
-| 504 | Structured problem; see [error handling](/errors). |
-
-Full request and response schemas: [OpenAPI](/openapi.json). [Authentication](/authentication) · [Prices and coverage](/data) · [Errors and credits](/errors).
+[Authentication](/authentication) · [Requests, quota and errors](/errors) · [Coverage and units](/data).

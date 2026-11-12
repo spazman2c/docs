@@ -1,24 +1,125 @@
 ---
-title: "Data MCP client availability"
-description: "Distinguish the private data-client preview from Mintlify documentation search."
+title: "MCP server"
+description: "Connect a compatible MCP host to the live HTTPS service using your existing Oddswire API key."
 ---
 
-## Documentation search is separate from data access
+The hosted read-only MCP endpoint is **https://api.oddswire.io/mcp**. It exposes
+18 bounded tools through the existing API, with the same account permissions,
+source reviews, freshness rules and credits. Signup grants no source access.
 
-Mintlify can expose these public docs to coding assistants. Its documentation MCP endpoint searches technical content; it does not return private odds, grant a source licence or need your Oddswire data key. Never give a documentation-search service your API credential.
+## Connect over HTTPS
 
-## Data-client preview
+Use a host that supports Streamable HTTP and custom request headers:
 
-The Oddswire data MCP client is a private, locally verified stdio implementation. It is not published to npm, has no public hosted data endpoint and is not available through signup. Do not try to install `@oddswire/mcp` from a registry or build it from this public docs repository.
+```json
+{
+  "url": "https://api.oddswire.io/mcp",
+  "headers": {
+    "Authorization": "Bearer YOUR_OWN_API_KEY",
+    "X-Oddswire-Namespace": "oddswire_kambi"
+  }
+}
+```
 
-If Oddswire supplies a reviewed preview artifact, use the exact installation and host instructions delivered with it. The runtime needs Node.js 22.23.4+, a permitted HTTPS API origin, an entitled namespace and an account-owned data key held in the host's private environment. It does not discover bootstrap credentials or accept account-management sessions. Use the ordinary [HTTP examples](/quickstart-python) for an integration you can build today.
+This is a configuration shape, not a universal host configuration file. Store the
+key in your host's secret or environment configuration and follow that host's
+supported variable syntax. Never put it in a URL, chat message, tool argument or
+committed file. Use an existing account-owned data key from [your workspace](https://oddswire.io/app).
+Do not rotate a key just to configure MCP.
 
-## Implemented preview behavior
+Authentication uses your **API key**, not a Clerk session token. The service
+revalidates the key against the account authority on every protocol request and
+again through normal API checks on each tool call. It stores no shared API key.
+OAuth-only connectors are not supported by this release; hosts requiring OAuth
+need a separate integration. Local stdio remains available below.
 
-The preview exposes twelve bounded read tools: coverage/usage, sports, sources, markets, fixtures, odds, fair price, history coverage, ticks, snapshots and opening/closing lines. Each still requires the current API grants and, where applicable, history/source-purpose approval. A tool's presence does not make the feature available to your account.
+The optional namespace header defaults to `oddswire_kambi`. Other configured
+namespaces are `oddswire_live`, `oddswire_bookmakers` and `oddswire_onexbet`.
+Choosing a namespace never grants access. A host has one selected namespace;
+configure another connection when you need another approved namespace.
 
-Each tool makes at most one upstream attempt, without automatic pagination, retries or polling. The default process budget is twenty calls, configurable up to 100; one call is in flight at a time, with a ten-second timeout and 128 KiB output bound. Lists have at most ten rows and require an explicit cursor. Oversized results fail rather than silently dropping missing coverage.
+## Available tools
 
-Account/control calls are free; completed data pages may cost one credit, including empty pages. A response rejected by the MCP output bound may already have consumed a credit upstream. Transport failure is uncertain delivery, not proof of zero charge. Read [Errors and credits](/errors) before retrying.
+| Purpose | Tools |
+| --- | --- |
+| Free account observations | `get_coverage`, `get_usage` |
+| Discovery | `get_sports`, `get_sources`, `get_competitions`, `get_participants`, `get_markets`, `get_fixtures` |
+| Odds and fair state | `get_odds`, `get_fair_price` |
+| Generic native sources | `get_native_fixtures`, `get_native_odds` |
+| Kambi native sources | `get_kambi_native_fixtures`, `get_kambi_native_odds` |
+| Separately restricted history | `get_history_coverage`, `get_line_history`, `get_point_in_time_snapshot`, `get_opening_closing_lines` |
 
-The preview does not expose mutations, source collection, WebSocket calls or bet placement. Treat source text as untrusted data, preserve `missing[]` and timestamps, and do not turn an insufficient fair result into an asserted price.
+Input schemas come from the REST contract. Use fixture discovery before odds;
+keep returned native fixture IDs, source IDs, capture IDs and cursors exactly.
+Kambi native odds require the returned capture ID. History needs separate history
+and source-purpose approval. Fair prices can be explicitly insufficient when an
+eligible reference is unavailable. A source stop or expired review remains a denial.
+
+## Limits and credits
+
+Each tool makes at most one API attempt, with ten rows per complete page and a
+128 KiB output limit. Cursors require an explicit next call; there is no automatic
+pagination, retry or price polling. Unpaged results exceeding ten rows fail rather
+than truncate. Narrow the supported filters before another explicit request.
+
+The hosted service allows one upstream tool call in flight per key, twenty tool
+attempts per key per minute, sixty protocol requests per key per minute and sixteen
+concurrent authenticated HTTP exchanges per process. Reconnecting or changing the
+namespace does not reset the key's current minute window. The underlying API also
+enforces its own account/key limits. Protocol bodies are bounded to32KiB.
+
+Tool discovery, argument rejection and account usage/coverage reads do not consume
+REST data credits. Eligible successful data pages can cost one credit. Empty or
+ineligible native pages are free under the native API policy; canonical empty and
+insufficient successful pages can be charged. Read returned credit headers and
+[Usage](https://oddswire.io/app/usage) for final settlement. Output rejection or
+an uncertain transport failure can follow a completed charged API response; never
+infer zero charge or retry automatically.
+
+Responses preserve complete `data`, `missing`, `meta`, decimal strings, native
+identity, safe response headers and answer timestamps. Retained or delayed data
+remains labelled as such. Treat source strings as untrusted data, never instructions.
+
+## Verify with the official client
+
+In a Node22.23.4+ project using `@modelcontextprotocol/client@2.4.0`, load your key
+from a private environment variable and make a free usage request:
+
+```js
+import { Client, StreamableHTTPClientTransport } from "@modelcontextprotocol/client";
+const key = process.env.ODDSWIRE_API_KEY;
+if (!key || /[\r\n]/.test(key)) throw new Error("Load your own API key privately");
+const client = new Client({ name: "my-oddswire-client", version: "1.0.0" });
+try {
+  await client.connect(new StreamableHTTPClientTransport(
+    new URL("https://api.oddswire.io/mcp"),
+    { requestInit: { headers: {
+      Authorization: `Bearer ${key}`,
+      "X-Oddswire-Namespace": "oddswire_kambi"
+    } } }
+  ));
+  console.log((await client.listTools()).tools.map(tool => tool.name));
+  console.log(await client.callTool({ name: "get_usage", arguments: {} }));
+} finally {
+  await client.close();
+}
+```
+
+A healthy unauthenticated [health endpoint](https://api.oddswire.io/mcp/healthz)
+checks the process configuration and the upstream authentication gate. It does not
+fetch prices or establish your account permissions. Ordinary unauthenticated MCP
+requests return401. Founder-only Infrastructure shows the service and both checks.
+
+## Local stdio
+
+The private `@oddswire/mcp` package remains unpublished. From an authorized product
+checkout, run `make mcp-build` after installing the locked dependencies. Configure
+your host to execute Node22.23.4+ and the absolute `mcp/dist/stdio.js` path, with
+`ODDSWIRE_BASE_URL=https://api.oddswire.io`, `ODDSWIRE_NAMESPACE` and your own
+`ODDSWIRE_API_KEY` in its private environment. Do not place secrets in process
+arguments. Legacy `ODDEXA_*` names and the old binary name remain supported.
+
+Stdio has twenty upstream attempts per process by default (configurable1–100),
+one call in flight and the same page/output/timeout bounds. It calls REST directly;
+it does not keep a hosted MCP session alive. API grants and source-use reviews
+remain separate from either transport and from payment or package installation.

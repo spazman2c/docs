@@ -1436,6 +1436,69 @@
       ],
       "type": "object"
     },
+    "BrowserWSAuthentication": {
+      "additionalProperties": false,
+      "properties": {
+        "ticket": {
+          "maxLength": 256,
+          "minLength": 32,
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "authenticate"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "ticket"
+      ],
+      "type": "object"
+    },
+    "BrowserWSTicketInput": {
+      "additionalProperties": false,
+      "properties": {
+        "key_id": {
+          "type": "string"
+        },
+        "origin": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key_id",
+        "origin"
+      ],
+      "type": "object"
+    },
+    "BrowserWSTicketPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/WSTicket"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
     "Competition": {
       "additionalProperties": false,
       "properties": {
@@ -4764,6 +4827,112 @@
       ],
       "type": "object"
     },
+    "StreamCapabilities": {
+      "additionalProperties": false,
+      "properties": {
+        "browser_configured": {
+          "type": "boolean"
+        },
+        "capabilities": {
+          "items": {
+            "$ref": "#/$defs/StreamCapability"
+          },
+          "type": "array"
+        },
+        "connection_limit": {
+          "type": "integer"
+        },
+        "entitled": {
+          "type": "boolean"
+        },
+        "resume_seconds": {
+          "type": "integer"
+        },
+        "subscription_limit": {
+          "type": "integer"
+        },
+        "verification": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "browser_configured",
+        "entitled",
+        "connection_limit",
+        "subscription_limit",
+        "resume_seconds",
+        "capabilities",
+        "verification"
+      ],
+      "type": "object"
+    },
+    "StreamCapabilitiesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/StreamCapabilities"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "StreamCapability": {
+      "additionalProperties": false,
+      "properties": {
+        "delivery_mode": {
+          "enum": [
+            "transactional",
+            "snapshot_only"
+          ],
+          "type": "string"
+        },
+        "eligible": {
+          "type": "boolean"
+        },
+        "evidence_mode": {
+          "enum": [
+            "current_canonical",
+            "retained",
+            "live"
+          ],
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        }
+      },
+      "required": [
+        "namespace",
+        "source_id",
+        "delivery_mode",
+        "evidence_mode",
+        "eligible",
+        "reason"
+      ],
+      "type": "object"
+    },
     "Summary": {
       "additionalProperties": false,
       "properties": {
@@ -5593,6 +5762,19 @@
           },
           "type": "array"
         },
+        "dataset_data": {
+          "items": {
+            "$ref": "#/$defs/DatasetOdds"
+          },
+          "type": "array"
+        },
+        "delivery_mode": {
+          "enum": [
+            "transactional",
+            "snapshot_only"
+          ],
+          "type": "string"
+        },
         "delivery_seq": {
           "type": "string"
         },
@@ -5634,6 +5816,7 @@
         "type": {
           "enum": [
             "hello",
+            "dataset_snapshot",
             "snapshot",
             "delta",
             "state",
@@ -5671,6 +5854,28 @@
       "required": [
         "quote_key",
         "reason"
+      ],
+      "type": "object"
+    },
+    "WSTicket": {
+      "additionalProperties": false,
+      "properties": {
+        "redeem_until": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "ticket": {
+          "type": "string"
+        },
+        "valid_until": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticket",
+        "redeem_until",
+        "valid_until"
       ],
       "type": "object"
     },

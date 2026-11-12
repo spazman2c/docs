@@ -24,7 +24,7 @@ Internal source reviews are expiring and founder-only. **They are not customer a
 
 | Capability | Current boundary |
 | --- | --- |
-| WebSocket stream | Implemented protocol, independently gated `websocket` and odds grants; no new-user stream access or browser ticket bridge |
+| WebSocket stream | Deployed restricted protocol and short-lived browser-ticket authentication; separately gated odds/WebSocket/native grants. Founder-only internal access retains original sources/expiry; new accounts have no stream access. No public customer rollout or production capacity guarantee. |
 | History and exports | Implemented bounded contracts; separate history/export grants and source-purpose review required; not enabled for new accounts |
 | Line-move webhooks | Implemented signing/retry contract; production outbound delivery and source-use approval are not configured for general customers |
 | Fair-price consensus | No configured eligible sharp reference; an insufficient result is not a fair price |

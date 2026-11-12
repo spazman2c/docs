@@ -152,7 +152,10 @@
               "reference/terminalBoard",
               "reference/terminalChart",
               "reference/terminalContext",
-              "reference/terminalPreferences"
+              "reference/terminalPreferences",
+              "reference/createBrowserWSTicket",
+              "reference/revokeBrowserWSTickets",
+              "reference/getWebSocketCapabilities"
             ]
           }
         ]

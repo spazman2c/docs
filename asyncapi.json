@@ -1,6 +1,25 @@
 {
   "asyncapi": "3.0.0",
   "channels": {
+    "browser": {
+      "address": "/v1/ws/browser",
+      "messages": {
+        "authenticate": {
+          "$ref": "#/components/messages/BrowserAuthentication"
+        },
+        "command": {
+          "$ref": "#/components/messages/Command"
+        },
+        "frame": {
+          "$ref": "#/components/messages/Frame"
+        }
+      },
+      "servers": [
+        {
+          "$ref": "#/servers/browserLocal"
+        }
+      ]
+    },
     "stream": {
       "address": "/v1/ws",
       "messages": {
@@ -10,11 +29,25 @@
         "frame": {
           "$ref": "#/components/messages/Frame"
         }
-      }
+      },
+      "servers": [
+        {
+          "$ref": "#/servers/local"
+        }
+      ]
     }
   },
   "components": {
     "messages": {
+      "BrowserAuthentication": {
+        "name": "BrowserWSAuthentication",
+        "payload": {
+          "schema": {
+            "$ref": "./websocket.v1.schema.json#/$defs/BrowserWSAuthentication"
+          },
+          "schemaFormat": "application/schema+json;version=draft2020-12"
+        }
+      },
       "Command": {
         "name": "WSCommand",
         "payload": {
@@ -43,11 +76,25 @@
     }
   },
   "info": {
-    "description": "Implemented WebSocket frame/subscription contract, not a public streaming rollout. Separate odds/websocket grants and source-use approval are required. New accounts and the current founder-only REST review have no streaming access. See https://docs.oddswire.io/websocket. Header API key and oddswire.v1 subprotocol; no browser ticket bridge.",
+    "description": "Implemented WebSocket frame/subscription contract, not a public streaming rollout. Separate odds/websocket grants and source-use approval are required. New accounts have no streaming access; founder-only internal streaming is separately bounded by its original source scope and expiry. See https://docs.oddswire.io/websocket. Header API key at /v1/ws or short-lived single-use browser tickets at /v1/ws/browser, using oddswire.v1; no URL credentials.",
     "title": "Oddswire WebSocket v1 private pilot",
     "version": "1.0.0"
   },
   "operations": {
+    "receiveBrowserCommands": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/browser"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/browser/messages/authenticate"
+        },
+        {
+          "$ref": "#/channels/browser/messages/command"
+        }
+      ]
+    },
     "receiveCommands": {
       "action": "receive",
       "channel": {
@@ -56,6 +103,17 @@
       "messages": [
         {
           "$ref": "#/channels/stream/messages/command"
+        }
+      ]
+    },
+    "sendBrowserFrames": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/browser"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/browser/messages/frame"
         }
       ]
     },
@@ -71,15 +129,36 @@
       ]
     }
   },
+  "servers": {
+    "browserLocal": {
+      "description": "Restricted deployed endpoint; exact authentication and separate reviewed source/stream grants required. No public customer stream rollout or capacity guarantee.",
+      "host": "api.oddswire.io",
+      "protocol": "wss"
+    },
+    "local": {
+      "host": "api.oddswire.io",
+      "protocol": "wss",
+      "security": [
+        {
+          "$ref": "#/components/securitySchemes/ApiKey"
+        }
+      ],
+      "description": "Restricted deployed endpoint; exact authentication and separate reviewed source/stream grants required. No public customer stream rollout or capacity guarantee."
+    }
+  },
   "x-pilot-limits": {
+    "browser_auth_max_seconds": 60,
+    "browser_ticket_redeem_seconds": 30,
     "command_bytes": 4096,
     "journal_backlog_events": 2048,
     "journal_retention_seconds": 360,
+    "native_delivery": "snapshot_only; no resume cursor",
     "protocol": "oddswire.v1",
     "resume_seconds": 300,
     "server_frame_bytes": 2097152,
     "state_revalidation_ms": 1000,
     "subscription_entries": 2000,
+    "unauthenticated_browser_connections": 4,
     "write_deadline_ms": 2000
   }
 }

@@ -3,13 +3,13 @@ title: "WebSocket protocol"
 description: "Implemented server-side stream contract; separate approval is required and new accounts have no stream access."
 ---
 
-**Availability:** the protocol is implemented, but no WebSocket data access is provisioned for new users. The current founder-only REST review does not include streaming. This page is a contract reference, not a claim of a public stream rollout. See [Current availability](/availability).
+**Availability:** the protocol is implemented, but no WebSocket data access is provisioned for new users. A separately audited founder-only internal streaming extension preserves the original source scope and expiry; it grants no customer distribution rights. This page is a contract reference, not a claim of a public stream rollout. See [Current availability](/availability).
 
 Start with the hosted [REST quick start](/quickstart-curl) unless you have separately reviewed `odds` and `websocket` API grants and an explicitly supplied stream endpoint. The deployed REST origin by itself does not establish streaming availability or a service-level commitment.
 
 ## Authentication and subscription
 
-The protocol requires one `X-API-Key` header and the `oddswire.v1` subprotocol. Use a server-side WebSocket library that can set headers, and WSS for a remotely supplied endpoint. There is no published browser ticket bridge: native browser WebSocket constructors cannot provide the required header, and origin-bearing upgrades are rejected. Never put a key in the URL or subprotocol.
+The protocol requires one `X-API-Key` header and the `oddswire.v1` subprotocol. Use a server-side WebSocket library that can set headers, and WSS for a remotely supplied endpoint. Native browser WebSocket constructors cannot provide the required header, and `/v1/ws` rejects origin-bearing upgrades. The separate `/v1/ws/browser` endpoint uses verified-login, single-use first-frame tickets as described below. Never put a key or ticket in a URL or subprotocol.
 
 After the server's `hello`, send a `subscribe` command with an `id` and string-valued `params`. Choose `namespace`, fixture/competition and source IDs from your actual approved discovery scope. Do not copy illustrative IDs as a working subscription. Namespace plus fixture(s) or competition(s) is required. There is one active subscription per connection, with no REST `limit` or `cursor` inside `params`. Resume uses the last fully applied opaque cursor at the command's top level.
 
@@ -27,3 +27,47 @@ Current grants, source-purpose rules, expiry and freshness remain enforced. Meta
 The implemented limits are 16 connections per process, two per account and one subscription per connection. These are enforced limits, not independently proven production capacity or failover guarantees. Local saved-source load tests do not establish provider latency, continuous coverage or commercial rights.
 
 Download the [AsyncAPI contract](/asyncapi.json) and [wire schema](/websocket.schema.json). [Data and coverage](/data) explains source freshness and explicit missing data.
+
+## Restricted browser authentication
+
+A verified owner/admin session can POST an existing account-owned `key_id` to the
+same-origin workspace `/api/websocket/ticket`. This exchanges the current Clerk
+session for a digest-only, single-use credential; it does not grant streaming or
+source access. Connect to the returned WSS URL with `oddswire.v1`, then send
+`{"type":"authenticate","ticket":"<one-use ticket>"}` before other commands.
+The exact configured frontend Origin is required. No data or hello is sent before
+authentication, and cookies alone do not authenticate a stream.
+
+Tickets redeem once within 30 seconds. Browser authorization lasts at most 60
+seconds and never beyond the verified provider token. Membership, key, grants,
+revocation and expiry are checked while connected and before application frames.
+A fresh authenticated exchange is needed for reconnect after authorization expiry;
+canonical resume still has its own five-minute bound. Logout attempts revocation
+before provider sign-out; unreachable authority cannot extend the original expiry.
+No browser test console is included by this implementation.
+
+The free session [capability control](/reference/getWebSocketCapabilities) describes
+configured modes and access, not current source freshness. See also the restricted
+[ticket exchange](/reference/createBrowserWSTicket) and
+[revocation control](/reference/revokeBrowserWSTickets). New accounts remain zero-grant.
+
+## Native snapshot delivery
+
+Canonical namespaces retain transactional snapshot/delta/resume. Native
+`sportsbooks` subscriptions require `view: "standard"`, one `source_id` and exact
+native `fixture` string, plus existing native/source permissions. Retained Kambi
+requires the exact `capture_id`; separately approved live Kambi follows the latest
+attested complete capture using `mode: "live"` without `capture_id`.
+
+Native `dataset_snapshot` frames have `delivery_mode: "snapshot_only"`,
+`replace: true` and `dataset_data`, including an explicit empty array. Replace the
+entire native view, preserving original native IDs, capture clocks, units and
+missing reasons. There is no native tick journal or resume cursor. Retained active
+labels remain historical research, not fresh executable prices. A source outage
+resets the subscription instead of substituting saved prices.
+
+The implemented complete-frame bound is 2,000 quote/coverage entries and 2 MiB.
+Narrow canonical reads avoid unrelated namespace quote volume; active catch-up
+uses bounded complete transactions. Oversized scopes or single transactions still
+require narrower scopes or explicit resnapshot. These bounds and the independent
+100,000-row reference-metadata guard are pilot limits, not production-scale claims.

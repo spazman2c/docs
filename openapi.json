@@ -1543,6 +1543,69 @@
         ],
         "type": "object"
       },
+      "BrowserWSAuthentication": {
+        "additionalProperties": false,
+        "properties": {
+          "ticket": {
+            "maxLength": 256,
+            "minLength": 32,
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "authenticate"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "ticket"
+        ],
+        "type": "object"
+      },
+      "BrowserWSTicketInput": {
+        "additionalProperties": false,
+        "properties": {
+          "key_id": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "key_id",
+          "origin"
+        ],
+        "type": "object"
+      },
+      "BrowserWSTicketPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/WSTicket"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
       "Competition": {
         "additionalProperties": false,
         "properties": {
@@ -4871,6 +4934,112 @@
         ],
         "type": "object"
       },
+      "StreamCapabilities": {
+        "additionalProperties": false,
+        "properties": {
+          "browser_configured": {
+            "type": "boolean"
+          },
+          "capabilities": {
+            "items": {
+              "$ref": "#/components/schemas/StreamCapability"
+            },
+            "type": "array"
+          },
+          "connection_limit": {
+            "type": "integer"
+          },
+          "entitled": {
+            "type": "boolean"
+          },
+          "resume_seconds": {
+            "type": "integer"
+          },
+          "subscription_limit": {
+            "type": "integer"
+          },
+          "verification": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "browser_configured",
+          "entitled",
+          "connection_limit",
+          "subscription_limit",
+          "resume_seconds",
+          "capabilities",
+          "verification"
+        ],
+        "type": "object"
+      },
+      "StreamCapabilitiesPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/StreamCapabilities"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "StreamCapability": {
+        "additionalProperties": false,
+        "properties": {
+          "delivery_mode": {
+            "enum": [
+              "transactional",
+              "snapshot_only"
+            ],
+            "type": "string"
+          },
+          "eligible": {
+            "type": "boolean"
+          },
+          "evidence_mode": {
+            "enum": [
+              "current_canonical",
+              "retained",
+              "live"
+            ],
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "source_id": {
+            "$ref": "#/components/schemas/ID"
+          }
+        },
+        "required": [
+          "namespace",
+          "source_id",
+          "delivery_mode",
+          "evidence_mode",
+          "eligible",
+          "reason"
+        ],
+        "type": "object"
+      },
       "Summary": {
         "additionalProperties": false,
         "properties": {
@@ -5700,6 +5869,19 @@
             },
             "type": "array"
           },
+          "dataset_data": {
+            "items": {
+              "$ref": "#/components/schemas/DatasetOdds"
+            },
+            "type": "array"
+          },
+          "delivery_mode": {
+            "enum": [
+              "transactional",
+              "snapshot_only"
+            ],
+            "type": "string"
+          },
           "delivery_seq": {
             "type": "string"
           },
@@ -5741,6 +5923,7 @@
           "type": {
             "enum": [
               "hello",
+              "dataset_snapshot",
               "snapshot",
               "delta",
               "state",
@@ -5778,6 +5961,28 @@
         "required": [
           "quote_key",
           "reason"
+        ],
+        "type": "object"
+      },
+      "WSTicket": {
+        "additionalProperties": false,
+        "properties": {
+          "redeem_until": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "ticket": {
+            "type": "string"
+          },
+          "valid_until": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ticket",
+          "redeem_until",
+          "valid_until"
         ],
         "type": "object"
       },
@@ -6404,7 +6609,7 @@
     },
     "/v1/account/audit": {
       "get": {
-        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "listAccountAudit",
         "parameters": [
           {
@@ -7815,7 +8020,7 @@
     },
     "/v1/account/keys": {
       "get": {
-        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "listKeys",
         "parameters": [
           {
@@ -7915,7 +8120,7 @@
         "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
       },
       "post": {
-        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "createKey",
         "parameters": [
           {
@@ -8027,7 +8232,7 @@
     },
     "/v1/account/keys/{key_id}": {
       "delete": {
-        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "revokeKey",
         "parameters": [
           {
@@ -8138,7 +8343,7 @@
     },
     "/v1/account/keys/{key_id}/rotate": {
       "post": {
-        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "rotateKey",
         "parameters": [
           {
@@ -8259,7 +8464,7 @@
     },
     "/v1/account/members": {
       "get": {
-        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "listMembers",
         "parameters": [
           {
@@ -8361,7 +8566,7 @@
     },
     "/v1/account/members/{user_id}": {
       "put": {
-        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "setMemberRole",
         "parameters": [
           {
@@ -9093,6 +9298,322 @@
         "x-oddswire-availability": "Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured."
       }
     },
+    "/v1/account/websocket": {
+      "get": {
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Free owner/admin stream controls. Minting requires a verified Clerk bearer, an existing account-owned active key, odds+websocket grants and an exact configured frontend origin. Tickets redeem once within 30 seconds; browser authorization expires within one minute and no later than the provider token. Transmit tickets only in the first authenticate frame on /v1/ws/browser. Revocation closes the user's browser streams; no source/feature grant is created. Capabilities describe configuration and access, not authenticated streaming or freshness proof.",
+        "operationId": "getWebSocketCapabilities",
+        "parameters": [
+          {
+            "description": "UUID of an account where the signed-in user is a member; defaults to their oldest account.",
+            "in": "header",
+            "name": "X-Oddswire-Account",
+            "required": false,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamCapabilitiesPage"
+                }
+              }
+            },
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "AccountSession": []
+          }
+        ],
+        "summary": "getWebSocketCapabilities",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
+      }
+    },
+    "/v1/account/ws-tickets": {
+      "post": {
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Free owner/admin stream controls. Minting requires a verified Clerk bearer, an existing account-owned active key, odds+websocket grants and an exact configured frontend origin. Tickets redeem once within 30 seconds; browser authorization expires within one minute and no later than the provider token. Transmit tickets only in the first authenticate frame on /v1/ws/browser. Revocation closes the user's browser streams; no source/feature grant is created. Capabilities describe configuration and access, not authenticated streaming or freshness proof.",
+        "operationId": "createBrowserWSTicket",
+        "parameters": [
+          {
+            "description": "UUID of an account where the signed-in user is a member; defaults to their oldest account.",
+            "in": "header",
+            "name": "X-Oddswire-Account",
+            "required": false,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrowserWSTicketInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserWSTicketPage"
+                }
+              }
+            },
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "AccountSession": []
+          }
+        ],
+        "summary": "createBrowserWSTicket",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
+      }
+    },
+    "/v1/account/ws-tickets/revoke": {
+      "post": {
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Free owner/admin stream controls. Minting requires a verified Clerk bearer, an existing account-owned active key, odds+websocket grants and an exact configured frontend origin. Tickets redeem once within 30 seconds; browser authorization expires within one minute and no later than the provider token. Transmit tickets only in the first authenticate frame on /v1/ws/browser. Revocation closes the user's browser streams; no source/feature grant is created. Capabilities describe configuration and access, not authenticated streaming or freshness proof.",
+        "operationId": "revokeBrowserWSTickets",
+        "parameters": [
+          {
+            "description": "UUID of an account where the signed-in user is a member; defaults to their oldest account.",
+            "in": "header",
+            "name": "X-Oddswire-Account",
+            "required": false,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountPage"
+                }
+              }
+            },
+            "description": "Successful account/control response; zero REST data credits. Account ledger response; no-store. Key secrets appear only once on creation/rotation. Lists contain at most 100 recent entries, active keys first.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "AccountSession": []
+          }
+        ],
+        "summary": "revokeBrowserWSTickets",
+        "x-oddswire-availability": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data."
+      }
+    },
     "/v1/admin/beta": {
       "get": {
         "description": "Restricted beta-operator contract. A customer owner/admin is not a beta operator, and general enrollment is not enabled. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Invite-only personal API beta. Signup grants no data access. Acceptance requires the exact enrolled identity/account, approved region and acknowledgment. Source permissions, expiry and environment are revalidated on data reads. Global beta administration requires a separately provisioned operator, not a customer owner/admin. Invitations are shown once and never placed in URLs. Notices are local previews only; billing/Terminal are separate.",
@@ -9542,7 +10063,7 @@
     },
     "/v1/auth/session": {
       "delete": {
-        "description": "Development-session contract only. CLI-issued local sessions are rejected by the production service; use the workspace login. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Development-session contract only. CLI-issued local sessions are rejected by the production service; use the workspace login. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "endLocalSession",
         "parameters": [
           {
@@ -9642,7 +10163,7 @@
         "x-oddswire-availability": "Development-session contract only. CLI-issued local sessions are rejected by the production service; use the workspace login."
       },
       "post": {
-        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Provider login is unavailable until Clerk is configured.",
+        "description": "Account/workspace contract; current authentication, membership and the documented role are required. Account access does not grant source data. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. Requires an explicit Bearer Clerk session (or CLI-only local session). API keys cannot manage accounts. Owner/admin manages keys and audit; only owner changes existing member roles. POST auth/session enrolls an identity with zero API/Terminal grants. Production uses the configured, pinned Clerk issuer; CLI local sessions are development-only.",
         "operationId": "enrollSession",
         "parameters": [
           {
@@ -14836,7 +15357,7 @@
     }
   },
   "x-oddswire-documentation": {
-    "upstream_contract_sha256": "b100fd02e32bd4f34b3644727e2ed0c17344d0785f9d7480c33640433a80c53b",
+    "upstream_contract_sha256": "0d70e2316ec281ef7151080b72d61cd2ec39fd02c26b6a2c0fcc7b9698e5826c",
     "reviewed": "2026-11-11",
     "changes": "Hosting, availability, parameter descriptions and complete read examples only; request parameter wire shapes, response schemas and canonical DTOs are unchanged."
   }

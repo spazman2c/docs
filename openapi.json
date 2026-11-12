@@ -1768,6 +1768,372 @@
         ],
         "type": "object"
       },
+      "DatasetEvidence": {
+        "additionalProperties": false,
+        "properties": {
+          "capture_id": {
+            "type": "string"
+          },
+          "confirmed_at": {
+            "oneOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "delay_seconds": {
+            "type": "integer"
+          },
+          "fresh_for_live_use": {
+            "type": "boolean"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "received_at": {
+            "oneOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_at": {
+            "oneOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "delay_seconds",
+          "mode",
+          "received_at",
+          "confirmed_at",
+          "source_at",
+          "fresh_for_live_use"
+        ],
+        "type": "object"
+      },
+      "DatasetFixture": {
+        "additionalProperties": false,
+        "properties": {
+          "competition": {
+            "type": "string"
+          },
+          "competition_id": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/DatasetEvidence"
+          },
+          "id": {
+            "type": "string"
+          },
+          "identity_scope": {
+            "type": "string"
+          },
+          "original": {
+            "type": "object"
+          },
+          "participants": {
+            "items": {
+              "$ref": "#/components/schemas/DatasetParticipant"
+            },
+            "type": "array"
+          },
+          "source_id": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sport": {
+            "type": "string"
+          },
+          "sport_id": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "starts_at": {
+            "oneOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "competition_id",
+          "id",
+          "identity_scope",
+          "source_id",
+          "sport_id",
+          "sport",
+          "competition",
+          "starts_at",
+          "status",
+          "participants",
+          "evidence",
+          "original"
+        ],
+        "type": "object"
+      },
+      "DatasetFixturesPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/DatasetFixture"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "DatasetOdds": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "$ref": "#/components/schemas/DatasetEvidence"
+          },
+          "fixture_id": {
+            "type": "string"
+          },
+          "identity_scope": {
+            "type": "string"
+          },
+          "line": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "line_unit": {
+            "type": "string"
+          },
+          "market_class": {
+            "type": "string"
+          },
+          "market_id": {
+            "type": "string"
+          },
+          "market_name": {
+            "type": "string"
+          },
+          "original": {
+            "type": "object"
+          },
+          "participants": {
+            "items": {
+              "$ref": "#/components/schemas/DatasetParticipant"
+            },
+            "type": "array"
+          },
+          "period": {
+            "type": "string"
+          },
+          "player_identity_verified": {
+            "type": "boolean"
+          },
+          "selection_id": {
+            "type": "string"
+          },
+          "selection_name": {
+            "type": "string"
+          },
+          "settlement_compatibility_verified": {
+            "type": "boolean"
+          },
+          "side": {
+            "type": "string"
+          },
+          "source_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "state": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "line",
+          "line_unit",
+          "side",
+          "fixture_id",
+          "identity_scope",
+          "source_id",
+          "market_id",
+          "selection_id",
+          "market_name",
+          "selection_name",
+          "market_class",
+          "period",
+          "unit",
+          "value",
+          "state",
+          "participants",
+          "player_identity_verified",
+          "settlement_compatibility_verified",
+          "evidence",
+          "original"
+        ],
+        "type": "object"
+      },
+      "DatasetOddsPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/DatasetOdds"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "DatasetParticipant": {
+        "additionalProperties": false,
+        "properties": {
+          "fixture_id": {
+            "type": "string"
+          },
+          "id": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "identity_scope": {
+            "type": "string"
+          },
+          "identity_verified": {
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "team",
+              "player"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "original": {
+            "type": "object"
+          },
+          "role": {
+            "type": "string"
+          },
+          "source_id": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "role",
+          "identity_scope",
+          "source_id",
+          "fixture_id",
+          "identity_verified",
+          "original"
+        ],
+        "type": "object"
+      },
       "Decimal": {
         "pattern": "^(0|[1-9][0-9]{0,15})\\.[0-9]{8}$",
         "type": "string"
@@ -2336,6 +2702,16 @@
         ],
         "type": "object"
       },
+      "FixturesPageView": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/FixturesPage"
+          },
+          {
+            "$ref": "#/components/schemas/DatasetFixturesPage"
+          }
+        ]
+      },
       "HistoryBinding": {
         "additionalProperties": false,
         "properties": {
@@ -2885,6 +3261,16 @@
         ],
         "type": "object"
       },
+      "KambiNativeFixturesPageView": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/KambiNativeFixturesPage"
+          },
+          {
+            "$ref": "#/components/schemas/DatasetFixturesPage"
+          }
+        ]
+      },
       "KambiNativeOddsPage": {
         "additionalProperties": false,
         "properties": {
@@ -2910,6 +3296,16 @@
           "meta"
         ],
         "type": "object"
+      },
+      "KambiNativeOddsPageView": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/KambiNativeOddsPage"
+          },
+          {
+            "$ref": "#/components/schemas/DatasetOddsPage"
+          }
+        ]
       },
       "KambiNativeRecord": {
         "additionalProperties": false,
@@ -3248,6 +3644,9 @@
           "count": {
             "type": "integer"
           },
+          "dataset": {
+            "type": "string"
+          },
           "namespace": {
             "type": "string"
           },
@@ -3420,6 +3819,16 @@
         ],
         "type": "object"
       },
+      "NativeFixturesPageView": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/NativeFixturesPage"
+          },
+          {
+            "$ref": "#/components/schemas/DatasetFixturesPage"
+          }
+        ]
+      },
       "NativeKey": {
         "additionalProperties": false,
         "properties": {
@@ -3481,6 +3890,16 @@
           "meta"
         ],
         "type": "object"
+      },
+      "NativeOddsPageView": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/NativeOddsPage"
+          },
+          {
+            "$ref": "#/components/schemas/DatasetOddsPage"
+          }
+        ]
       },
       "NativeQuote": {
         "additionalProperties": false,
@@ -3673,6 +4092,16 @@
         ],
         "type": "object"
       },
+      "OddsPageView": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/OddsPage"
+          },
+          {
+            "$ref": "#/components/schemas/DatasetOddsPage"
+          }
+        ]
+      },
       "OperationUsage": {
         "additionalProperties": false,
         "properties": {
@@ -3761,6 +4190,32 @@
           "sport_id",
           "name",
           "kind"
+        ],
+        "type": "object"
+      },
+      "ParticipantsPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/DatasetParticipant"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
         ],
         "type": "object"
       },
@@ -9346,7 +9801,7 @@
         "operationId": "listSources",
         "parameters": [
           {
-            "description": "Explicit pilot namespace; numeric IDs are scoped to it.",
+            "description": "Dataset namespace or compatible alias: kambi, pilot or sportsbooks. IDs remain dataset-scoped.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -9532,7 +9987,7 @@
         "operationId": "listCompetitions",
         "parameters": [
           {
-            "description": "Explicit pilot namespace; numeric IDs are scoped to it.",
+            "description": "Dataset namespace or compatible alias: kambi, pilot or sportsbooks. IDs remain dataset-scoped.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -9727,7 +10182,7 @@
         "operationId": "getFair",
         "parameters": [
           {
-            "description": "Explicit pilot namespace; numeric IDs are scoped to it.",
+            "description": "Dataset namespace or compatible alias: kambi, pilot or sportsbooks. IDs remain dataset-scoped.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -9957,11 +10412,11 @@
     },
     "/v1/fixtures": {
       "get": {
-        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. Completed successful canonical data pages cost one credit, including empty pages. Native views retain the native reader rules: empty native pages are free and eligible nonempty pages cost one credit. Errors and 304 are free; inspect Usage for final settlement.",
         "operationId": "listFixtures",
         "parameters": [
           {
-            "description": "Explicit pilot namespace; numeric IDs are scoped to it.",
+            "description": "Dataset namespace or compatible alias: kambi, pilot or sportsbooks. IDs remain dataset-scoped.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -10060,6 +10515,59 @@
             }
           },
           {
+            "description": "legacy (default) or standard; the standard view preserves the original record without inferring canonical mappings.",
+            "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "enum": [
+                "legacy",
+                "standard"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Standard sportsbooks view only: one explicitly entitled source5/11/12/13/14/15.",
+            "in": "query",
+            "name": "source_id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Native Kambi only: retained (default) or separately approved live.",
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "enum": [
+                "retained",
+                "live"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Exact Kambi native capture; required for native odds.",
+            "in": "query",
+            "name": "capture_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Native source11/12/13 only: additional delay0..3600.",
+            "in": "query",
+            "name": "delay_seconds",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -10074,7 +10582,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FixturesPage"
+                  "$ref": "#/components/schemas/FixturesPageView"
                 }
               }
             },
@@ -10193,6 +10701,8 @@
           }
         ],
         "summary": "listFixtures",
+        "x-legacy-response": "FixturesPage",
+        "x-standard-response": "DatasetFixturesPage",
         "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
         "x-codeSamples": [
           {
@@ -10206,6 +10716,232 @@
           {
             "lang": "TypeScript",
             "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
+      }
+    },
+    "/v1/fixtures/{fixture_id}": {
+      "get": {
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. Completed successful canonical data pages cost one credit, including empty pages. Native views retain the native reader rules: empty native pages are free and eligible nonempty pages cost one credit. Errors and 304 are free; inspect Usage for final settlement.",
+        "operationId": "getFixture",
+        "parameters": [
+          {
+            "description": "The standard response view; new resources always use it.",
+            "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "enum": [
+                "standard"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Explicit dataset namespace or compatible alias: kambi, pilot, sportsbooks.",
+            "in": "query",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "sportsbooks only: exact reviewed source5/11/12/13/14/15.",
+            "in": "query",
+            "name": "source_id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Kambi native only: retained (default) or separately approved live.",
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "enum": [
+                "retained",
+                "live"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Exact Kambi capture from fixture discovery; required for player subjects.",
+            "in": "query",
+            "name": "capture_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Native source11/12/13 only: delay0..3600.",
+            "in": "query",
+            "name": "delay_seconds",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Exact dataset-local fixture ID; native IDs remain strings and require source_id.",
+            "in": "path",
+            "name": "fixture_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetFixturesPage"
+                }
+              }
+            },
+            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "304": {
+            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "402": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "414": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "getFixture",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "case \"$FIXTURE_ID\" in \"\"|*[!A-Za-z0-9_-]*) echo \"Set a valid FIXTURE_ID\" >&2; exit 1;; esac\ncurl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fixtures/$FIXTURE_ID\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import re\nimport os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nfixture_id=os.environ[\"FIXTURE_ID\"]\nif not re.fullmatch(r\"[A-Za-z0-9_-]{1,100}\",fixture_id):\n    raise ValueError(\"Invalid fixture ID\")\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/fixtures/{fixture_id}\".replace(\"{fixture_id}\", fixture_id) + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst fixtureID=required(\"FIXTURE_ID\");\nif (!/^[A-Za-z0-9_-]{1,100}$/.test(fixtureID)) throw new Error(\"Invalid fixture ID\");\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures/__FIXTURE__\".replace(\"__FIXTURE__\",fixtureID));\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -11323,7 +12059,7 @@
         "operationId": "listMappings",
         "parameters": [
           {
-            "description": "Explicit pilot namespace; numeric IDs are scoped to it.",
+            "description": "Dataset namespace or compatible alias: kambi, pilot or sportsbooks. IDs remain dataset-scoped.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -11587,7 +12323,7 @@
         "operationId": "listMarkets",
         "parameters": [
           {
-            "description": "Explicit pilot namespace; numeric IDs are scoped to it.",
+            "description": "Dataset namespace or compatible alias: kambi, pilot or sportsbooks. IDs remain dataset-scoped.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -11852,6 +12588,28 @@
             }
           },
           {
+            "description": "Optional exact native fixture ID.",
+            "in": "query",
+            "name": "native_fixture",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "legacy (default) or the consistent standard view.",
+            "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "enum": [
+                "legacy",
+                "standard"
+              ],
+              "type": "string"
+            }
+          },
+          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -11866,7 +12624,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NativeFixturesPage"
+                  "$ref": "#/components/schemas/NativeFixturesPageView"
                 }
               }
             },
@@ -11985,6 +12743,8 @@
           }
         ],
         "summary": "listNativeFixtures",
+        "x-legacy-response": "NativeFixturesPage",
+        "x-standard-response": "DatasetFixturesPage",
         "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied.",
         "x-codeSamples": [
           {
@@ -12056,6 +12816,37 @@
             }
           },
           {
+            "description": "Exact native event ID returned by fixture discovery in the selected source and mode.",
+            "in": "query",
+            "name": "native_fixture",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Exact capture ID returned by fixture discovery. Required in both modes; rediscover if a live capture is superseded.",
+            "in": "query",
+            "name": "capture_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "legacy (default) or the consistent standard view.",
+            "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "enum": [
+                "legacy",
+                "standard"
+              ],
+              "type": "string"
+            }
+          },
+          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -12070,7 +12861,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/KambiNativeFixturesPage"
+                  "$ref": "#/components/schemas/KambiNativeFixturesPageView"
                 }
               }
             },
@@ -12189,6 +12980,8 @@
           }
         ],
         "summary": "listKambiNativeFixtures",
+        "x-legacy-response": "KambiNativeFixturesPage",
+        "x-standard-response": "DatasetFixturesPage",
         "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied.",
         "x-codeSamples": [
           {
@@ -12287,6 +13080,19 @@
             }
           },
           {
+            "description": "legacy (default) or the consistent standard view.",
+            "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "enum": [
+                "legacy",
+                "standard"
+              ],
+              "type": "string"
+            }
+          },
+          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -12301,7 +13107,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/KambiNativeOddsPage"
+                  "$ref": "#/components/schemas/KambiNativeOddsPageView"
                 }
               }
             },
@@ -12420,6 +13226,8 @@
           }
         ],
         "summary": "listKambiNativeOdds",
+        "x-legacy-response": "KambiNativeOddsPage",
+        "x-standard-response": "DatasetOddsPage",
         "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied.",
         "x-codeSamples": [
           {
@@ -12509,6 +13317,19 @@
             }
           },
           {
+            "description": "legacy (default) or the consistent standard view.",
+            "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "enum": [
+                "legacy",
+                "standard"
+              ],
+              "type": "string"
+            }
+          },
+          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -12523,7 +13344,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NativeOddsPage"
+                  "$ref": "#/components/schemas/NativeOddsPageView"
                 }
               }
             },
@@ -12642,6 +13463,8 @@
           }
         ],
         "summary": "listNativeOdds",
+        "x-legacy-response": "NativeOddsPage",
+        "x-standard-response": "DatasetOddsPage",
         "x-oddswire-availability": "Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied.",
         "x-codeSamples": [
           {
@@ -12661,11 +13484,11 @@
     },
     "/v1/odds": {
       "get": {
-        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. Completed successful canonical data pages cost one credit, including empty pages. Native views retain the native reader rules: empty native pages are free and eligible nonempty pages cost one credit. Errors and 304 are free; inspect Usage for final settlement.",
         "operationId": "listOdds",
         "parameters": [
           {
-            "description": "Explicit pilot namespace; numeric IDs are scoped to it.",
+            "description": "Dataset namespace or compatible alias: kambi, pilot or sportsbooks. IDs remain dataset-scoped.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -12817,6 +13640,68 @@
             }
           },
           {
+            "description": "legacy (default) or standard; the standard view preserves the original record without inferring canonical mappings.",
+            "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "enum": [
+                "legacy",
+                "standard"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Standard sportsbooks view only: one explicitly entitled source5/11/12/13/14/15.",
+            "in": "query",
+            "name": "source_id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Native Kambi only: retained (default) or separately approved live.",
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "enum": [
+                "retained",
+                "live"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Exact Kambi native capture; required for native odds.",
+            "in": "query",
+            "name": "capture_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Native source11/12/13 only: additional delay0..3600.",
+            "in": "query",
+            "name": "delay_seconds",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Standard native odds only: source-labelled prop candidates.",
+            "in": "query",
+            "name": "props_only",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -12831,7 +13716,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OddsPage"
+                  "$ref": "#/components/schemas/OddsPageView"
                 }
               }
             },
@@ -12950,6 +13835,8 @@
           }
         ],
         "summary": "listOdds",
+        "x-legacy-response": "OddsPage",
+        "x-standard-response": "DatasetOddsPage",
         "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
         "x-codeSamples": [
           {
@@ -12967,13 +13854,300 @@
         ]
       }
     },
+    "/v1/participants": {
+      "get": {
+        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. Completed successful canonical data pages cost one credit, including empty pages. Native views retain the native reader rules: empty native pages are free and eligible nonempty pages cost one credit. Errors and 304 are free; inspect Usage for final settlement.",
+        "operationId": "listParticipants",
+        "parameters": [
+          {
+            "description": "The standard response view; new resources always use it.",
+            "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "enum": [
+                "standard"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Explicit dataset namespace or compatible alias: kambi, pilot, sportsbooks.",
+            "in": "query",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "sportsbooks only: exact reviewed source5/11/12/13/14/15.",
+            "in": "query",
+            "name": "source_id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Kambi native only: retained (default) or separately approved live.",
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "enum": [
+                "retained",
+                "live"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Exact Kambi capture from fixture discovery; required for player subjects.",
+            "in": "query",
+            "name": "capture_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Native source11/12/13 only: delay0..3600.",
+            "in": "query",
+            "name": "delay_seconds",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "team (default) or player. Native players require fixture and exact Kambi capture; unverified IDs remain explicitly source-scoped.",
+            "in": "query",
+            "name": "kind",
+            "required": false,
+            "schema": {
+              "enum": [
+                "team",
+                "player"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "One fixture ID; exact native string for sportsbooks, canonical ID otherwise.",
+            "in": "query",
+            "name": "fixture",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Canonical datasets only: sport IDs.",
+            "in": "query",
+            "name": "sport",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Canonical datasets only: competition IDs.",
+            "in": "query",
+            "name": "competition",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Canonical datasets only: source IDs.",
+            "in": "query",
+            "name": "books",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Page size1..100 within grant.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Opaque scope-bound cursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParticipantsPage"
+                }
+              }
+            },
+            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "304": {
+            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
+            "headers": {
+              "X-Oddswire-Credit-Cost": {
+                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
+              },
+              "X-Oddswire-Credits-Limit": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
+              },
+              "X-Oddswire-Credits-Remaining": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
+              },
+              "X-Oddswire-Credits-Reserved": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
+              },
+              "X-Oddswire-Credits-Reset": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
+              },
+              "X-Oddswire-Credits-Used": {
+                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
+              },
+              "X-Oddswire-Metering": {
+                "$ref": "#/components/headers/X-Oddswire-Metering"
+              },
+              "X-Oddswire-Overage": {
+                "$ref": "#/components/headers/X-Oddswire-Overage"
+              },
+              "X-Oddswire-Usage-State": {
+                "$ref": "#/components/headers/X-Oddswire-Usage-State"
+              },
+              "X-Request-ID": {
+                "$ref": "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "402": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "405": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "414": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "500": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "504": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "listParticipants",
+        "x-oddswire-availability": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data.",
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/participants\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+          },
+          {
+            "lang": "Python",
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/participants\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+          },
+          {
+            "lang": "TypeScript",
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/participants\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+          }
+        ]
+      }
+    },
     "/v1/sports": {
       "get": {
         "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listSports",
         "parameters": [
           {
-            "description": "Explicit pilot namespace; numeric IDs are scoped to it.",
+            "description": "Dataset namespace or compatible alias: kambi, pilot or sportsbooks. IDs remain dataset-scoped.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -13662,7 +14836,7 @@
     }
   },
   "x-oddswire-documentation": {
-    "upstream_contract_sha256": "d6f052c1a58930e0488e7d560bd5ccb527b89c862fd6388f25e28f727cb30ed6",
+    "upstream_contract_sha256": "b100fd02e32bd4f34b3644727e2ed0c17344d0785f9d7480c33640433a80c53b",
     "reviewed": "2026-11-11",
     "changes": "Hosting, availability, parameter descriptions and complete read examples only; request parameter wire shapes, response schemas and canonical DTOs are unchanged."
   }

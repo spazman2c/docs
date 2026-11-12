@@ -26,6 +26,12 @@ Run requests in the [signed-in playground](https://oddswire.io/app/playground), 
 
 A single fixture is selected with the `fixture` filter; competition odds use `competition`. These are filters on the existing endpoints, not separate routes.
 
+## Dataset aliases and common records
+
+Use the shorter `kambi`, `pilot` and `sportsbooks` aliases with the existing `namespace` parameter. Add `view=standard` to fixture/odds reads for consistent common fields and an unchanged `original` record. Existing calls keep their legacy shape. See [Datasets and response views](/datasets).
+
+New reads: [Participants](/reference/listParticipants) lists accessible team/player evidence; [Fixture details](/reference/getFixture) retrieves one exact fixture. Native IDs remain source-scoped and do not imply verified player matching.
+
 ## Native odds and player props
 
 Native-only observations have a separate contract from canonical odds. They preserve provider fixture/market/selection IDs and units; they do not establish reviewed cross-book matching, player identity or settlement compatibility.
@@ -47,4 +53,4 @@ Use [entitlements](/reference/getEntitlements), [coverage](/reference/getAccount
 
 [Fair prices](/reference/getFair), [reviewed mappings](/reference/listMappings), [history](/history), [WebSocket](/websocket) and [alerts](/alerts) retain separate requirements. A documented schema does not mean a feature is available to your account. There is no eligible sharp reference configured for fair-price consensus.
 
-Scores, results/settlements, a standalone player catalogue, languages and public paid account provisioning are not current sports-data endpoints. Request only operations documented in the [OpenAPI contract](/openapi.json).
+Scores, results/settlements, a complete player roster, languages and public paid account provisioning are not current sports-data endpoints. Request only operations documented in the [OpenAPI contract](/openapi.json).

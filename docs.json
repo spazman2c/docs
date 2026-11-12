@@ -27,6 +27,7 @@
             "pages": [
               "index",
               "endpoints",
+              "datasets",
               "quickstart-curl"
             ]
           },
@@ -38,6 +39,8 @@
               "reference/listCompetitions",
               "reference/listMarkets",
               "reference/listFixtures",
+              "reference/getFixture",
+              "reference/listParticipants",
               "reference/listOdds"
             ]
           },

@@ -1661,6 +1661,372 @@
       ],
       "type": "object"
     },
+    "DatasetEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "capture_id": {
+          "type": "string"
+        },
+        "confirmed_at": {
+          "oneOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "delay_seconds": {
+          "type": "integer"
+        },
+        "fresh_for_live_use": {
+          "type": "boolean"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "received_at": {
+          "oneOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_at": {
+          "oneOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "delay_seconds",
+        "mode",
+        "received_at",
+        "confirmed_at",
+        "source_at",
+        "fresh_for_live_use"
+      ],
+      "type": "object"
+    },
+    "DatasetFixture": {
+      "additionalProperties": false,
+      "properties": {
+        "competition": {
+          "type": "string"
+        },
+        "competition_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/DatasetEvidence"
+        },
+        "id": {
+          "type": "string"
+        },
+        "identity_scope": {
+          "type": "string"
+        },
+        "original": {
+          "type": "object"
+        },
+        "participants": {
+          "items": {
+            "$ref": "#/$defs/DatasetParticipant"
+          },
+          "type": "array"
+        },
+        "source_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sport": {
+          "type": "string"
+        },
+        "sport_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "starts_at": {
+          "oneOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "competition_id",
+        "id",
+        "identity_scope",
+        "source_id",
+        "sport_id",
+        "sport",
+        "competition",
+        "starts_at",
+        "status",
+        "participants",
+        "evidence",
+        "original"
+      ],
+      "type": "object"
+    },
+    "DatasetFixturesPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/DatasetFixture"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "DatasetOdds": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "$ref": "#/$defs/DatasetEvidence"
+        },
+        "fixture_id": {
+          "type": "string"
+        },
+        "identity_scope": {
+          "type": "string"
+        },
+        "line": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "line_unit": {
+          "type": "string"
+        },
+        "market_class": {
+          "type": "string"
+        },
+        "market_id": {
+          "type": "string"
+        },
+        "market_name": {
+          "type": "string"
+        },
+        "original": {
+          "type": "object"
+        },
+        "participants": {
+          "items": {
+            "$ref": "#/$defs/DatasetParticipant"
+          },
+          "type": "array"
+        },
+        "period": {
+          "type": "string"
+        },
+        "player_identity_verified": {
+          "type": "boolean"
+        },
+        "selection_id": {
+          "type": "string"
+        },
+        "selection_name": {
+          "type": "string"
+        },
+        "settlement_compatibility_verified": {
+          "type": "boolean"
+        },
+        "side": {
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/ID"
+        },
+        "state": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "line",
+        "line_unit",
+        "side",
+        "fixture_id",
+        "identity_scope",
+        "source_id",
+        "market_id",
+        "selection_id",
+        "market_name",
+        "selection_name",
+        "market_class",
+        "period",
+        "unit",
+        "value",
+        "state",
+        "participants",
+        "player_identity_verified",
+        "settlement_compatibility_verified",
+        "evidence",
+        "original"
+      ],
+      "type": "object"
+    },
+    "DatasetOddsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/DatasetOdds"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "DatasetParticipant": {
+      "additionalProperties": false,
+      "properties": {
+        "fixture_id": {
+          "type": "string"
+        },
+        "id": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "identity_scope": {
+          "type": "string"
+        },
+        "identity_verified": {
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "team",
+            "player"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "original": {
+          "type": "object"
+        },
+        "role": {
+          "type": "string"
+        },
+        "source_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "role",
+        "identity_scope",
+        "source_id",
+        "fixture_id",
+        "identity_verified",
+        "original"
+      ],
+      "type": "object"
+    },
     "Decimal": {
       "pattern": "^(0|[1-9][0-9]{0,15})\\.[0-9]{8}$",
       "type": "string"
@@ -2229,6 +2595,16 @@
       ],
       "type": "object"
     },
+    "FixturesPageView": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FixturesPage"
+        },
+        {
+          "$ref": "#/$defs/DatasetFixturesPage"
+        }
+      ]
+    },
     "HistoryBinding": {
       "additionalProperties": false,
       "properties": {
@@ -2778,6 +3154,16 @@
       ],
       "type": "object"
     },
+    "KambiNativeFixturesPageView": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/KambiNativeFixturesPage"
+        },
+        {
+          "$ref": "#/$defs/DatasetFixturesPage"
+        }
+      ]
+    },
     "KambiNativeOddsPage": {
       "additionalProperties": false,
       "properties": {
@@ -2803,6 +3189,16 @@
         "meta"
       ],
       "type": "object"
+    },
+    "KambiNativeOddsPageView": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/KambiNativeOddsPage"
+        },
+        {
+          "$ref": "#/$defs/DatasetOddsPage"
+        }
+      ]
     },
     "KambiNativeRecord": {
       "additionalProperties": false,
@@ -3141,6 +3537,9 @@
         "count": {
           "type": "integer"
         },
+        "dataset": {
+          "type": "string"
+        },
         "namespace": {
           "type": "string"
         },
@@ -3313,6 +3712,16 @@
       ],
       "type": "object"
     },
+    "NativeFixturesPageView": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NativeFixturesPage"
+        },
+        {
+          "$ref": "#/$defs/DatasetFixturesPage"
+        }
+      ]
+    },
     "NativeKey": {
       "additionalProperties": false,
       "properties": {
@@ -3374,6 +3783,16 @@
         "meta"
       ],
       "type": "object"
+    },
+    "NativeOddsPageView": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NativeOddsPage"
+        },
+        {
+          "$ref": "#/$defs/DatasetOddsPage"
+        }
+      ]
     },
     "NativeQuote": {
       "additionalProperties": false,
@@ -3566,6 +3985,16 @@
       ],
       "type": "object"
     },
+    "OddsPageView": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OddsPage"
+        },
+        {
+          "$ref": "#/$defs/DatasetOddsPage"
+        }
+      ]
+    },
     "OperationUsage": {
       "additionalProperties": false,
       "properties": {
@@ -3654,6 +4083,32 @@
         "sport_id",
         "name",
         "kind"
+      ],
+      "type": "object"
+    },
+    "ParticipantsPage": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/$defs/DatasetParticipant"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "missing": {
+          "items": {
+            "$ref": "#/$defs/Missing"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "data",
+        "missing",
+        "meta"
       ],
       "type": "object"
     },

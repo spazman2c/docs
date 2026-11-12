@@ -3,6 +3,13 @@ title: "Status and changelog"
 description: "Hosted documentation, workspace and API updates, with explicit current availability."
 ---
 
+## 11 November 2026 · Compatible dataset and discovery API
+
+- REST dataset aliases `sportsbooks`, `kambi` and `pilot` preserve the existing namespaces and access scopes.
+- Fixture/odds reads accept opt-in `view=standard`, retaining exact IDs and the complete original record. Default legacy responses remain available.
+- Added `GET /v1/participants` and `GET /v1/fixtures/{fixture_id}`, using existing reader, account and source controls. Player identities remain explicitly scoped or missing.
+- The playground adds dataset labels, response-view selection and the new reads. No source collection or customer grants are enabled by these changes.
+
 ## 11 November 2026 · API reference and playground refresh
 
 - Core sports endpoints now lead the API navigation. Advanced capabilities and workspace/operator contracts have separate sections; existing reference URLs remain available.

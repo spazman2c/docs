@@ -1,0 +1,5 @@
+/* Mintlify uses light text on its primary accent by default. */
+#navbar a[href="https://oddswire.io/app"],
+#navbar a[href="https://oddswire.io/app"] * {
+  color: #141416 !important;
+}

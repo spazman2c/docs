@@ -77,6 +77,17 @@
         ]
       },
       {
+        "tab": "MCP",
+        "groups": [
+          {
+            "group": "Connect an AI assistant",
+            "pages": [
+              "mcp-client"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Advanced",
         "groups": [
           {
@@ -87,8 +98,7 @@
               "alerts",
               "inplay",
               "terminal",
-              "packages",
-              "mcp-client"
+              "packages"
             ]
           },
           {

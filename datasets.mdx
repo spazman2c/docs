@@ -3,7 +3,7 @@ title: "Datasets and response views"
 description: "Use shorter dataset names and consistent fixture, odds and participant fields without changing existing identities."
 ---
 
-A dataset selects an isolated identity catalogue and its permitted source reads. The API parameter remains `namespace` for compatibility; the playground labels it **Dataset**.
+A dataset selects an isolated identity catalogue and its permitted source reads. The API parameter remains `namespace` for compatibility; the default playground derives it from your bookmaker choice. The **Dataset** selector remains in the advanced explorer.
 
 | Preferred alias | Existing public name | Existing stored authority |
 | --- | --- | --- |
@@ -56,3 +56,31 @@ GET /v1/fixtures/YOUR_NATIVE_FIXTURE_ID?namespace=sportsbooks&source_id=14&mode=
 ```
 
 Detail reads always use the standard view and return a one-record page. Missing or inaccessible fixtures do not fall back to another dataset, source or capture. If multiple retained captures match, the API returns 409 `fixture_ambiguous`; supply the exact `capture_id` instead of selecting an arbitrary historical snapshot. A detail read needs the same underlying feature/source scope as fixture discovery. It does not return scores, settlements or odds, and does not grant those capabilities.
+
+## Choosing the correct reader
+
+Numeric fixture IDs are unique **within a dataset**, not across datasets. Keep
+`namespace` with every fixture ID; matching numbers do not establish a shared
+match. Native fixture IDs remain scoped to their source. A common response shape
+does not certify a cross-source mapping.
+
+Sources 11/12/13 use `/v1/native/fixtures` and `/v1/native/odds`.
+Sources 14/15 use `/v1/native/kambi/fixtures` and `/v1/native/kambi/odds`;
+passing 14/15 to the generic native reader is unsupported. Use the standard
+sportsbooks view above to select the reader through `source_id`.
+
+The native review is separate from canonical football/1X2 access. Approved native
+scopes can include basketball and provider-labelled props; they do not certify
+canonical players, settlement compatibility or a canonical family mapping.
+
+For generic native odds, `market_type` selects an exact returned provider market
+type, for example `market_type=MATCH_ODDS`. It does not infer a canonical family.
+Cursors remain bound to the returned evidence; a changed snapshot returns 409
+rather than combining pages from different books. Narrow before starting paging.
+
+`delivery.price.confirmed_ts` is the latest successful canonical confirmation;
+`delivery.price.observation.seen_ts` preserves the last semantic change receipt.
+A price can remain unchanged for hours while confirmations keep it fresh. Stale
+confirmations never become fresh because a request is served.
+
+For source11, `MATCH_ODDS` is Match 1X2 (goals), while `BK_MATCH_1X2` is Bookings Match 1X2. Their different prices are not a home/away reversal. Retain the provider market name, type, period and native identity; `market_type=MATCH_ODDS` selects the former.

@@ -10318,7 +10318,7 @@
     },
     "/v1/bookmakers": {
       "get": {
-        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "This discovery operation consumes no REST data credits. Authentication and current namespace/source access checks still apply. Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listSources",
         "parameters": [
           {
@@ -10370,7 +10370,7 @@
                 }
               }
             },
-            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "description": "Successful discovery response; zero REST data credits. Read missing[] and the typed page.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -10504,7 +10504,7 @@
     },
     "/v1/competitions": {
       "get": {
-        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "This discovery operation consumes no REST data credits. Authentication and current namespace/source access checks still apply. Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listCompetitions",
         "parameters": [
           {
@@ -10565,7 +10565,7 @@
                 }
               }
             },
-            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "description": "Successful discovery response; zero REST data credits. Read missing[] and the typed page.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -13858,6 +13858,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Exact provider market_type from a native quote; no canonical family mapping is inferred.",
+            "in": "query",
+            "name": "market_type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -14664,7 +14673,7 @@
     },
     "/v1/sports": {
       "get": {
-        "description": "Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "This discovery operation consumes no REST data credits. Authentication and current namespace/source access checks still apply. Deployed REST contract; requires the current approved feature, namespace, source scope and allocation. Signup grants no data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "listSports",
         "parameters": [
           {
@@ -14716,7 +14725,7 @@
                 }
               }
             },
-            "description": "A typed page. Each successful data page costs one included credit, including explicit missing/insufficient states; account introspection is free. missing[] covers the full query.",
+            "description": "Successful discovery response; zero REST data credits. Read missing[] and the typed page.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"

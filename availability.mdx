@@ -66,7 +66,6 @@ The REST contract includes both canonical sports data and separately gated nativ
 
 Internal source reviews are expiring and founder-only. **They are not customer availability, a data licence, or an entitlement included with signup.** Collection and source controls can change independently of these docs. Read actual account coverage and response freshness; no coverage or uptime guarantee is implied.
 
-
 ## Current bookmaker, sport and pricing catalogue
 
 <LiveCatalogue />
@@ -98,3 +97,16 @@ Pinnacle's access stop remains in place. BetCity is blocked, and the 1xBet/MELBE
 - No approved data scope: use the public calculators, inspect the contracts, or contact support. Repeating a denied request will not enable access.
 
 These docs do not change source permissions, country/region restrictions, account expiry, or the applicable use review. Published schemas, successful technical collection and account signup are separate from permission to display or redistribute data.
+
+## Intended use
+
+Oddswire currently supports bounded pre-match research and explicit data queries
+within reviewed coverage. It is not offered for live or high-frequency trading.
+Customer WebSocket rollout and production latency guarantees are not available.
+MCP is for questions, with one in-flight call per key, 20 tool attempts per minute,
+10 rows per page, and no automatic polling. These are not trading-feed limits.
+
+The free plan is not open yet. New accounts currently receive no data grants or
+credits. The planned free allowance is 200 calls per month; there is no announced
+opening date or configured notification promise. Contact
+[Oddswire](mailto:admin@oddswire.io) to discuss access.

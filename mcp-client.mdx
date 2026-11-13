@@ -7,6 +7,17 @@ The hosted read-only MCP endpoint is **https://api.oddswire.io/mcp**. It exposes
 18 bounded tools through the existing API, with the same account permissions,
 source reviews, freshness rules and credits. Signup grants no source access.
 
+The data endpoint above is separate from `https://docs.oddswire.io/mcp`,
+which searches documentation and does not return odds.
+
+## Claude Code
+
+```sh
+claude mcp add --transport http oddswire https://api.oddswire.io/mcp
+```
+
+Complete OAuth sign-in when prompted. Never paste your API key into a chat.
+
 ## Connect ChatGPT or Claude with OAuth
 
 Use **https://api.oddswire.io/mcp** as the server URL and choose OAuth.
@@ -135,7 +146,7 @@ namespace does not reset the key's current minute window. Refreshed OAuth access
 tokens share the verified workspace/key guard window. The underlying API also
 enforces its own account/key limits. Protocol bodies are bounded to32KiB.
 
-Tool discovery, argument rejection and account usage/coverage reads do not consume
+Tool discovery, argument rejection, sports/bookmaker/competition discovery and account usage/coverage reads do not consume
 REST data credits. Eligible successful data pages can cost one credit. Empty or
 ineligible native pages are free under the native API policy; canonical empty and
 insufficient successful pages can be charged. Read returned credit headers and

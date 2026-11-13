@@ -20,15 +20,49 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "API",
+        "tab": "Guides",
         "groups": [
           {
             "group": "Get started",
             "pages": [
               "index",
+              "workspace",
+              "plans",
+              "availability"
+            ]
+          },
+          {
+            "group": "Workspace features",
+            "pages": [
+              "odds-board",
+              "terminal",
+              "ev-finder",
+              "bet-tracker",
+              "alerts",
+              "discord",
+              "usage"
+            ]
+          },
+          {
+            "group": "Updates",
+            "pages": [
+              "changelog"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API",
+        "groups": [
+          {
+            "group": "Start building",
+            "pages": [
               "endpoints",
               "datasets",
-              "quickstart-curl"
+              "authentication",
+              "quickstart-curl",
+              "quickstart-python",
+              "quickstart-typescript"
             ]
           },
           {
@@ -62,16 +96,34 @@
             ]
           },
           {
-            "group": "Integration guides",
+            "group": "Response handling",
             "pages": [
-              "authentication",
               "errors",
               "data",
-              "availability",
-              "quickstart-python",
-              "quickstart-typescript",
               "odds-freshness",
               "missing-odds-data"
+            ]
+          },
+          {
+            "group": "Additional capabilities",
+            "pages": [
+              "history",
+              "websocket",
+              "webhooks",
+              "inplay",
+              "packages"
+            ]
+          },
+          {
+            "group": "Advanced data reference",
+            "pages": [
+              "reference/getFair",
+              "reference/listMappings",
+              "reference/listHistoryTicks",
+              "reference/getHistorySnapshot",
+              "reference/getHistoryLines",
+              "reference/getHistoryCoverage",
+              "reference/exportHistory"
             ]
           }
         ]
@@ -88,60 +140,31 @@
         ]
       },
       {
-        "tab": "Advanced",
+        "tab": "Workspace API",
         "groups": [
           {
-            "group": "Restricted capabilities",
-            "pages": [
-              "history",
-              "websocket",
-              "alerts",
-              "inplay",
-              "terminal",
-              "packages"
-            ]
-          },
-          {
-            "group": "Advanced data reference",
-            "pages": [
-              "reference/getFair",
-              "reference/listMappings",
-              "reference/listHistoryTicks",
-              "reference/getHistorySnapshot",
-              "reference/getHistoryLines",
-              "reference/getHistoryCoverage",
-              "reference/exportHistory"
-            ]
-          },
-          {
-            "group": "Updates",
-            "pages": [
-              "changelog"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Workspace reference",
-        "groups": [
-          {
-            "group": "Workspace and operator reference",
+            "group": "Account and workspace API",
             "pages": [
               "reference/getAccount",
               "reference/listAlertDeliveries",
               "reference/listAlertRules",
               "reference/createAlertRule",
               "reference/disableAlertRule",
+              "reference/getWorkspaceAlerts",
+              "reference/createWorkspaceAlert",
+              "reference/editWorkspaceAlert",
+              "reference/changeWorkspaceAlert",
               "reference/listAccountAudit",
-              "reference/getBeta",
-              "reference/acceptBeta",
-              "reference/getBilling",
-              "reference/billingCancel",
-              "reference/billingChange",
-              "reference/billingCheckout",
-              "reference/billingPortal",
-              "reference/billingReconcile",
-              "reference/billingRefund",
+              "reference/getBetTracker",
+              "reference/confirmBetTracker",
+              "reference/exportBetTracker",
+              "reference/historyBetTracker",
+              "reference/importBetTracker",
+              "reference/mutateBetTracker",
+              "reference/operationBetTracker",
+              "reference/previewBetTracker",
+              "reference/queryBetTracker",
+              "reference/templateBetTracker",
               "reference/listKeys",
               "reference/createKey",
               "reference/revokeKey",
@@ -152,20 +175,14 @@
               "reference/createWebhookTarget",
               "reference/disableWebhookTarget",
               "reference/rotateWebhookTarget",
-              "reference/reportBeta",
-              "reference/inviteBeta",
-              "reference/revokeBeta",
-              "reference/reviewBetaSource",
-              "reference/endLocalSession",
-              "reference/enrollSession",
-              "reference/stripeWebhook",
+              "reference/getWebSocketCapabilities",
+              "reference/createBrowserWSTicket",
+              "reference/revokeBrowserWSTickets",
               "reference/terminalBoard",
               "reference/terminalChart",
               "reference/terminalContext",
-              "reference/terminalPreferences",
-              "reference/createBrowserWSTicket",
-              "reference/revokeBrowserWSTickets",
-              "reference/getWebSocketCapabilities"
+              "reference/terminalEV",
+              "reference/terminalPreferences"
             ]
           }
         ]

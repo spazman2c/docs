@@ -1,0 +1,34 @@
+---
+title: "Usage and credits"
+description: "Read your account allocation, settled usage, reservations and request history."
+---
+
+Open [Usage](https://oddswire.io/app/usage) to review the account's current allocation, used credits, reserved credits and remaining capacity. The page refreshes from your account's latest usage; the displayed reset time applies to the current UTC billing cycle.
+
+## Understand the balance
+
+**Used** counts settled data requests. **Reserved** represents capacity held for requests still resolving. **Remaining** excludes both used and reserved capacity. API keys share the account's allocation; creating or rotating a key does not reset it.
+
+Use the allocation bar, request chart, endpoint breakdown and request-history pages to understand activity. Navigate the supplied history pages explicitly. An error or unavailable check does not mean your account has zero usage.
+
+## Which requests cost credits?
+
+| Request | Credit treatment |
+| --- | --- |
+| Sports, bookmaker and competition discovery | Free |
+| Completed canonical data page | One credit, including empty or insufficient results |
+| Eligible nonempty native data page | One credit |
+| Empty native fixture page or native odds page without eligible records | Free |
+| Account, coverage and control requests | Free |
+| Errors and 304 responses | Free |
+| WebSocket messages | No REST data credits; separate access and limits apply |
+
+Each returned page is a separate request. A successful file export follows its documented history credit rules. Workspace tools may have separate add-on and access requirements even when they do not consume REST data credits.
+
+## Failed or interrupted requests
+
+A timeout can leave delivery uncertain: your program may not receive a response that the service completed. Keep the request ID and inspect usage before deliberately retrying. Never assume that every disconnected request was free.
+
+Quota headers describe the request's admission state and can differ from later settlement. The account usage view is the place to check the final recorded outcome. Overage is disabled: an exhausted allocation does not authorize unexpected overage charges.
+
+See [Errors, credits and pagination](/errors) for HTTP handling and [Plans and add-ons](/plans) for selections and activation.

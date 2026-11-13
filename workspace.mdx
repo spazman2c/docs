@@ -1,0 +1,29 @@
+---
+title: "Your workspace"
+description: "Sign in, manage access and find the tools available to your account."
+---
+
+Open [your workspace](https://oddswire.io/app), sign in and complete email verification. Verified signup creates a personal workspace automatically. New accounts start without source-data access or a data-credit allocation.
+
+## Get set up
+
+1. Review [Coverage](https://oddswire.io/app/coverage) for your accessible sources, regions and features.
+2. Open [Usage](https://oddswire.io/app/usage) to see your allocation, used credits and remaining balance.
+3. For an API integration, create a key in [API keys](https://oddswire.io/app/keys) and store the value securely when it is shown.
+4. Run the free [entitlements check](/reference/getEntitlements), then try an explicitly permitted request in the [playground](https://oddswire.io/app/playground).
+
+If your account has no data scope, contact support with the sports, bookmakers, region and intended use you need. Changing datasets or creating another key does not unlock access.
+
+## Workspace tools
+
+The navigation shows the add-ons currently available to your account: [Odds board](/odds-board), [Terminal](/terminal), [+EV finder](/ev-finder), [Bet tracker](/bet-tracker), [Alerts](/alerts) and [Discord posts](/discord). A purchased add-on can still require source coverage or permission for its particular use. See [Plans and add-ons](/plans).
+
+Account owners and admins manage keys and supported workspace settings. Only the owner can change member roles. API data keys cannot manage membership or billing.
+
+## Keys and account security
+
+Each account supports one active API key. Rotation replaces the old key; revocation stops future requests using it. Integrations tied to that key may also stop. Store API keys only in server-side secrets or your integration host's secure settings.
+
+The workspace manages your login session. You do not need to copy session tokens into API examples. If access changes, refresh the workspace and inspect the displayed status. An unavailable access check can temporarily hide optional tools; contact support if it persists.
+
+See [Authentication](/authentication) for HTTP credentials and [Usage](/usage) for credit accounting.

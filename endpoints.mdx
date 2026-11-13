@@ -38,12 +38,12 @@ Native-only observations have a separate contract from canonical odds. They pres
 
 | GET endpoint | Use it for |
 | --- | --- |
-| [`/v1/native/fixtures`](/reference/listNativeFixtures) | Discover reviewed source11/12/13 fixtures using an explicit `source_id` |
+| [`/v1/native/fixtures`](/reference/listNativeFixtures) | Discover reviewed sources 11/12/13 fixtures using an explicit `source_id` |
 | [`/v1/native/odds`](/reference/listNativeOdds) | Request a returned `native_fixture`; `props_only=true` selects source-labelled prop candidates |
-| [`/v1/native/kambi/fixtures`](/reference/listKambiNativeFixtures) | Discover source5/14/15 snapshots in `retained` or separately approved `live` mode |
+| [`/v1/native/kambi/fixtures`](/reference/listKambiNativeFixtures) | Discover sources 5/14/15 snapshots in `retained` or separately approved `live` mode |
 | [`/v1/native/kambi/odds`](/reference/listKambiNativeOdds) | Request the exact returned `native_fixture` and `capture_id`; optionally filter with `props_only=true` |
 
-Both native families use namespace `oddswire_bookmakers` and require their own explicit account features and source scope. Kambi source5 supports retained mode only; live mode applies only to separately approved sources14/15. Rediscover when a live capture is superseded. Retained snapshots preserve original times and must never be labelled current odds.
+Both native families use namespace `oddswire_bookmakers` and require their own explicit account features and source scope. Kambi source 5 supports retained mode only; live mode applies only to separately approved sources 14/15. Rediscover when a live capture is superseded. Retained snapshots preserve original times and must never be labelled current odds.
 
 ## Access and quota
 
@@ -51,6 +51,6 @@ Use [entitlements](/reference/getEntitlements), [coverage](/reference/getAccount
 
 ## Advanced capabilities
 
-[Fair prices](/reference/getFair), [reviewed mappings](/reference/listMappings), [history](/history), [WebSocket](/websocket) and [alerts](/alerts) retain separate requirements. A documented schema does not mean a feature is available to your account. There is no eligible sharp reference configured for fair-price consensus.
+[Fair prices](/reference/getFair), [reviewed mappings](/reference/listMappings), [history](/history), [WebSocket](/websocket) and [alerts](/alerts) retain separate requirements. A documented schema does not mean a feature is available to your account. Fair values can be unavailable when no eligible independent reference exists.
 
 Scores, results/settlements, a complete player roster, languages and public paid account provisioning are not current sports-data endpoints. Request only operations documented in the [OpenAPI contract](/openapi.json).

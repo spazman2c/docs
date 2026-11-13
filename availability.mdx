@@ -1,6 +1,6 @@
 ---
-title: "Current availability"
-description: "What is deployed, what a new account receives, and which documented capabilities require separate approval."
+title: "Availability and coverage"
+description: "Check current catalogue prices, account access and feature availability."
 ---
 
 export const LiveCatalogue = () => {
@@ -37,76 +37,56 @@ export const LiveCatalogue = () => {
   const books = config.bookmakers.filter((book) => book.active);
   const sports = config.sports.filter((sport) => sport.active);
   return <div>
-    <p>{books.length} bookmakers and {sports.length} sports. Monthly draft estimates in USD; source coverage and customer permission are separate.</p>
+    <p>{books.length} bookmakers and {sports.length} sports. Monthly draft estimates in USD; availability depends on your account coverage.</p>
     <table><thead><tr><th>Bookmaker</th><th>Region package</th><th>Monthly base estimate</th></tr></thead>
       <tbody>{books.map((book) => <tr key={String(book.id)}><th scope="row"><a href={'https://oddswire.io/bookmakers/' + book.collectorId}>{book.name}</a></th><td>{book.region}</td><td>{money(book.priceCents ?? config.pricing.bookmakerCents)}</td></tr>)}</tbody>
     </table>
     <table><thead><tr><th>Sport</th><th>Monthly base estimate</th></tr></thead>
       <tbody>{sports.map((sport) => <tr key={sport.id}><th scope="row"><a href={'https://oddswire.io/sports/' + sport.id}>{sport.name}</a></th><td>{money(sport.priceCents ?? config.pricing.sportCents)}</td></tr>)}</tbody>
     </table>
-    <p>Live ×{config.pricing.liveMilli / 1000}; player props ×{config.pricing.propsMilli / 1000}. Selected request tiers multiply the combined bookmaker and sport subtotal. Checkout and paid activation remain separate.</p>
+    {Array.isArray(config.addons) && <table><thead><tr><th>Add-on</th><th>Monthly estimate</th></tr></thead>
+      <tbody>{config.addons.filter((addon) => addon.active).map((addon) => <tr key={addon.id}><th scope="row">{addon.name}</th><td>{money(addon.priceCents ?? config.pricing.addonCents)}</td></tr>)}</tbody>
+    </table>}
+    <p>Live option ×{config.pricing.liveMilli / 1000}; player props ×{config.pricing.propsMilli / 1000}. Selected request tiers multiply the combined bookmaker and sport subtotal. Optional feature fees are added separately. Saving an estimate does not activate access.</p>
   </div>;
 };
 
 
-Last reviewed: **12 November 2026**.
+Last reviewed: **13 November 2026**.
 
-## Deployed today
+## What your account can use
 
-| Surface | What is working | What a new user receives |
-| --- | --- | --- |
-| Public docs and calculators | Hosted documentation and free browser tools | No account is needed for docs or [calculators](https://oddswire.io/tools) |
-| Customer workspace | Production email/password login, email verification and automatic personal workspace setup | An account with no API/Terminal data grants or credit allocation |
-| Account controls | Keys, usage, coverage and account permissions in the signed-in workspace | Controls appropriate to your role; they do not unlock a feed |
-| HTTPS REST API | `https://api.oddswire.io/v1/...` authenticates requests and enforces permissions, freshness and quota | Data requires an explicitly approved scope and allocation |
+Sign in to [your workspace](https://oddswire.io/app) and check [Coverage](https://oddswire.io/app/coverage), [Usage](https://oddswire.io/app/usage) and your active add-ons. New accounts start with no source-data access or credit allocation. A plan draft, public catalogue listing or published API schema does not activate access.
 
-Production Google/GitHub social sign-in is not configured. Use the email/password flow currently offered by Oddswire; logging in to another service with Google does not configure Oddswire social login.
+| Feature | Availability |
+| --- | --- |
+| Documentation and [calculators](https://oddswire.io/tools) | Public, without an account |
+| Workspace, keys, usage and coverage | Available after verified signup, according to your role |
+| [REST API](/endpoints) and playground | Data requires an enabled dataset, source scope and allocation |
+| [Odds board](/odds-board) and [Terminal](/terminal) | Deployed interfaces; active add-ons and appropriate display permissions required |
+| [+EV finder](/ev-finder) | Deployed interface; live opportunities unavailable without eligible independent references |
+| [Bet tracker](/bet-tracker) | Manual records, CSV import, settlement and export; active add-on required; verified CLV currently unavailable |
+| [Alerts](/alerts) | Browser inbox and supported email options; active add-on and permitted source/channel coverage required |
+| [Discord posts](/discord) | Updating messages for supported selections; active add-on and outbound source permission required |
+| [WebSockets](/websocket) | Separate add-on and stream permissions; not automatically included with REST access |
+| [History and exports](/history) | Separate history/export permissions and retained coverage required |
+| [Hosted MCP](/mcp-client) | Available with compatible OAuth or API-key clients; existing account data access and credits apply |
+| [In-play](/inplay) | Not currently available for customer use |
+| [Client libraries](/packages) | Use standard HTTP quick starts; official registry packages are not yet published |
+| Checkout | Not generally available; follow the billing state shown in your workspace |
 
-The REST contract includes both canonical sports data and separately gated native fixture/odds routes. Native reads include source-labelled player-prop candidates; those labels do not establish canonical player identity or settlement compatibility. Kambi distinguishes original retained snapshots from separately approved live mode. Use the [endpoint guide](/endpoints) to choose the correct route family.
-
-Internal source reviews are expiring and founder-only. **They are not customer availability, a data licence, or an entitlement included with signup.** Collection and source controls can change independently of these docs. Read actual account coverage and response freshness; no coverage or uptime guarantee is implied.
-
-## Current bookmaker, sport and pricing catalogue
+## Current catalogue and estimates
 
 <LiveCatalogue />
 
-The table updates from the current published catalogue automatically. See the [bookmaker directory](https://oddswire.io/bookmakers), [sports directory](https://oddswire.io/sports), [custom plan](https://oddswire.io/app/plan) and [current catalogue JSON](https://oddswire.io/api/catalogue) for live scope and estimates. Individual price overrides take precedence over global defaults. The homepage live table remains a narrower reviewed football sample.
+This table refreshes from the published catalogue. If the catalogue is unavailable, current entries and prices cannot be confirmed. See the [bookmaker directory](https://oddswire.io/bookmakers), [sports directory](https://oddswire.io/sports), [pricing](https://oddswire.io/pricing) and [plan builder](https://oddswire.io/app/plan) for details.
 
-Catalogue membership does not establish complete league coverage, in-play support, settlement compatibility or source-use permission. Actual account access, source stops, freshness and expiry still govern data delivery.
+Catalogue membership does not guarantee complete league coverage, in-play support, player props or access in your country. A live-option estimate is not evidence that an in-play feed is enabled. Your actual account permissions and each response's freshness and missing-coverage details determine what you can use.
 
-## Documented contracts that are not public launches
+## Before relying on a feed
 
-| Capability | Current boundary |
-| --- | --- |
-| WebSocket stream | Deployed restricted protocol and short-lived browser-ticket authentication; separately gated odds/WebSocket/native grants. Founder-only internal access retains original sources/expiry; new accounts have no stream access. No public customer rollout or production capacity guarantee. |
-| History and exports | Implemented bounded contracts; separate history/export grants and source-purpose review required; not enabled for new accounts |
-| Line-move webhooks | Implemented signing/retry contract; production outbound delivery and source-use approval are not configured for general customers |
-| Fair-price consensus | No configured eligible sharp reference; an insufficient result is not a fair price |
-| In-play | Synthetic local validation only; working collection remains pre-match-only |
-| Terminal | Local implementation and separate Terminal permissions; no customer rollout |
-| Hosted data MCP | HTTPS Streamable HTTP at `https://api.oddswire.io/mcp`; Clerk OAuth for ChatGPT/Claude or API-key headers; existing owner/admin workspace, active key and account/source grants required. Signup/consent grants no data. |
-| Python/TypeScript SDKs and local data MCP package | Private preview artifacts; no npm/PyPI release or public package installation |
-| Billing and beta administration | Restricted test/operator contracts; no public paid checkout, automatic data grant or general beta enrollment |
+Run a free [entitlements check](/reference/getEntitlements). Choose only returned scopes, preserve dataset and source identity, and inspect every `missing[]` entry. A source outage or expired permission can withdraw prices independently of your selected plan.
 
-Pinnacle's access stop remains in place. BetCity is blocked, and the 1xBet/MELBET work remains access-only rather than a working odds feed. Planned providers are not current customer coverage.
+Current data is intended for bounded pre-match research and explicit queries. There is no published production latency, continuous coverage or high-frequency trading commitment. MCP is for explicit questions rather than automatic price polling.
 
-## Choose your next step
-
-- New account: review [authentication](/authentication), then run a free [access check](/quickstart-curl).
-- Approved REST integration: use namespaces and features returned by [Get entitlements](/reference/getEntitlements), then discover fixtures before requesting odds.
-- No approved data scope: use the public calculators, inspect the contracts, or contact support. Repeating a denied request will not enable access.
-
-These docs do not change source permissions, country/region restrictions, account expiry, or the applicable use review. Published schemas, successful technical collection and account signup are separate from permission to display or redistribute data.
-
-## Intended use
-
-Oddswire currently supports bounded pre-match research and explicit data queries
-within reviewed coverage. It is not offered for live or high-frequency trading.
-Customer WebSocket rollout and production latency guarantees are not available.
-MCP is for questions, with one in-flight call per key, 20 tool attempts per minute,
-10 rows per page, and no automatic polling. These are not trading-feed limits.
-
-The free plan is not open yet. New accounts currently receive no data grants or
-credits. The planned free allowance is 200 calls per month; there is no announced
-opening date or configured notification promise. Contact
-[Oddswire](mailto:admin@oddswire.io) to discuss access.
+A free data allowance is not open for general activation. For access, historical availability or permitted display/redistribution, [contact support](mailto:admin@oddswire.io) with your requirements. Do not send credentials.

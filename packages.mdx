@@ -1,18 +1,12 @@
 ---
-title: "SDK availability"
-description: "SDK artifacts remain private previews; use standard HTTP examples for the hosted API."
+title: "Client libraries"
+description: "Integrate using standard HTTP tools and the downloadable API contract."
 ---
 
-Python and TypeScript client implementations exist as **private preview artifacts**. They have not been published to PyPI or npm and are not included in the public documentation repository. Do not run `pip install oddswire` or `npm install @oddswire/client` based on these docs.
+The public quick starts use [cURL](/quickstart-curl), the [Python standard library](/quickstart-python) and [Node.js fetch](/quickstart-typescript). No Oddswire package installation is required.
 
-## Integrate without an SDK
+Official Python and TypeScript packages are not currently published on PyPI or npm. Do not install a similarly named package assuming it is an official Oddswire client. If support supplies a client artifact, use the instructions supplied with that version.
 
-Use the working standard HTTP examples: [cURL](/quickstart-curl), [Python standard library](/quickstart-python), or [Node.js fetch](/quickstart-typescript). None requires a private checkout or an SDK installation.
+You can generate a client from the [customer OpenAPI contract](/openapi.json). Configure `https://api.oddswire.io`, keep keys in headers, preserve decimal strings and `missing[]`, and avoid automatic retries of uncertain metered requests.
 
-The [OpenAPI contract](/openapi.json) describes the request/response structures. Generating your own client does not grant API scope, source rights or credits. Use the HTTPS server address, keep keys in headers, preserve decimal strings and missing coverage, and avoid automatic retries of uncertain metered requests.
-
-## If you were given a private preview
-
-Use only the exact artifact and installation instructions supplied with it. Do not assume that the public docs repository contains the SDK source, a `Makefile` or engine services. The preview API uses `oddswire` and `@oddswire/client`; legacy imports remain a compatibility detail of the supplied artifact.
-
-The [data MCP client](/mcp-client) is also a private preview. Mintlify's documentation MCP endpoint searches these public docs and is a separate service; it does not provide odds data or accept your Oddswire data key.
+To connect ChatGPT, Claude or another assistant, use the [hosted MCP server](/mcp-client). It does not require installing an SDK.

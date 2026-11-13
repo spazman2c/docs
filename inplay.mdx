@@ -1,34 +1,12 @@
 ---
-title: "In-play scope and recovery"
-description: "Distinguish local lifecycle validation from real source coverage."
+title: "In-play availability"
+description: "Check whether live markets are available before requesting them."
 ---
 
-**Current working collectors are pre-match-only.** Synthetic development tests cover one regulation-1X2 continuation. It does not establish native in-play
-access, polling permission, latency, source rights or production availability.
+Customer in-play data is not currently available. The documented working data scope is pre-match; selecting a live option in a plan estimate does not enable a live feed.
 
-Read `inplay.mode` on source discovery and account coverage: `pre_match_only` is
-the default; `local_test_only` explicitly identifies the owned test capability.
-Quotes include `fixture_phase` and, for that capability, `inplay` scope metadata.
-No customer account or paid plan receives automatic in-play access.
+Check account [Coverage](https://oddswire.io/app/coverage) and the source's `inplay.mode` before using a live filter. A live request also needs explicit in-play permission; WebSocket access alone does not provide it.
 
-A `status=live` scope needs a separate API `inplay` feature grant, plus the ordinary
-source/family/namespace and odds grants. Streaming additionally requires
-`websocket`. Default odds omit unentitled live quotes with explicit missing
-reasons. Terminal access is separate.
+Fixture phase and price state are different. A suspension is not proof that a match started or ended, and reaching scheduled kickoff is not proof of a live source update. Scores, game clocks and results are not included by the odds endpoints.
 
-A native start signal changes fixture phase; the clock reaching kickoff cannot
-invent it. Suspension is a price state, separate from fixture phase. Disconnected,
-stale, missing-snapshot, expired-review and ended states cannot be active prices.
-`include_inactive=true` shows supported retained states and reasons.
-
-After a source session gap, old quotes remain unavailable until a complete fresh
-snapshot is accepted. Lifecycle/session metadata changes require clearing the
-WebSocket view and subscribing again. Ordinary price changes use the existing
-ordered snapshot/delta and cursor protocol. Delivery time, heartbeats and replay
-never refresh source confirmation time. Read [WebSocket recovery](/websocket)
-and [freshness and missing data](/data).
-
-The local test uses a five-second quote-age limit. This is a test policy, not a
-provider rate or latency promise. Fair calculations and historical opening/closing
-and as-of eligibility remain pre-match-only. No scores, game timer, results or
-settlement feed is included.
+Use [availability](/availability) for current feature status and [data conventions](/data) for freshness and missing coverage. Contact [support](mailto:admin@oddswire.io) with your required sport and market before building a live-data dependency.

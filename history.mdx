@@ -3,7 +3,7 @@ title: "Historical prices and exports"
 description: "Received-time ticks, recorded as-of evidence, explicit line cutoffs and complete bounded files."
 ---
 
-**Availability:** history/export contracts are implemented, but are not provisioned for new accounts or included in the current founder-only REST review. See [Current availability](/availability). It requires an API `history` grant and a current account/source/region/purpose review. Exports additionally require `history_export` and a separate export review. REST/Pro/Terminal access, signup and source technical access do not establish these permissions. Historical/export customer-use rights for the working sources remain unresolved; no new paid plan or data licence is activated.
+Historical reads require separate `history` permission and source coverage for historical use. Exports additionally require `history_export` and export permission. Current odds, Terminal access and a selected plan do not automatically include history. Check [account coverage](https://oddswire.io/app/coverage) and [availability](/availability).
 
 ## Permanent native identity
 
@@ -13,9 +13,9 @@ Supply `namespace`, source/region `books`, and `native_fixture_id` (up to ten so
 
 `GET /v1/history/ticks` requires inclusive received-time `from` and exclusive `until` bounds, at most 31 days. Tied observations order by immutable ingestion sequence. Unchanged successful observations refresh the separate confirmation journal, not tick history. Preserve decimal/probability strings, nullable `source_ts`, original `seen_ts` and native units; replay never refreshes those clocks.
 
-Every page includes a `history` manifest with the actual retained range, prospective confirmation range/gaps, source-wide pending/quarantined evidence and explicit missing reasons. The free `/v1/history/coverage` control exposes PG evidence ranges, with a separate flag indicating whether selected canonical sink observations were verified. A retained range is not continuous coverage or an audit of every historical sink row. Empty/legacy/missing periods are not backfilled or advertised as multi-year data.
+Every page includes a `history` manifest with the actual retained range, prospective confirmation range/gaps, unavailable or unverified evidence and explicit missing reasons. The free `/v1/history/coverage` control exposes retained evidence ranges, with a separate flag indicating whether selected historical observations were verified. A retained range is not continuous coverage or an audit of every historical sink row. Empty/legacy/missing periods are not backfilled or advertised as multi-year data.
 
-The pilot materializes at most 2,000 ticks or 500 native slots and uses normal 1–100 row pages. Narrow the selection on 422. Cursors bind account/key/grants, filters and the complete retained snapshot; a 409 needs an explicit restart. They never silently skip newly accepted work.
+A request supports at most 2,000 ticks or 500 native slots and uses normal 1–100 row pages. Narrow the selection on 422. Cursors bind account/key/grants, filters and the complete retained snapshot; a 409 needs an explicit restart. They never silently skip newly accepted work.
 
 ## As-of and lines
 
@@ -31,4 +31,4 @@ All these results are historical evidence, not executable prices or a settlement
 
 Canonical decimals remain UTF-8 strings; IDs and nulls retain their meaning. Nested canonical/native fields live losslessly in `record_json`; arbitrary native text is not placed in spreadsheet formula cells. CSV empty decimal cells represent null; Parquet has nullable string columns. Parse IDs/sequences as integers or strings rather than through spreadsheet floating-point inference.
 
-Both local clients return export bytes in the usual result's `data` field and safe content/disposition/digest headers. They never follow redirects or retry a charged download automatically. One completed successful history page or complete file costs one included credit, even when empty. Coverage, errors and 304 remain free; overage stays off. Rights and current access are rechecked before data/304 and after a download reservation.
+Read exports as bytes and inspect the content/disposition/digest headers. Do not follow credential redirects or automatically retry an uncertain metered download. One completed successful history page or complete file costs one included credit, even when empty. Coverage, errors and 304 remain free; overage stays off. Rights and current access are rechecked before data/304 and after a download reservation.

@@ -31,11 +31,8 @@ The read-only API does not collect new prices. Free account coverage describes a
 
 `GET /v1/fair` requires fixture and settlement rule as well as namespace. Use discovered market metadata. The service reevaluates current reviewed inputs, eligibility, feed groups and configured weights. It exposes sources/method/filters and explicit insufficiency rather than serving an expired calculation.
 
-There is currently **no configured eligible sharp reference**, so the pilot consensus is insufficient. Diagnostic vectors are not consensus prices. A 200 insufficient result still costs one credit. Technical source access does not confer customer display, derived-use or redistribution rights.
+There is currently **no eligible independent sharp reference for live fair-value opportunities**. An insufficient result has no usable fair price. A 200 insufficient result still costs one credit. Technical source access does not confer customer display, derived-use or redistribution rights.
 
 ## In-play availability
 
-Working collection remains pre-match-only. The implemented in-play lifecycle has only synthetic development validation and requires an explicit API `inplay` grant. Read
-`inplay.mode` on source/coverage metadata and `fixture_phase` on quotes; a
-`local_test_only` mode is not real provider coverage. See [in-play scope and
-session recovery](/inplay) before requesting `status=live`.
+Current customer coverage is pre-match. A plan selection does not activate a live feed. Check [in-play availability](/inplay) and your account coverage before requesting live markets.

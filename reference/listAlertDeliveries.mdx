@@ -1,11 +1,11 @@
 ---
 title: "List alert deliveries"
-description: "List alert deliveries: request contract, authentication, parameters and response behavior for the Oddswire private pilot."
+description: "List alert deliveries: authentication, parameters and response format."
 openapi: "GET /v1/account/alert-deliveries"
 ---
 
-Restricted alert/webhook contract. General customer outbound delivery and source-purpose approval are not configured. This account/control/coverage operation consumes no REST data credits. Its authentication, role and access requirements still apply. See [Current availability](/availability).
+Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.
 
 `GET /v1/account/alert-deliveries`
 
-[Authentication](/authentication) · [Requests, quota and errors](/errors) · [Coverage and units](/data).
+[Authentication](/authentication) · [Errors and credits](/errors) · [Data conventions](/data).

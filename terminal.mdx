@@ -1,40 +1,26 @@
 ---
-title: "Private Terminal board"
-description: "Separate product permissions, native quotes, freshness and fixture charts."
+title: "Terminal"
+description: "Use the dedicated odds research interface with your permitted bookmaker coverage."
 ---
 
-**Availability:** the Terminal is a development preview, not a deployed customer product. The ordinary customer workspace login is live, but does not unlock Terminal. Customer rollout and source display/chart/fair rights remain pending. See [Current availability](/availability).
+Open [Terminal](https://oddswire.io/terminal) when it is available to your account. Terminal requires its own active add-on and Terminal data permissions; an API key or API allocation does not unlock it.
 
-A session uses the **Terminal** product grant under the shared account. API keys,
-API plans and beta enrollment do not unlock it. Terminal views consume no REST
-credits, including at zero quota; normal abuse limits still apply. Country/state
-and my-books preferences do not prove location or grant source rights.
+## Set your scope
 
-Choose country/state, data workspace, your granted source/region books, sport,
-competition, market/line and phase. Saves are per member; conflicting revisions
-require reloading settings. Real working collectors remain pre-match-only; live
-needs a separate product grant and validated source support. Read [in-play scope](/inplay).
+Choose your country/state preferences, available books, sport, competition and market. Preferences help filter your view; they do not change your location eligibility or data permissions. Settings are saved per member. If another session changes them, reload before saving again.
 
-Each native price retains its source, region, offer, outcome, side and depth.
-Source-local rows and different settlements stay separate. Best gross labels
-compare matching sportsbook scopes with exact decimal prices. Prediction-market
-probabilities remain explicitly labeled and separate. Fair references require
-reviewed grouping, current eligible inputs, Terminal fair access and independent
-source-purpose approval; insufficient or unavailable references stay explicit.
+The board shows source-labelled prices, market terms, confirmation ages and missing coverage. Decimal odds and prediction-market probabilities use different units. Keep each quote's source and settlement context when comparing them.
 
-Quote ages use successful confirmation time. Prices disappear when stale,
-suspended or unavailable; pausing does not freeze their ages. A visible tab polls
-at ten-second intervals, clearing errors and access changes. Source status and
-missing reasons distinguish blocked rights, unsupported coverage and outages.
+## Comparisons and freshness
 
-A fixture drawer reads one exact native quote from verified retained history,
-with 1/6/24-hour windows and a 500-point bound. Charts preserve A→B→A, recorded
-suspensions and freshness gaps. Exact points, ingest IDs and coverage metadata
-remain available; no missing history is replaced with demo prices. See [history semantics](/history).
+Only eligible, complete comparisons are shown. A stale, suspended or missing outcome can remove a comparison even while another book continues updating. Ordinary 1X2 comparison does not by itself establish identical postponement/restart terms. Read the displayed warning before drawing conclusions.
 
-Session-only routes are [context](/reference/terminalContext),
-[preferences](/reference/terminalPreferences), [board](/reference/terminalBoard)
-and [chart](/reference/terminalChart). They are separate from API-key data routes.
-The board is bounded to ten fixtures and 500 native cells per page; pagination
-reads current snapshots. Larger virtualized streaming, opportunities, stakes,
-alerts, tracking and subscriptions remain later Terminal tasks.
+Prices expire according to the source's freshness policy. Pausing or returning to a tab does not freeze quote ages. An unavailable request cannot refresh the last price.
+
+## Charts and fair values
+
+Charts require separate historical coverage and permission. Where available, select the exact quote and a supported time window. Gaps and suspensions remain visible; missing history is not filled with current prices.
+
+Fair values and [+EV](/ev-finder) require eligible, independent and settlement-compatible references. **Insufficient eligible reference** means no supported calculation is available for that selection. It is not a zero edge or a recommendation.
+
+Terminal views do not consume REST data credits. Access and usage limits still apply. See [Availability](/availability), [data conventions](/data) and the [Odds board guide](/odds-board).

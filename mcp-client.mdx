@@ -5,7 +5,7 @@ description: "Connect ChatGPT, Claude or another MCP host using your existing Od
 
 The hosted read-only MCP endpoint is **https://api.oddswire.io/mcp**. It exposes
 18 bounded tools through the existing API, with the same account permissions,
-source reviews, freshness rules and credits. Signup grants no source access.
+source permissions, freshness rules and credits. Signup grants no source access.
 
 The data endpoint above is separate from `https://docs.oddswire.io/mcp`,
 which searches documentation and does not return odds.
@@ -62,7 +62,7 @@ OAuth tokens are checked for signature, issuer, access-token type, expiry,
 `profile` scope and the exact `https://api.oddswire.io/mcp` audience. Dashboard
 session and OIDC ID tokens are rejected. OAuth cannot manage billing, keys,
 members, account grants, WebSocket sessions or Terminal access. Membership,
-account/key status and current source reviews are checked again before data delivery.
+account/key status and current source permissions are checked again before data delivery.
 
 Disconnect a connector in ChatGPT/Claude and revoke its authorization in Clerk
 when withdrawing consent. Previously issued signed access tokens can remain
@@ -93,27 +93,12 @@ Do not rotate a key just to configure MCP.
 Authentication uses your **API key**, not a Clerk session token. The service
 revalidates the key against the account authority on every protocol request and
 again through normal API checks on each tool call. It stores no shared API key.
-OAuth connections use the separate verification path described above. Local
-stdio continues to use an API key.
+OAuth connections use the sign-in flow described above.
 
 The optional namespace header defaults to `oddswire_kambi`. Other configured
 namespaces are `oddswire_live`, `oddswire_bookmakers` and `oddswire_onexbet`.
 Choosing a namespace never grants access. A host has one selected namespace;
 configure another connection when you need another approved namespace.
-
-## Tested connection flow
-
-Both ChatGPT and Claude completed the real Clerk OAuth consent flow on
-12 November 2026 and loaded all **18 read-only tools**. Each client successfully
-read one approved native fixture page and one odds page, with exactly two credits
-settled and no outstanding reservation. Usage reads were free; restricted history
-returned the expected `403 feature_not_entitled` without a charge. Request IDs
-were checked against the authoritative usage ledger. No API key was copied into
-either app, no cursor was followed, and no source permission was added.
-
-These are bounded functional checks, not a capacity, uptime or source-rights
-claim. The two apps manage refresh access; their scheduled refresh was not forced
-as part of this test.
 
 ## Available tools
 
@@ -129,8 +114,8 @@ as part of this test.
 Input schemas come from the REST contract. Use fixture discovery before odds;
 keep returned native fixture IDs, source IDs, capture IDs and cursors exactly.
 Kambi native odds require the returned capture ID. History needs separate history
-and source-purpose approval. Fair prices can be explicitly insufficient when an
-eligible reference is unavailable. A source stop or expired review remains a denial.
+and history-use permission. Fair prices can be explicitly insufficient when an
+eligible reference is unavailable. Unavailable sources or expired permissions remain inaccessible.
 
 ## Limits and credits
 
@@ -141,7 +126,7 @@ than truncate. Narrow the supported filters before another explicit request.
 
 The hosted service allows one upstream tool call in flight per key, twenty tool
 attempts per key per minute, sixty protocol requests per key per minute and sixteen
-concurrent authenticated HTTP exchanges per process. Reconnecting or changing the
+concurrent authenticated HTTP exchanges per service instance. Reconnecting or changing the
 namespace does not reset the key's current minute window. Refreshed OAuth access
 tokens share the verified workspace/key guard window. The underlying API also
 enforces its own account/key limits. Protocol bodies are bounded to32KiB.
@@ -182,22 +167,3 @@ try {
   await client.close();
 }
 ```
-
-A healthy unauthenticated [health endpoint](https://api.oddswire.io/mcp/healthz)
-checks the process configuration and the upstream authentication gate. It does not
-fetch prices or establish your account permissions. Ordinary unauthenticated MCP
-requests return401. Founder-only Infrastructure shows the service and both checks.
-
-## Local stdio
-
-The private `@oddswire/mcp` package remains unpublished. From an authorized product
-checkout, run `make mcp-build` after installing the locked dependencies. Configure
-your host to execute Node22.23.4+ and the absolute `mcp/dist/stdio.js` path, with
-`ODDSWIRE_BASE_URL=https://api.oddswire.io`, `ODDSWIRE_NAMESPACE` and your own
-`ODDSWIRE_API_KEY` in its private environment. Do not place secrets in process
-arguments. Legacy `ODDEXA_*` names and the old binary name remain supported.
-
-Stdio has twenty upstream attempts per process by default (configurable1–100),
-one call in flight and the same page/output/timeout bounds. It calls REST directly;
-it does not keep a hosted MCP session alive. API grants and source-use reviews
-remain separate from either transport and from payment or package installation.

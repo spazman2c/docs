@@ -1,0 +1,28 @@
+---
+title: "Signed alert webhooks"
+description: "Verify alert signatures and safely acknowledge repeated deliveries."
+---
+
+Webhook integrations require Alerts access, an approved destination and permission to deliver the selected source data. Contact [support](mailto:admin@oddswire.io) before depending on external delivery.
+
+## Configure your receiver
+
+Account owners and admins configure [targets](/reference/createWebhookTarget) and [rules](/reference/createAlertRule) with a workspace session. API data keys cannot manage them. Create and rotate operations show the signing secret once. Store it securely; if it was lost, rotate it explicitly.
+
+Targets require public HTTPS on port 443, without URL credentials, query or fragment, and a supported destination origin. Redirects are not followed. Creating a target does not send a test message.
+
+A rule identifies an account-owned key, dataset, source, fixture and exact quote. Rules start with new observations rather than historical backfill. See [Alerts](/alerts) for movement units.
+
+## Verify before parsing
+
+The `Oddswire-Signature` header contains `t=<unix-seconds>,v1=<hex HMAC-SHA256>`. Compute HMAC-SHA256 over the timestamp, a period, then the exact raw request body, using your signing secret. Compare signatures in constant time and reject timestamps outside a ±300-second tolerance. Do not reserialize JSON before verification.
+
+After verification, parse the body and durably deduplicate its event `id` together with your processing or queue insertion before returning 2xx. Signed data includes native quote identity, before/after observations and expiry. It describes a recorded movement, not a guaranteed executable price.
+
+## Acknowledgement and retries
+
+Delivery is at least once. Retries retain the same body, event ID and delivery ID with a new signature timestamp. A missing acknowledgement can cause a duplicate even when your first request succeeded.
+
+Return 2xx to acknowledge. Network errors, 408, 425, 429 and 5xx can retry with bounded backoff, up to six attempts. Other 4xx and redirects stop delivery. Expiry or lost source/key access can end attempts earlier. Check [delivery logs](/reference/listAlertDeliveries) for failed, blocked and expired states.
+
+Disabling a rule or target cancels remaining work; an already in-flight request can finish. Coordinate secret rotation with the receiver. Control calls and outbound attempts do not consume REST data credits.

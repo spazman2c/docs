@@ -16,7 +16,7 @@ HTTP responses use typed pages or structured problem objects. Read `data`, `miss
 | 403 | The current role, feature, namespace or source-purpose access does not permit this request. Signup is not a grant. |
 | 402 | No data allocation or insufficient included credits. Inspect free usage/entitlements; overage is disabled. |
 | 409 | Query/cursor or mutation state changed. Explicitly restart a read traversal, or reconcile the existing mutation request ID. |
-| 410 | A beta invitation expired. Ask support rather than changing or reusing an invitation. |
+| 410 | The requested resource or access period has expired. Check the response detail and contact support if needed. |
 | 429 | A separate abuse/rate window applied. Read `Retry-After` and decide when to try again. |
 | 503 / 504 | A required data/control dependency is unavailable or a deadline expired. Keep the request ID; do not substitute cached active odds. |
 
@@ -40,4 +40,4 @@ When `meta.next_cursor` is nonempty, pass it unchanged as `cursor` with the same
 
 A 409 means the cursor no longer matches current query/authority/data semantics. Start a fresh traversal only after deciding that is appropriate. Metadata or coverage changes must not be hidden by silently continuing an old result set.
 
-For management operations that accept a UUID `request_id`, preserve that ID and identical input when reconciling an uncertain mutation. Do not create a new billing request ID to recover from a lost response. Billing remains a restricted test contract, not public checkout.
+For management operations that accept a UUID `request_id`, preserve that ID and identical input when reconciling an uncertain mutation. Do not create a new billing request ID to recover from a lost response. Use the existing saved action or contact support if recovery remains unavailable.

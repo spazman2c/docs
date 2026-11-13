@@ -1,11 +1,19 @@
 ---
 title: "WebSocket protocol"
-description: "Implemented server-side stream contract; separate approval is required and new accounts have no stream access."
+description: "Connect an authorized stream, apply snapshots and deltas, and recover safely."
 ---
 
-**Availability:** the protocol is implemented, but no WebSocket data access is provisioned for new users. A separately audited founder-only internal streaming extension preserves the original source scope and expiry; it grants no customer distribution rights. This page is a contract reference, not a claim of a public stream rollout. See [Current availability](/availability).
+Streaming requires an active WebSockets add-on, `odds` and `websocket` permissions, and access to the selected sources. New accounts do not receive stream access automatically. Check [Coverage](https://oddswire.io/app/coverage) and [availability](/availability).
 
-Start with the hosted [REST quick start](/quickstart-curl) unless you have separately reviewed `odds` and `websocket` API grants and an explicitly supplied stream endpoint. The deployed REST origin by itself does not establish streaming availability or a service-level commitment.
+Use `wss://api.oddswire.io/v1/ws` for a header-authenticated server connection. For browser clients, use the short-lived ticket flow below. Stream messages do not consume REST data credits.
+
+## Try the workspace WebSocket lab
+
+Open [WebSocket lab](https://oddswire.io/app/websocket) when your account has access. Select the active key, available dataset/source, mode and fixture. Use only selections returned for your permitted scope.
+
+Press **Connect** to start a fresh subscription. **Resume** uses the last fully accepted cursor where that delivery mode supports it. The connection status and confirmation ages tell you whether the displayed data is current. Use the table search to narrow visible rows; hiding a row does not change the underlying subscription.
+
+The keep-connected option reconnects eligible sessions and requests a fresh snapshot when required. Access failures stop the connection. Retained native snapshots remain historical; they do not become live when the lab reconnects. Disconnect when you finish. Do not put an API key in a browser WebSocket URL.
 
 ## Authentication and subscription
 
@@ -24,11 +32,11 @@ After the server's `hello`, send a `subscribe` command with an `id` and string-v
 
 Current grants, source-purpose rules, expiry and freshness remain enforced. Metadata, mapping, lineage, journal or access changes can require a new snapshot. Messages do not consume REST credits, but that does not grant stream access.
 
-The implemented limits are 16 connections per process, two per account and one subscription per connection. These are enforced limits, not independently proven production capacity or failover guarantees. Local saved-source load tests do not establish provider latency, continuous coverage or commercial rights.
+The implemented limits are 16 connections per service instance, two per account and one subscription per connection. Narrow subscriptions to your permitted scope. These limits do not constitute a capacity or latency commitment.
 
 Download the [AsyncAPI contract](/asyncapi.json) and [wire schema](/websocket.schema.json). [Data and coverage](/data) explains source freshness and explicit missing data.
 
-## Restricted browser authentication
+## Browser authentication
 
 A verified owner/admin session can POST an existing account-owned `key_id` to the
 same-origin workspace `/api/websocket/ticket`. This exchanges the current Clerk
@@ -44,7 +52,7 @@ revocation and expiry are checked while connected and before application frames.
 A fresh authenticated exchange is needed for reconnect after authorization expiry;
 canonical resume still has its own five-minute bound. Logout attempts revocation
 before provider sign-out; unreachable authority cannot extend the original expiry.
-No browser test console is included by this implementation.
+Use the workspace [WebSocket lab](https://oddswire.io/app/websocket) where enabled.
 
 The free session [capability control](/reference/getWebSocketCapabilities) describes
 configured modes and access, not current source freshness. See also the restricted
@@ -69,5 +77,4 @@ resets the subscription instead of substituting saved prices.
 The implemented complete-frame bound is 2,000 quote/coverage entries and 2 MiB.
 Narrow canonical reads avoid unrelated namespace quote volume; active catch-up
 uses bounded complete transactions. Oversized scopes or single transactions still
-require narrower scopes or explicit resnapshot. These bounds and the independent
-100,000-row reference-metadata guard are pilot limits, not production-scale claims.
+require narrower scopes or explicit resnapshot. Narrow a rejected subscription before connecting again.

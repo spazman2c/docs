@@ -1,0 +1,32 @@
+---
+title: "Discord posts"
+description: "Create an odds message and keep its selected markets updated in Discord."
+---
+
+Open [Discord posts](https://oddswire.io/app/discord) with the active add-on and permitted outbound data coverage. An owner or admin configures posts. Your account must also have an active data key and the required source permissions.
+
+## Create a post
+
+1. In Discord, create an incoming webhook for the intended channel and copy its URL.
+2. Paste that URL into the workspace form. Treat it as a secret; never paste it into a chat, public repository or support email.
+3. Choose an available fixture, bookmaker and outcome. Only currently permitted selections can be saved.
+4. Customize the title, description, sender name, colour, footer and update interval.
+5. Review the example preview and save the post.
+
+The preview is illustrative and sends no message. No sportsbook credentials, bot token or Discord OAuth installation is needed.
+
+## Manage tracking
+
+Each post supports up to 12 selected rows, with up to five enabled posts per account. Current supported selections are pre-match football full-time 1X2 bookmaker quotes. Available bookmakers depend on your account's coverage.
+
+Open **Edit tracking & embed** to change a post's fixture, selected books, outcomes or labels. Updates edit the same Discord message. Changing the destination requires a new post; the sender name is established when the message is first created.
+
+The update interval is 5–300 seconds, defaulting to 10 seconds. This is an update target, subject to source freshness, service availability and Discord rate limits. Unchanged messages are not repeatedly sent.
+
+## Read delivery state
+
+Rows retain their confirmation and validity times. Missing, stale, suspended or changed evidence is not published as a fresh active quote. A stopped update or failed delivery is not proof the last visible Discord price is still available.
+
+Review the post's status and delivery information in the workspace. Stop updates when you no longer want them. An in-flight request can finish after you disable a post. Revoking the account's active key can stop linked posts; replacing it does not automatically restore every existing configuration.
+
+A message can show several books without establishing equivalent settlement terms, fair value, +EV or arbitrage. See [data conventions](/data) and [Plans and add-ons](/plans).

@@ -1,11 +1,11 @@
 ---
 title: "Get history snapshot"
-description: "Get history snapshot: request contract, authentication, parameters and response behavior for the Oddswire private pilot."
+description: "Get history snapshot: authentication, parameters and response format."
 openapi: "GET /v1/history/snapshot"
 ---
 
-Restricted history/export contract. New accounts and the current founder-only REST review have no history/export grants; separate source-purpose review is required. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain. See [Current availability](/availability).
+Requires history access for the selected sources. Exports additionally require export permission. Retained ranges do not guarantee continuous coverage. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.
 
 `GET /v1/history/snapshot`
 
-[Authentication](/authentication) · [Requests, quota and errors](/errors) · [Coverage and units](/data).
+[Authentication](/authentication) · [Errors and credits](/errors) · [Data conventions](/data).

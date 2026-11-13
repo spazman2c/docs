@@ -7,13 +7,13 @@ description: "Use production login for the workspace and an account-owned header
 
 Open [oddswire.io/app](https://oddswire.io/app), use the production email/password flow and complete the displayed email verification. Google/GitHub social login is not configured for this production application. Verified signup creates your personal workspace automatically.
 
-New accounts start with **zero API and Terminal data grants and no credit allocation**. Signup, email verification, key creation and a payment-return URL do not grant access. Review [Current availability](/availability), [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage).
+New accounts start with **zero API and Terminal data grants and no credit allocation**. Signup, email verification and key creation do not activate source-data access. Review [Current availability](/availability), [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage).
 
 ## Authenticate HTTP requests
 
-An owner or admin can create, rotate or revoke account-owned keys through [API keys](https://oddswire.io/app/keys). The account has a three-active-key cap. A new raw key is shown once; store it privately. Rotation replaces the old key. Revoked keys must not be reused.
+An owner or admin can create, rotate or revoke account-owned keys in [API keys](https://oddswire.io/app/keys). The account has a one-active-key cap. A new raw key is shown once; store it privately. Rotation replaces the old key. Revoked keys must not be reused.
 
-Send exactly one `X-API-Key` header to `https://api.oddswire.io`. Never put credentials in URLs, documentation, browser code, chat or email. Do not send both a data key and a session token. A data key cannot manage account membership, create other keys, operate billing or administer the beta.
+Send exactly one `X-API-Key` header to `https://api.oddswire.io`. Never put credentials in URLs, documentation, browser code, chat or email. Do not send both a data key and a session token. A data key cannot manage account membership, create other keys or operate billing.
 
 Start with `GET /v1/account/entitlements`. It is free, even without data credits, and tells you the account's current `namespaces` and `features`. An empty scope is a valid access result, not an instruction to try a different namespace. Data requests require the corresponding scope and allocation.
 
@@ -21,9 +21,9 @@ Start with `GET /v1/account/entitlements`. It is free, even without data credits
 
 The workspace manages its Clerk session for you. Direct management endpoints in the reference require an appropriate bearer session, current account membership and the documented role. Ordinary data reads use API keys. Do not copy a session token from browser storage into examples.
 
-`X-Oddswire-Account` selects an account only where the operation documents it; it cannot add membership or change authorization. Only owners change member roles. Beta operator administration is separate from owner/admin membership.
+`X-Oddswire-Account` selects an account only where the operation documents it; it cannot add membership or change authorization. Only owners change member roles.
 
-The CLI-issued local-session mechanism is for development and is rejected in production. It is not an alternative sign-in method for this hosted service. API and Terminal are separate product scopes, and every read rechecks current grants, expiry, suspension and source-use permission.
+API and Terminal are separate product scopes, and every read rechecks current grants, expiry, suspension and source-use permission.
 
 ## Access problems
 

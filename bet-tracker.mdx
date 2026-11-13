@@ -1,0 +1,50 @@
+---
+title: "Bet tracker"
+description: "Record bets, import CSV files and review results by currency."
+---
+
+Open [Bet tracker](https://oddswire.io/app/bet-tracker) with an active Bet tracker add-on. Owners and admins can manage their account's records. Manual tracking does not require a bookmaker connection or source-price access.
+
+## Add and manage bets
+
+Choose **Add bet** and enter bookmaker, event, market, selection, decimal odds, stake, currency and placed date/time. The form uses your browser's time zone for a new record. **More details** holds notes, a bookmaker reference, link, market classification and optional event start.
+
+Check the zone shown beside the date. Invalid daylight-saving times are rejected; a repeated autumn hour requires the intended first or second occurrence.
+
+Use **Your bets**, **Pending** and **Deleted** to change views. Filters narrow the table and its summaries. Edit a record with a correction reason, enter a result explicitly, or delete it. Deletion preserves history. Restoring an earlier revision adds a new revision rather than erasing later changes.
+
+## Import CSV
+
+1. Download the template from the tracker.
+2. Upload a UTF-8 CSV and map its column headers.
+3. Review the preview, including errors and duplicate warnings.
+4. Confirm the valid preview. No rows are saved by previewing alone.
+
+Required columns are `bookmaker`, `event`, `market`, `selection`, `placed_at`, `timezone`, `decimal_odds`, `stake` and `currency`. Optional fields include `bookmaker_bet_id`, `native_link`, `notes`, `market_kind` and `scheduled_start`.
+
+The file limit is 1 MiB, 500 data rows and 32 columns. Dates use RFC3339 with an explicit UTC offset matching the named IANA time zone. Odds and stakes are decimal strings with up to eight fractional digits. Currency is an uppercase three-letter code.
+
+Imported bets start pending. Duplicate checks apply again at confirmation; a conflicting import saves no rows. Use distinct bookmaker bet references for genuinely separate otherwise-identical bets. If confirmation has an uncertain result, recover the existing import rather than uploading it again.
+
+## Results and summaries
+
+Results are manual; no automatic sportsbook or result synchronization is provided. Supported cash singles use:
+
+| Result | Net profit/loss |
+| --- | --- |
+| Win | `stake × (decimal odds − 1)` |
+| Loss | `−stake` |
+| Void | `0` |
+| Pending or unsupported | No calculated profit/loss |
+
+Cashout, lays, commissions, free bets, parlays and half outcomes are not calculated. Classify unsupported records explicitly instead of estimating a result.
+
+Summaries stay separate by currency; there is no currency conversion. ROI uses supported settled stake. Win rate uses wins plus losses, excluding voids. Deleted records do not contribute to performance totals.
+
+## Export, history and CLV
+
+Export downloads the complete account tracker, including deleted records and revision history. It is not a source-odds export. Account capacity is 2,000 bets including deleted records, 20,000 revisions and 16 MiB of tracker data; capacity errors do not silently remove old records.
+
+Closing line value compares taken odds with an eligible closing reference: `taken decimal / closing decimal − 1`. It is different from EV. Current closing-reference coverage is unavailable, so the tracker shows a missing/unavailable reason rather than an invented CLV. Uploading a closing price does not establish a verified reference.
+
+Losing source-reference access does not remove your manual bet records. Contact [support](mailto:admin@oddswire.io) if an operation remains unresolved.

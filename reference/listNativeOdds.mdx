@@ -1,15 +1,11 @@
 ---
-title: "Native odds and props"
-description: "Native odds and props: request contract, authentication, parameters and response behavior for the Oddswire private pilot."
+title: "List native odds"
+description: "List native odds: authentication, parameters and response format."
 openapi: "GET /v1/native/odds"
 ---
 
-Restricted source-native REST contract. Requires its explicit native feature, namespace and source review. Kambi retained snapshots preserve original capture times; live mode additionally requires the founder live review and current controls. No general customer availability or canonical player/settlement mapping is implied. A nonempty eligible native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free; inspect Usage for final settlement. Errors and 304 are free. See [Current availability](/availability).
+Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.
 
 `GET /v1/native/odds`
 
-Set the required IDs from [native fixture discovery](/endpoints#native-odds-and-player-props). Examples read IDs and namespace from your environment; use only values returned for your approved scope.
-
-[Authentication](/authentication) · [Requests, quota and errors](/errors) · [Coverage and units](/data).
-
-Use `market_type` to select one exact returned provider market type before paging. For source11, `MATCH_ODDS` is goals Match 1X2; `BK_MATCH_1X2` is Bookings Match 1X2 and is a different market. Never compare those prices as a home/away pair.
+[Authentication](/authentication) · [Errors and credits](/errors) · [Data conventions](/data).

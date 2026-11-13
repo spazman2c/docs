@@ -1,44 +1,42 @@
 ---
-title: "Sports odds API"
-description: "Find fixtures, request odds and read native player props with the Oddswire REST API."
+title: "Oddswire documentation"
+description: "Get started with your workspace, odds data and integrations."
 ---
 
-Discover sports and competitions, find fixtures, then request scoped odds. Native feeds preserve provider IDs and player-prop evidence alongside the canonical sports-data API.
+Use Oddswire to query sports odds, compare available prices and manage your betting research. Start with your workspace or connect an application through the REST API or MCP.
+
+## Choose your starting point
+
+| I want to… | Start here |
+| --- | --- |
+| Set up my account and API key | [Workspace guide](/workspace) |
+| Build a plan | [Plans and add-ons](/plans) |
+| Make my first API request | [cURL quick start](/quickstart-curl) |
+| Compare available prices | [Odds board](/odds-board) |
+| Understand expected value | [+EV finder](/ev-finder) |
+| Record bets and review results | [Bet tracker](/bet-tracker) |
+| Watch a price or market | [Alerts](/alerts) |
+| Publish updating odds in Discord | [Discord posts](/discord) |
+| Connect an AI assistant | [MCP setup](/mcp-client) |
+
+Feature visibility depends on your account's active add-ons and permissions. Creating an account or saving a plan does not activate data access. Check [availability](/availability), your [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage) before making data requests.
+
+## Connect your application
 
 **Base URL:** `https://api.oddswire.io` · **Authentication:** `X-API-Key` header · **Version:** REST v1
 
-## Make your first request
+Your first request checks access without consuming data credits:
 
 ```bash
-curl --request GET \
-  --url 'https://api.oddswire.io/v1/account/entitlements' \
+curl --max-time 10 \
+  'https://api.oddswire.io/v1/account/entitlements' \
   --header "X-API-Key: $ODDSWIRE_API_KEY"
 ```
 
-API keys belong in headers, never in a URL or public documentation form.
+Then choose an entitled dataset, discover a fixture and request its odds. The [API overview](/endpoints) explains the route families. The [playground](https://oddswire.io/app/playground) lets you select a bookmaker and match and copy cURL, Python or TypeScript requests.
 
-This access check is free. It returns your actual features, namespaces and source scope. Data calls require separately approved access and an allocation; an account or API key alone does not unlock a feed.
+Keep credentials private, preserve decimal strings and read every `missing[]` entry. See [data conventions](/data) and [errors and credits](/errors).
 
-1. Sign in to your [workspace](https://oddswire.io/app) and create an account-owned key in [API keys](https://oddswire.io/app/keys). Keep the key private.
-2. Check [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage), then use the returned entitlements to choose a namespace and source.
-3. [Discover fixtures and request odds](/endpoints), or use the [signed-in playground](https://oddswire.io/app/playground). It starts with the same free access check; no request runs automatically.
+Download [OpenAPI](/openapi.json), [AsyncAPI](/asyncapi.json) or the [WebSocket schema](/websocket.schema.json). Searchable text is available at [/llms.txt](https://docs.oddswire.io/llms.txt) and [/llms-full.txt](https://docs.oddswire.io/llms-full.txt).
 
-Need an approved data scope? [Contact support](mailto:admin@oddswire.io) with your intended use and required coverage. Do not send API keys. Access is reviewed; there is no public self-serve paid plan or automatic grant.
-
-## Explore the API
-
-| Need | Start here |
-| --- | --- |
-| Sports, bookmakers and competitions | [Sports data endpoints](/endpoints#sports-data) |
-| Fixtures and odds | [Fixture discovery](/reference/listFixtures) → [Odds](/reference/listOdds) |
-| Native odds and player props | [Native endpoint guide](/endpoints#native-odds-and-player-props) |
-| Requests, quota, pagination and errors | [Response handling](/errors) |
-| Code examples | [cURL](/quickstart-curl) · [Python](/quickstart-python) · [TypeScript](/quickstart-typescript) |
-
-Keep decimal values as strings, preserve identifiers and inspect every `missing[]` entry. [Data and coverage](/data) explains units, freshness and source relationships.
-
-## Advanced integration
-
-History, WebSocket, fair prices and alerts are documented in **Advanced**. Account administration and restricted operator contracts live in **Workspace reference**. Check [current availability](/availability) before depending on any restricted capability. A published contract does not grant access or source-use rights.
-
-Download [OpenAPI](/openapi.json), [AsyncAPI](/asyncapi.json) or the [WebSocket schema](/websocket.schema.json). The quick starts use standard HTTP tools against the hosted API; no private repository or SDK installation is required. Documentation is also available through [/llms.txt](https://docs.oddswire.io/llms.txt) and [/llms-full.txt](https://docs.oddswire.io/llms-full.txt).
+For account access or coverage questions, [contact support](mailto:admin@oddswire.io). Include your request ID when available; never send a key or token.

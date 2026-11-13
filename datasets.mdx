@@ -5,13 +5,13 @@ description: "Use shorter dataset names and consistent fixture, odds and partici
 
 A dataset selects an isolated identity catalogue and its permitted source reads. The API parameter remains `namespace` for compatibility; the default playground derives it from your bookmaker choice. The **Dataset** selector remains in the advanced explorer.
 
-| Preferred alias | Existing public name | Existing stored authority |
-| --- | --- | --- |
-| `sportsbooks` | `oddswire_bookmakers` | `oddexa_bookmakers` |
-| `kambi` | `oddswire_kambi` | `oddexa_kambi` |
-| `pilot` | `oddswire_live` | `oddexa_live` |
+| Preferred alias | Existing public name |
+| --- | --- |
+| `sportsbooks` | `oddswire_bookmakers` |
+| `kambi` | `oddswire_kambi` |
+| `pilot` | `oddswire_live` |
 
-All three spellings remain valid for REST reads. An already configured custom namespace takes precedence over a short alias of the same name. Account entitlements retain their established namespace values. Aliases grant no features, sources, regions or credits. `pilot` is a dataset name, not a promise of in-play or current coverage. Stream subscriptions accept the documented dataset aliases while retaining stored authority and exact native identity. Management bodies keep their documented namespace spellings.
+The short aliases and existing public names remain compatible for REST reads. Account entitlements retain their established namespace values. Aliases grant no features, sources, regions or credits. `pilot` is a dataset name, not a promise of in-play or current coverage. Stream subscriptions accept the documented dataset aliases while preserving dataset scope and exact native identity. Management bodies keep their documented namespace spellings.
 
 ## Consistent fixture and odds responses
 
@@ -24,7 +24,7 @@ GET /v1/fixtures?namespace=sportsbooks&source_id=14&mode=retained&view=standard
 GET /v1/odds?namespace=sportsbooks&source_id=14&fixture=YOUR_NATIVE_FIXTURE_ID&capture_id=YOUR_CAPTURE_ID&mode=retained&view=standard
 ```
 
-The capitalized values are placeholders; discover IDs within your approved scope first. For the `sportsbooks` dataset, select exactly one reviewed source using `source_id`. Sources5/14/15 use the Kambi reader and require `kambi_native_retained`; live mode additionally requires the existing founder live approval and supports14/15 only. Sources11/12/13 require `native_odds`. These grants remain separate from canonical `fixtures` and `odds` grants. Unsupported native filters fail instead of silently switching readers. The old `/v1/native/...` routes also accept the standard view.
+The capitalized values are placeholders; discover IDs within your approved scope first. For the `sportsbooks` dataset, select exactly one reviewed source using `source_id`. Sources 5/14/15 use the Kambi reader and require `kambi_native_retained`; live mode additionally requires the required live-data permission and supports14/15 only. Sources 11/12/13 require `native_odds`. These grants remain separate from canonical `fixtures` and `odds` grants. Unsupported native filters fail instead of silently switching readers. The old `/v1/native/...` routes also accept the standard view.
 
 ## Fields and identity
 
@@ -83,4 +83,4 @@ rather than combining pages from different books. Narrow before starting paging.
 A price can remain unchanged for hours while confirmations keep it fresh. Stale
 confirmations never become fresh because a request is served.
 
-For source11, `MATCH_ODDS` is Match 1X2 (goals), while `BK_MATCH_1X2` is Bookings Match 1X2. Their different prices are not a home/away reversal. Retain the provider market name, type, period and native identity; `market_type=MATCH_ODDS` selects the former.
+For source 11, `MATCH_ODDS` is Match 1X2 (goals), while `BK_MATCH_1X2` is Bookings Match 1X2. Their different prices are not a home/away reversal. Retain the provider market name, type, period and native identity; `market_type=MATCH_ODDS` selects the former.

@@ -1,34 +1,27 @@
 ---
-title: "Status and changelog"
-description: "Hosted documentation, workspace and API updates, with explicit current availability."
+title: "Changelog"
+description: "Customer workspace and integration updates."
 ---
 
-## 11 November 2026 · Compatible dataset and discovery API
+## 13 November 2026
 
-- REST dataset aliases `sportsbooks`, `kambi` and `pilot` preserve the existing namespaces and access scopes.
-- Fixture/odds reads accept opt-in `view=standard`, retaining exact IDs and the complete original record. Default legacy responses remain available.
-- Added `GET /v1/participants` and `GET /v1/fixtures/{fixture_id}`, using existing reader, account and source controls. Player identities remain explicitly scoped or missing.
-- The playground adds dataset labels, response-view selection and the new reads. No source collection or customer grants are enabled by these changes.
+- Added workspace guides for [plan customization and the seven optional add-ons](/plans), [Usage](/usage) and [account setup](/workspace).
+- Documented [Odds board](/odds-board), [Terminal](/terminal), [+EV finder](/ev-finder), [Bet tracker](/bet-tracker), [Alerts](/alerts) and [Discord posts](/discord), including their access requirements and unavailable-data states.
+- Bet tracker supports manual date/time entry, CSV preview and import, settlement, revision history, delete/restore and complete exports.
+- Plans use the current published catalogue and refresh their estimates. Add-on selection and active feature access are separate.
+- +EV shows an explicit insufficient-reference state when no eligible calculation is possible. A deployed page does not guarantee available opportunities.
+- Documentation navigation now groups workspace guides, API integrations and MCP setup.
 
-## 11 November 2026 · API reference and playground refresh
+## 12 November 2026
 
-- Core sports endpoints now lead the API navigation. Advanced capabilities and workspace/operator contracts have separate sections; existing reference URLs remain available.
-- Native fixture, odds and player-prop routes are included, with retained/live scope and exact capture identity documented separately from canonical odds.
-- The signed-in playground groups requests, shows endpoint-specific filters and links directly to each reference. Native empty-page credits are documented separately from canonical data.
-- Reference pages render parameters once. Hosted read examples include required namespace and fixture/capture filters, use header credentials and disable redirects where supported.
+- The [hosted MCP server](/mcp-client) supports Oddswire sign-in for compatible ChatGPT and Claude connectors, alongside API-key authentication.
+- [WebSocket documentation](/websocket) covers server-side authentication, short-lived browser tickets and native snapshot delivery.
 
-## 11 November 2026 · Hosted docs and account access
+## 11 November 2026
 
-- Documentation is live at `https://docs.oddswire.io` on Mintlify, with search, Markdown exports, machine-readable contracts and its own sitemap.
-- Existing `https://oddswire.io/docs/...` links permanently redirect to the matching hosted docs pages. The data MCP guide is `/mcp-client`; `/mcp` is reserved by Mintlify.
-- Production email/password login and email verification are configured at `https://oddswire.io/app`. Verified signup creates an empty personal workspace automatically.
-- The HTTPS API is deployed at `https://api.oddswire.io`. Real retained pre-match data reads have been verified under a separate founder-only internal review. This does not grant customer access.
-- Public quick starts use cURL, Python standard-library HTTP and Node.js fetch. They do not require the private product checkout or unpublished packages.
+- Added dataset aliases `sportsbooks`, `kambi` and `pilot`, opt-in `view=standard`, [participants](/reference/listParticipants) and [fixture detail](/reference/getFixture).
+- Hosted HTTPS quick starts use standard tools and header credentials.
 
-## Current limits
+## Compatibility
 
-New signups have no data grants or allocation. There is no public paid checkout, general source-data licence or registry release of the SDKs. Streaming, history/export, outbound alerts, Terminal and the data MCP client have separate restricted or preview boundaries. In-play has synthetic local validation only. See [Current availability](/availability).
-
-## Contract version
-
-The API uses `/v1`. Request/response schemas derive from the implemented gateway contract; hosted documentation supplies the HTTPS server address and current availability notes. Readers should tolerate added optional fields and new missing/error codes. No production uptime, latency or six-month deprecation SLA is promised by publishing this contract.
+The REST API uses `/v1`. Preserve original identifiers and tolerate added optional fields and missing/error codes. Check [current availability](/availability) and your account coverage before depending on a feature.

@@ -76,7 +76,7 @@
     }
   },
   "info": {
-    "description": "Implemented WebSocket frame/subscription contract, not a public streaming rollout. Separate odds/websocket grants and source-use approval are required. New accounts have no streaming access; founder-only internal streaming is separately bounded by its original source scope and expiry. See https://docs.oddswire.io/websocket. Header API key at /v1/ws or short-lived single-use browser tickets at /v1/ws/browser, using oddswire.v1; no URL credentials.",
+    "description": "WebSocket subscriptions and frames. Header authentication uses /v1/ws; browser tickets use /v1/ws/browser with oddswire.v1. Keep credentials out of URLs. See https://docs.oddswire.io/websocket.",
     "title": "Oddswire WebSocket v1 private pilot",
     "version": "1.0.0"
   },
@@ -131,7 +131,7 @@
   },
   "servers": {
     "browserLocal": {
-      "description": "Restricted deployed endpoint; exact authentication and separate reviewed source/stream grants required. No public customer stream rollout or capacity guarantee.",
+      "description": "Requires an active WebSockets add-on and appropriate stream/source permissions.",
       "host": "api.oddswire.io",
       "protocol": "wss"
     },
@@ -143,7 +143,7 @@
           "$ref": "#/components/securitySchemes/ApiKey"
         }
       ],
-      "description": "Restricted deployed endpoint; exact authentication and separate reviewed source/stream grants required. No public customer stream rollout or capacity guarantee."
+      "description": "Requires an active WebSockets add-on and appropriate stream/source permissions."
     }
   },
   "x-pilot-limits": {

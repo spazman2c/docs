@@ -22,7 +22,10 @@ You do not paste an API key into ChatGPT, Claude, or a conversation.
    Discovery selects Client Identifier Metadata Document (CIMD), Clerk and
    `profile` automatically. No client ID or secret needs to be entered.
 3. In Claude, open Customize → Connectors → Add custom connector, enter the same
-   server URL and connect. Leave optional OAuth client credentials empty.
+   server URL, then choose **Sign in now** and **Use Claude’s published identity**.
+   Add the connector and select **Connect**. No client ID, client secret or extra
+   request header is needed. Keep tool approvals enabled and approve the calls
+   you explicitly want to run.
 4. Complete the Oddswire Clerk sign-in and review the consent screen. The requested
    tool scope is `profile`. ChatGPT may also request `openid` and `email` for
    identity verification; Clerk manages refresh access. Consent identifies you,
@@ -86,6 +89,20 @@ The optional namespace header defaults to `oddswire_kambi`. Other configured
 namespaces are `oddswire_live`, `oddswire_bookmakers` and `oddswire_onexbet`.
 Choosing a namespace never grants access. A host has one selected namespace;
 configure another connection when you need another approved namespace.
+
+## Tested connection flow
+
+Both ChatGPT and Claude completed the real Clerk OAuth consent flow on
+12 November 2026 and loaded all **18 read-only tools**. Each client successfully
+read one approved native fixture page and one odds page, with exactly two credits
+settled and no outstanding reservation. Usage reads were free; restricted history
+returned the expected `403 feature_not_entitled` without a charge. Request IDs
+were checked against the authoritative usage ledger. No API key was copied into
+either app, no cursor was followed, and no source permission was added.
+
+These are bounded functional checks, not a capacity, uptime or source-rights
+claim. The two apps manage refresh access; their scheduled refresh was not forced
+as part of this test.
 
 ## Available tools
 

@@ -1,13 +1,62 @@
 ---
 title: "MCP server"
-description: "Connect a compatible MCP host to the live HTTPS service using your existing Oddswire API key."
+description: "Connect ChatGPT, Claude or another MCP host using your existing Oddswire Clerk login."
 ---
 
 The hosted read-only MCP endpoint is **https://api.oddswire.io/mcp**. It exposes
 18 bounded tools through the existing API, with the same account permissions,
 source reviews, freshness rules and credits. Signup grants no source access.
 
-## Connect over HTTPS
+## Connect ChatGPT or Claude with OAuth
+
+Use **https://api.oddswire.io/mcp** as the server URL and choose OAuth.
+Clerk handles sign-in and consent using the same Oddswire login as your workspace.
+You do not paste an API key into ChatGPT, Claude, or a conversation.
+
+1. Sign in to [your Oddswire workspace](https://oddswire.io/app). Use an existing
+   owner/admin workspace with its active API key. The connector never creates,
+   rotates, reveals or stores that key; it uses the existing key ID for account
+   authorization and metering. New signups still have zero data grants.
+2. In ChatGPT, open Plugins → Add → Add custom MCP server (or your plan's
+   custom app/developer settings), enter the server URL, and select OAuth.
+   Discovery selects Client Identifier Metadata Document (CIMD), Clerk and
+   `profile` automatically. No client ID or secret needs to be entered.
+3. In Claude, open Customize → Connectors → Add custom connector, enter the same
+   server URL and connect. Leave optional OAuth client credentials empty.
+4. Complete the Oddswire Clerk sign-in and review the consent screen. The requested
+   tool scope is `profile`. ChatGPT may also request `openid` and `email` for
+   identity verification; Clerk manages refresh access. Consent identifies you,
+   while existing account/source permissions determine every tool result.
+5. Ask the connected app to run `get_usage` and list the tools. Usage is free.
+   Then explicitly request one approved data page to check data delivery and credits.
+
+The authorization server is `https://clerk.oddswire.io`. Discovery uses
+[RFC9728 resource metadata](https://api.oddswire.io/.well-known/oauth-protected-resource/mcp),
+OAuth authorization code with S256 PKCE, and Client ID Metadata Documents (CIMD).
+Dynamic client registration is disabled. No client secret is needed for these
+public clients. Available connector controls depend on your ChatGPT/Claude plan
+and administrator settings. See the official [ChatGPT authentication guide](https://developers.openai.com/plugins/build/auth)
+and [Claude connector authentication guide](https://claude.com/docs/connectors/building/authentication).
+
+OAuth data tools accept an optional `namespace` selected from the configured
+allowlist: `oddswire_kambi` (default), `oddswire_live`, `oddswire_bookmakers`, or
+`oddswire_onexbet`. For generic native bookmaker tools, request
+`namespace: "oddswire_bookmakers"`. Changing it never grants source access.
+Account usage/coverage tools need no namespace.
+
+OAuth tokens are checked for signature, issuer, access-token type, expiry,
+`profile` scope and the exact `https://api.oddswire.io/mcp` audience. Dashboard
+session and OIDC ID tokens are rejected. OAuth cannot manage billing, keys,
+members, account grants, WebSocket sessions or Terminal access. Membership,
+account/key status and current source reviews are checked again before data delivery.
+
+Disconnect a connector in ChatGPT/Claude and revoke its authorization in Clerk
+when withdrawing consent. Previously issued signed access tokens can remain
+valid until their expiry; removing workspace membership, disabling the local user,
+or revoking the workspace's active key blocks subsequent requests immediately.
+Creating a replacement active key allows an otherwise valid OAuth connection again.
+
+## Connect over HTTPS with an API key
 
 Use a host that supports Streamable HTTP and custom request headers:
 
@@ -30,8 +79,8 @@ Do not rotate a key just to configure MCP.
 Authentication uses your **API key**, not a Clerk session token. The service
 revalidates the key against the account authority on every protocol request and
 again through normal API checks on each tool call. It stores no shared API key.
-OAuth-only connectors are not supported by this release; hosts requiring OAuth
-need a separate integration. Local stdio remains available below.
+OAuth connections use the separate verification path described above. Local
+stdio continues to use an API key.
 
 The optional namespace header defaults to `oddswire_kambi`. Other configured
 namespaces are `oddswire_live`, `oddswire_bookmakers` and `oddswire_onexbet`.
@@ -65,7 +114,8 @@ than truncate. Narrow the supported filters before another explicit request.
 The hosted service allows one upstream tool call in flight per key, twenty tool
 attempts per key per minute, sixty protocol requests per key per minute and sixteen
 concurrent authenticated HTTP exchanges per process. Reconnecting or changing the
-namespace does not reset the key's current minute window. The underlying API also
+namespace does not reset the key's current minute window. Refreshed OAuth access
+tokens share the verified workspace/key guard window. The underlying API also
 enforces its own account/key limits. Protocol bodies are bounded to32KiB.
 
 Tool discovery, argument rejection and account usage/coverage reads do not consume

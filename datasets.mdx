@@ -128,5 +128,18 @@ original group/type/line or player inputs resolve exactly. `label_evidence` reta
 the original names, dictionary digest and `resolved`, `market_only` or
 `template_unresolved` state. Unknown packed-score/time templates remain unresolved.
 Display labels do not change native IDs, price clocks, line units, settlement or
-permissions.20Bet's numeric market/outcome dictionary remains unresolved; do not
-interpret numeric labels or apply another bookmaker's dictionary.
+permissions.
+
+20Bet now resolves ordinary native market/outcome labels and missing variant-market
+label fallbacks from archived English
+dictionaries containing 5,518 market and 3,406 outcome templates. Binding uses
+internal dictionary IDs from the original native key, rather than substituting a
+vendor ID. The label evidence includes `dictionary_market_id`,
+`dictionary_outcome_id` and `market_template` where applicable. Supported literal
+participant/number/handicap substitutions preserve the original specifier string;
+unknown arithmetic, unbound player tokens and other unsupported templates remain
+explicitly unresolved. Existing provider variant/player labels are preserved.
+Known 1xBit paired-player templates also resolve when the archived name/parameter
+vectors match the original packed line exactly; ambiguous vectors stay unresolved.
+No market-family, settlement, canonical player or source-use approval follows.
+Do not apply one bookmaker's dictionary to another source.

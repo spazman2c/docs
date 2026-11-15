@@ -15576,10 +15576,19 @@
       "NativeLabelEvidence": {
         "additionalProperties": false,
         "properties": {
+          "dictionary_market_id": {
+            "type": "string"
+          },
+          "dictionary_outcome_id": {
+            "type": "string"
+          },
           "dictionary_sha256": {
             "type": "string"
           },
           "language": {
+            "type": "string"
+          },
+          "market_template": {
             "type": "string"
           },
           "original_market_name": {

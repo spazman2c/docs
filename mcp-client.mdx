@@ -18,6 +18,12 @@ claude mcp add --transport http oddswire https://api.oddswire.io/mcp
 
 Complete OAuth sign-in when prompted. Never paste your API key into a chat.
 
+If Claude’s web app reports “Connector couldn’t be added” before opening sign-in,
+use Claude Code while the web connection is investigated. Do not enter a secret,
+disable authentication, or substitute the documentation-search endpoint.
+A previous web-connection test succeeded; the later reported failure has not yet
+been reproduced and should not be treated as resolved.
+
 ## Connect ChatGPT or Claude with OAuth
 
 Use **https://api.oddswire.io/mcp** as the server URL and choose OAuth.
@@ -53,8 +59,8 @@ and administrator settings. See the official [ChatGPT authentication guide](http
 and [Claude connector authentication guide](https://claude.com/docs/connectors/building/authentication).
 
 OAuth data tools accept an optional `namespace` selected from the configured
-allowlist: `oddswire_kambi` (default), `oddswire_live`, `oddswire_bookmakers`, or
-`oddswire_onexbet`. For generic native bookmaker tools, request
+allowlist: `oddswire_regional` (default), `oddswire_live`, `oddswire_bookmakers`, or
+`oddswire_access`. For generic native bookmaker tools, request
 `namespace: "oddswire_bookmakers"`. Changing it never grants source access.
 Account usage/coverage tools need no namespace.
 
@@ -79,7 +85,7 @@ Use a host that supports Streamable HTTP and custom request headers:
   "url": "https://api.oddswire.io/mcp",
   "headers": {
     "Authorization": "Bearer YOUR_OWN_API_KEY",
-    "X-Oddswire-Namespace": "oddswire_kambi"
+    "X-Oddswire-Namespace": "oddswire_regional"
   }
 }
 ```
@@ -95,8 +101,8 @@ revalidates the key against the account authority on every protocol request and
 again through normal API checks on each tool call. It stores no shared API key.
 OAuth connections use the sign-in flow described above.
 
-The optional namespace header defaults to `oddswire_kambi`. Other configured
-namespaces are `oddswire_live`, `oddswire_bookmakers` and `oddswire_onexbet`.
+The optional namespace header defaults to `oddswire_regional`. Other configured
+namespaces are `oddswire_live`, `oddswire_bookmakers` and `oddswire_access`.
 Choosing a namespace never grants access. A host has one selected namespace;
 configure another connection when you need another approved namespace.
 
@@ -108,12 +114,12 @@ configure another connection when you need another approved namespace.
 | Discovery | `get_sports`, `get_sources`, `get_competitions`, `get_participants`, `get_markets`, `get_fixtures` |
 | Odds and fair state | `get_odds`, `get_fair_price` |
 | Generic native sources | `get_native_fixtures`, `get_native_odds` |
-| Kambi native sources | `get_kambi_native_fixtures`, `get_kambi_native_odds` |
+| source-native sources | `get_source_native_fixtures`, `get_source_native_odds` |
 | Separately restricted history | `get_history_coverage`, `get_line_history`, `get_point_in_time_snapshot`, `get_opening_closing_lines` |
 
 Input schemas come from the REST contract. Use fixture discovery before odds;
 keep returned native fixture IDs, source IDs, capture IDs and cursors exactly.
-Kambi native odds require the returned capture ID. History needs separate history
+source-native odds require the returned capture ID. History needs separate history
 and history-use permission. Fair prices can be explicitly insufficient when an
 eligible reference is unavailable. Unavailable sources or expired permissions remain inaccessible.
 
@@ -158,7 +164,7 @@ try {
     new URL("https://api.oddswire.io/mcp"),
     { requestInit: { headers: {
       Authorization: `Bearer ${key}`,
-      "X-Oddswire-Namespace": "oddswire_kambi"
+      "X-Oddswire-Namespace": "oddswire_regional"
     } } }
   ));
   console.log((await client.listTools()).tools.map(tool => tool.name));
@@ -167,3 +173,11 @@ try {
   await client.close();
 }
 ```
+
+## Price age
+
+Data results include a plain-language `price_age` summary, measured from the
+original confirmation or capture time. A retained snapshot is still retained,
+and stale, suspended, unavailable or missing evidence must remain visible.
+An answer timestamp is not a new confirmation. If no price clock is supplied,
+the result explicitly says it must not be described as live.

@@ -8,7 +8,7 @@ A dataset selects an isolated identity catalogue and its permitted source reads.
 | Preferred alias | Existing public name |
 | --- | --- |
 | `sportsbooks` | `oddswire_bookmakers` |
-| `kambi` | `oddswire_kambi` |
+| `regional` | `oddswire_regional` |
 | `pilot` | `oddswire_live` |
 
 The short aliases and existing public names remain compatible for REST reads. Account entitlements retain their established namespace values. Aliases grant no features, sources, regions or credits. `pilot` is a dataset name, not a promise of in-play or current coverage. Stream subscriptions accept the documented dataset aliases while preserving dataset scope and exact native identity. Management bodies keep their documented namespace spellings.
@@ -18,13 +18,13 @@ The short aliases and existing public names remain compatible for REST reads. Ac
 Existing calls retain their original response shape by default. Add `view=standard` to fixture or odds reads for common `DatasetFixture` and `DatasetOdds` records. Explicit `view=legacy` keeps the original format. Both use the existing `data`, `missing[]` and `meta` envelope, paging, authentication and credit rules.
 
 ```text
-GET /v1/fixtures?namespace=kambi&view=standard
-GET /v1/odds?namespace=kambi&fixture=YOUR_FIXTURE_ID&view=standard
+GET /v1/fixtures?namespace=regional&view=standard
+GET /v1/odds?namespace=regional&fixture=YOUR_FIXTURE_ID&view=standard
 GET /v1/fixtures?namespace=sportsbooks&source_id=14&mode=retained&view=standard
 GET /v1/odds?namespace=sportsbooks&source_id=14&fixture=YOUR_NATIVE_FIXTURE_ID&capture_id=YOUR_CAPTURE_ID&mode=retained&view=standard
 ```
 
-The capitalized values are placeholders; discover IDs within your approved scope first. For the `sportsbooks` dataset, select exactly one reviewed source using `source_id`. Sources 5/14/15 use the Kambi reader and require `kambi_native_retained`; live mode additionally requires the required live-data permission and supports14/15 only. Sources 11/12/13 require `native_odds`. These grants remain separate from canonical `fixtures` and `odds` grants. Unsupported native filters fail instead of silently switching readers. The old `/v1/native/...` routes also accept the standard view.
+The capitalized values are placeholders; discover IDs within your approved scope first. For the `sportsbooks` dataset, select exactly one reviewed source using `source_id`. Sources 5/14/15 use the regional reader and require the separate source-native permission; live mode additionally requires the required live-data permission and supports14/15 only. Sources 11/12/13 require `native_odds`. These grants remain separate from canonical `fixtures` and `odds` grants. Unsupported native filters fail instead of silently switching readers. The old `/v1/native/...` routes also accept the standard view.
 
 ## Fields and identity
 
@@ -39,19 +39,19 @@ Common formatting does not create global fixture/player IDs or cross-source mark
 ## Participants
 
 ```text
-GET /v1/participants?namespace=kambi&kind=team
-GET /v1/participants?namespace=kambi&kind=player&fixture=YOUR_FIXTURE_ID
+GET /v1/participants?namespace=regional&kind=team
+GET /v1/participants?namespace=regional&kind=player&fixture=YOUR_FIXTURE_ID
 GET /v1/participants?namespace=sportsbooks&source_id=14&kind=player&fixture=YOUR_NATIVE_FIXTURE_ID&capture_id=YOUR_CAPTURE_ID&mode=retained
 ```
 
-`kind=team` is the default. Canonical participants are restricted to accessible collected fixtures and associated permitted markets; unrelated catalogue rows are excluded. Native teams come from admitted fixture evidence. Native player reads require a fixture and, for Kambi, its exact capture. Missing player identity returns an explicit missing reason rather than a fabricated ID.
+`kind=team` is the default. Canonical participants are restricted to accessible collected fixtures and associated permitted markets; unrelated catalogue rows are excluded. Native teams come from admitted fixture evidence. Native player reads require a fixture and, for regional, its exact capture. Missing player identity returns an explicit missing reason rather than a fabricated ID.
 
 Participant IDs can be null for name-only native evidence. Non-null native IDs keep their provider scope, source and fixture context, and `identity_verified` remains explicit. Names and native IDs are never merged across books. These are bounded observations, not a complete roster or league-wide player catalogue.
 
 ## Fixture detail
 
 ```text
-GET /v1/fixtures/YOUR_FIXTURE_ID?namespace=kambi
+GET /v1/fixtures/YOUR_FIXTURE_ID?namespace=regional
 GET /v1/fixtures/YOUR_NATIVE_FIXTURE_ID?namespace=sportsbooks&source_id=14&mode=retained
 ```
 
@@ -65,7 +65,7 @@ match. Native fixture IDs remain scoped to their source. A common response shape
 does not certify a cross-source mapping.
 
 Sources 11/12/13 use `/v1/native/fixtures` and `/v1/native/odds`.
-Sources 14/15 use `/v1/native/kambi/fixtures` and `/v1/native/kambi/odds`;
+Sources 14/15 use `/v1/native/source/fixtures` and `/v1/native/source/odds`;
 passing 14/15 to the generic native reader is unsupported. Use the standard
 sportsbooks view above to select the reader through `source_id`.
 

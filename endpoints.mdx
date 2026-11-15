@@ -28,7 +28,7 @@ A single fixture is selected with the `fixture` filter; competition odds use `co
 
 ## Dataset aliases and common records
 
-Use the shorter `kambi`, `pilot` and `sportsbooks` aliases with the existing `namespace` parameter. Add `view=standard` to fixture/odds reads for consistent common fields and an unchanged `original` record. Existing calls keep their legacy shape. See [Datasets and response views](/datasets).
+Use the shorter `regional`, `pilot` and `sportsbooks` aliases with the existing `namespace` parameter. Add `view=standard` to fixture/odds reads for consistent common fields and an unchanged `original` record. Existing calls keep their legacy shape. See [Datasets and response views](/datasets).
 
 New reads: [Participants](/reference/listParticipants) lists accessible team/player evidence; [Fixture details](/reference/getFixture) retrieves one exact fixture. Native IDs remain source-scoped and do not imply verified player matching.
 
@@ -40,10 +40,10 @@ Native-only observations have a separate contract from canonical odds. They pres
 | --- | --- |
 | [`/v1/native/fixtures`](/reference/listNativeFixtures) | Discover reviewed sources 11/12/13 fixtures using an explicit `source_id` |
 | [`/v1/native/odds`](/reference/listNativeOdds) | Request a returned `native_fixture`; `props_only=true` selects source-labelled prop candidates |
-| [`/v1/native/kambi/fixtures`](/reference/listKambiNativeFixtures) | Discover sources 5/14/15 snapshots in `retained` or separately approved `live` mode |
-| [`/v1/native/kambi/odds`](/reference/listKambiNativeOdds) | Request the exact returned `native_fixture` and `capture_id`; optionally filter with `props_only=true` |
+| [`/v1/native/source/fixtures`](/reference/listSourceNativeFixtures) | Discover sources 5/14/15 snapshots in `retained` or separately approved `live` mode |
+| [`/v1/native/source/odds`](/reference/listSourceNativeOdds) | Request the exact returned `native_fixture` and `capture_id`; optionally filter with `props_only=true` |
 
-Both native families use namespace `oddswire_bookmakers` and require their own explicit account features and source scope. Kambi source 5 supports retained mode only; live mode applies only to separately approved sources 14/15. Rediscover when a live capture is superseded. Retained snapshots preserve original times and must never be labelled current odds.
+Both native families use namespace `oddswire_bookmakers` and require their own explicit account features and source scope. regional source 5 supports retained mode only; live mode applies only to separately approved sources 14/15. Rediscover when a live capture is superseded. Retained snapshots preserve original times and must never be labelled current odds.
 
 ## Access and quota
 

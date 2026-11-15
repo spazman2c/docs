@@ -83,8 +83,8 @@
             "pages": [
               "reference/listNativeFixtures",
               "reference/listNativeOdds",
-              "reference/listKambiNativeFixtures",
-              "reference/listKambiNativeOdds"
+              "reference/listSourceNativeFixtures",
+              "reference/listSourceNativeOdds"
             ]
           },
           {

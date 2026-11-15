@@ -185,3 +185,16 @@ original confirmation or capture time. A retained snapshot is still retained,
 and stale, suspended, unavailable or missing evidence must remain visible.
 An answer timestamp is not a new confirmation. If no price clock is supplied,
 the result explicitly says it must not be described as live.
+
+
+## Updated native discovery tools
+
+The 18 tools now include source-native sports/competition discovery, native
+`market_family`/`markets` filters and reviewed native `shared_fixture` lookup.
+These retain the same source grants and credit rules as REST; reference discovery
+is free. Read [the parameter and identity limits](/datasets#native-discovery-and-family-filters).
+If your client still removes a new parameter or shows an old namespace enum,
+refresh its connector/tool list or reconnect the existing Oddswire connection.
+An older cached tool schema can reject parameters before any API call; it does not
+mean your source permissions changed. Use the returned original native IDs when
+working with an older client, and never paste a key into a chat.

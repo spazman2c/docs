@@ -34,12 +34,12 @@ New reads: [Participants](/reference/listParticipants) lists accessible team/pla
 
 ## Native odds and player props
 
-Native-only observations have a separate contract from canonical odds. They preserve provider fixture/market/selection IDs and units; they do not establish reviewed cross-book matching, player identity or settlement compatibility.
+Native-only observations have a separate contract from canonical odds. They preserve provider fixture/market/selection IDs and units; unlinked records do not establish cross-book matching, player identity or settlement compatibility. A reviewed shared fixture UUID establishes fixture identity only.
 
 | GET endpoint | Use it for |
 | --- | --- |
 | [`/v1/native/fixtures`](/reference/listNativeFixtures) | Discover reviewed sources 11/12/13 fixtures using an explicit `source_id` |
-| [`/v1/native/odds`](/reference/listNativeOdds) | Request a returned `native_fixture`; `props_only=true` selects source-labelled prop candidates |
+| [`/v1/native/odds`](/reference/listNativeOdds) | Request a returned `native_fixture` or reviewed `shared_fixture` UUID; `props_only=true` selects source-labelled prop candidates |
 | [`/v1/native/source/fixtures`](/reference/listSourceNativeFixtures) | Discover sources 5/14/15 snapshots in `retained` or separately approved `live` mode |
 | [`/v1/native/source/odds`](/reference/listSourceNativeOdds) | Request the exact returned `native_fixture` and `capture_id`; optionally filter with `props_only=true` |
 
@@ -54,3 +54,5 @@ Use [entitlements](/reference/getEntitlements), [coverage](/reference/getAccount
 [Fair prices](/reference/getFair), [reviewed mappings](/reference/listMappings), [history](/history), [WebSocket](/websocket) and [alerts](/alerts) retain separate requirements. A documented schema does not mean a feature is available to your account. Fair values can be unavailable when no eligible independent reference exists.
 
 Scores, results/settlements, a complete player roster, languages and public paid account provisioning are not current sports-data endpoints. Request only operations documented in the [OpenAPI contract](/openapi.json).
+
+Native sports/competition discovery, reviewed product-category filters and the expanded shared-UUID cohort are documented in [Datasets](/datasets#native-discovery-and-family-filters). Existing source grants, original clocks and settlement exclusions still apply.

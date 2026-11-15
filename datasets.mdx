@@ -100,9 +100,14 @@ curl --fail-with-body --silent --show-error --max-time 10 \
 
 Read the live revision rather than keeping a compiled name table. Catalogue
 membership does not establish current prices, collection, source permissions or
-your account's access. The native `sportsbooks` dataset does not yet support the
-canonical `/sports`, `/bookmakers` or `/competitions` readers; use the catalogue
-for source names and the documented native fixture reader for native identities.
+your account's access. With an existing native source grant, the free
+`/v1/sports`, `/v1/bookmakers` and `/v1/competitions` readers also accept
+`namespace=sportsbooks`. Optional `source_id` selects one permitted source.
+Sports and competitions use source-qualified string IDs; canonical datasets keep
+their existing integer IDs. Source11 references describe its original current
+discovery envelope, not complete/fresh price books. Retained sources5/14/15 remain
+explicit historical evidence unless their separate approved `mode=live` is selected.
+Discovery adds no permissions and remains free at zero credits.
 
 
 ## Reviewed shared fixture IDs
@@ -143,3 +148,43 @@ Known 1xBit paired-player templates also resolve when the archived name/paramete
 vectors match the original packed line exactly; ambiguous vectors stay unresolved.
 No market-family, settlement, canonical player or source-use approval follows.
 Do not apply one bookmaker's dictionary to another source.
+
+
+## Native discovery and family filters
+
+Use `GET /v1/sports?namespace=sportsbooks&source_id=13`, then
+`GET /v1/competitions?namespace=sportsbooks&sport=source:13:sport:2`.
+For example, `source:13:sport:2` is 20Bet basketball; 1xBit basketball is
+`source:12:sport:3`. Do not join their numeric native sport IDs directly.
+
+Use the returned `sport` and `competition` reference strings on native fixtures or
+odds, or the standard sportsbooks view. Competitions expose their actual
+`native_id` where retained. Older records that retained only a name instead return
+`native_id:null`, `identity_scope:source_competition_label`, and a deterministic
+source/sport/name reference. That reference filters the exact label group; it is
+not an invented provider competition ID. Missing/stopped/stale metadata stays explicit.
+
+On native odds, `market_family=1x2,total,handicap` (or the alias `markets`) filters
+reviewed native product categories. `market_statistic=main` is the default with a
+family filter and excludes bookings/corners; explicitly choose `bookings`, `corners`,
+`goals`, `points` or `all` when needed. Unknown, player/combo and unreviewed types
+are excluded with `missing[]` reasons. No filter preserves all existing native
+records. Generic handicap does not establish an Asian payout: `asian_handicap`
+only matches an explicit reviewed provider declaration. Categories retain the
+native period and review digest, and never set settlement compatibility.
+
+For a common response, use `/v1/odds?namespace=sportsbooks&view=standard&source_id=13&fixture=YOUR_NATIVE_ID&markets=total`.
+The returned `native_market_category` is a product category, not canonical
+settlement approval. Source-native 5/14/15 records keep their original `record`
+unchanged and add the optional category alongside it. Two-way moneylines are not 1X2.
+
+Five additional reviewed native fixtures now have shared UUIDs: Belgium–Italy,
+France–Turkey, Croatia–Czechia, Phoenix Suns–Los Angeles Lakers and
+Los Angeles Clippers–Charlotte Hornets. These five groups cover 11 native references
+across sources 11/12/13 and are separate from the unchanged original 66 groups.
+Native fixture/odds rows expose `shared_fixture`; use its UUID with the selected
+`source_id` on `/v1/native/fixtures` or `/v1/native/odds`, or the standard view.
+Use `shared_fixture` instead of `native_fixture`/`fixture`, never both. The lookup
+retains each source's own native fixture ID. Other fixtures remain unlinked until
+reviewed; changed identity or source authority removes the stale link. This is a
+finite reviewed cohort, not permanent current coverage or verified payout matching.

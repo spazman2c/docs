@@ -84,3 +84,22 @@ A price can remain unchanged for hours while confirmations keep it fresh. Stale
 confirmations never become fresh because a request is served.
 
 For source 11, `MATCH_ODDS` is Match 1X2 (goals), while `BK_MATCH_1X2` is Bookings Match 1X2. Their different prices are not a home/away reversal. Retain the provider market name, type, period and native identity; `market_type=MATCH_ODDS` selects the former.
+
+## Look up a bookmaker by source ID
+
+The free [live catalogue](https://oddswire.io/api/catalogue) provides current names
+without an API key or a namespace. Its `document.bookmakers` entries contain
+`id`, `name` and `collectorId`. A **numeric** `id` is the native API's `source_id`;
+`collectorId` is the website slug. String catalogue IDs are separate identities
+and must not be coerced into numeric source IDs.
+
+```bash
+curl --fail-with-body --silent --show-error --max-time 10 \
+  https://oddswire.io/api/catalogue
+```
+
+Read the live revision rather than keeping a compiled name table. Catalogue
+membership does not establish current prices, collection, source permissions or
+your account's access. The native `sportsbooks` dataset does not yet support the
+canonical `/sports`, `/bookmakers` or `/competitions` readers; use the catalogue
+for source names and the documented native fixture reader for native identities.

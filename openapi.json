@@ -4867,6 +4867,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Reviewed cross-dataset fixture UUID; mutually exclusive with fixture. Requires current bridge identity and ordinary dataset/source access.",
+            "in": "query",
+            "name": "shared_fixture",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -8006,6 +8015,15 @@
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Reviewed cross-dataset fixture UUID; mutually exclusive with fixture. Requires current bridge identity and ordinary dataset/source access.",
+            "in": "query",
+            "name": "shared_fixture",
             "required": false,
             "schema": {
               "type": "string"
@@ -11376,6 +11394,9 @@
               "source_local"
             ],
             "type": "string"
+          },
+          "shared_fixture": {
+            "$ref": "#/components/schemas/SharedFixtureIdentity"
           }
         },
         "required": [
@@ -13008,6 +13029,9 @@
           },
           "status": {
             "type": "string"
+          },
+          "shared_fixture": {
+            "$ref": "#/components/schemas/SharedFixtureIdentity"
           }
         },
         "required": [
@@ -13989,6 +14013,9 @@
                 "type": "null"
               }
             ]
+          },
+          "shared_fixture": {
+            "$ref": "#/components/schemas/SharedFixtureIdentity"
           }
         },
         "required": [
@@ -14145,6 +14172,9 @@
           },
           "state": {
             "type": "string"
+          },
+          "label_evidence": {
+            "$ref": "#/components/schemas/NativeLabelEvidence"
           }
         },
         "required": [
@@ -14369,6 +14399,9 @@
           },
           "terms": {
             "$ref": "#/components/schemas/Terms"
+          },
+          "shared_fixture": {
+            "$ref": "#/components/schemas/SharedFixtureIdentity"
           }
         },
         "required": [
@@ -15513,6 +15546,69 @@
           "data",
           "missing",
           "meta"
+        ],
+        "type": "object"
+      },
+      "SharedFixtureIdentity": {
+        "additionalProperties": false,
+        "properties": {
+          "authority_epoch": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer"
+          },
+          "swapped": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "authority_epoch",
+          "revision",
+          "swapped"
+        ],
+        "type": "object"
+      },
+      "NativeLabelEvidence": {
+        "additionalProperties": false,
+        "properties": {
+          "dictionary_sha256": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "original_market_name": {
+            "type": "string"
+          },
+          "original_selection_name": {
+            "type": "string"
+          },
+          "selection_template": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "resolved",
+              "template_unresolved",
+              "market_only"
+            ],
+            "type": "string"
+          },
+          "template_type": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "state",
+          "language",
+          "dictionary_sha256",
+          "original_market_name",
+          "original_selection_name"
         ],
         "type": "object"
       }

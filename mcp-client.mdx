@@ -21,8 +21,12 @@ Complete OAuth sign-in when prompted. Never paste your API key into a chat.
 If Claude’s web app reports “Connector couldn’t be added” before opening sign-in,
 use Claude Code while the web connection is investigated. Do not enter a secret,
 disable authentication, or substitute the documentation-search endpoint.
-A previous web-connection test succeeded; the later reported failure has not yet
-been reproduced and should not be treated as resolved.
+An existing signed-in Claude web connection was verified on 15 November, including
+one lookup by a reviewed shared fixture UUID. This does not reproduce a failed new
+Add flow in another account. Claude Free currently permits one custom connector;
+if the slot is occupied, use the existing connection. See [Claude's plan limits](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp).
+If a new connection still fails, provide the exact error and attempt time/timezone,
+or a signed-in browser where it reproduces. Never share passwords or API keys.
 
 ## Connect ChatGPT or Claude with OAuth
 

@@ -103,3 +103,30 @@ membership does not establish current prices, collection, source permissions or
 your account's access. The native `sportsbooks` dataset does not yet support the
 canonical `/sports`, `/bookmakers` or `/competitions` readers; use the catalogue
 for source names and the documented native fixture reader for native identities.
+
+
+## Reviewed shared fixture IDs
+
+Canonical fixture and odds records may include `shared_fixture` with a stable UUID,
+authority epoch, review revision and `swapped` orientation. Existing integer fixture
+IDs and native source keys remain unchanged. The current reviewed scope is 66 football
+fixtures across the regional and prediction datasets; other fixtures may omit it.
+This establishes reviewed fixture identity only, not settlement/price compatibility.
+
+Use `shared_fixture=YOUR_UUID` on `/v1/fixtures` or `/v1/odds`, with an explicit
+`namespace` and your permitted books. Do not combine it with `fixture`. The same
+UUID can locate different source-local IDs in different reviewed datasets. Access,
+bounded pages, freshness and credit rules still apply. An inaccessible/unknown UUID
+returns 404; changed review/metadata invalidates a lookup or cursor with 409; an
+unavailable identity authority returns 503. Never reuse an old review after a
+changed epoch. Broader unreviewed native feeds do not gain shared IDs automatically.
+
+## Native display-label evidence
+
+1xBit native offers now include reviewed English market/outcome templates where the
+original group/type/line or player inputs resolve exactly. `label_evidence` retains
+the original names, dictionary digest and `resolved`, `market_only` or
+`template_unresolved` state. Unknown packed-score/time templates remain unresolved.
+Display labels do not change native IDs, price clocks, line units, settlement or
+permissions.20Bet's numeric market/outcome dictionary remains unresolved; do not
+interpret numeric labels or apply another bookmaker's dictionary.

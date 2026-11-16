@@ -4,7 +4,7 @@ description: "Connect ChatGPT, Claude or another MCP host using your existing Od
 ---
 
 The hosted read-only MCP endpoint is **https://api.oddswire.io/mcp**. It exposes
-18 bounded tools through the existing API, with the same account permissions,
+21 bounded tools through the existing API, with the same account permissions,
 source permissions, freshness rules and credits. Signup grants no source access.
 
 The data endpoint above is separate from `https://docs.oddswire.io/mcp`,
@@ -198,3 +198,11 @@ refresh its connector/tool list or reconnect the existing Oddswire connection.
 An older cached tool schema can reject parameters before any API call; it does not
 mean your source permissions changed. Use the returned original native IDs when
 working with an older client, and never paste a key into a chat.
+
+## Comparison, settlement and closing-price tools
+
+- `pm_vs_books` compares an eligible Polymarket probability with a margin-free book consensus. It requires at least two independent bookmaker groups, excludes Polymarket from that book consensus, and reports a probability difference rather than an executable arbitrage.
+- `settlement_check` shows the reviewed market, settlement rule, selected offers and exclusion reasons. An insufficient or expired reference is not settlement clearance.
+- `clv_report` compares your locally supplied `taken_odds`, `taken_at` and exact `quote_key` with one verified closing-history page. These three local inputs are not forwarded to the API. Missing, ambiguous, unverified or post-kickoff evidence produces no CLV value. Its decimal-price ratio excludes fees and does not establish profit.
+
+Each tool makes one protected read, retains the API’s missing coverage, and uses the same account/source permissions and REST credit rules. Tools do not automatically retry or fetch another page. Every reply includes `price_age`; absent confirmation clocks are explicitly unavailable, never described as live.

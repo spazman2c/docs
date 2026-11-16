@@ -5,6 +5,8 @@ description: "Connect an authorized stream, apply snapshots and deltas, and reco
 
 Streaming requires an active WebSockets add-on, `odds` and `websocket` permissions, and access to the selected sources. New accounts do not receive stream access automatically. Check [Coverage](https://oddswire.io/app/coverage) and [availability](/availability).
 
+**Who can use it today:** only workspaces with explicitly enabled WebSockets, source and stream permissions. A new signup, plan estimate or ordinary REST key does not activate streaming. Public paid checkout remains unavailable.
+
 Use `wss://api.oddswire.io/v1/ws` for a header-authenticated server connection. For browser clients, use the short-lived ticket flow below. Stream messages do not consume REST data credits.
 
 ## Try the workspace WebSocket lab

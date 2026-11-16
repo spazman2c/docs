@@ -107,7 +107,6 @@
           {
             "group": "Additional capabilities",
             "pages": [
-              "history",
               "websocket",
               "webhooks",
               "inplay",
@@ -118,12 +117,7 @@
             "group": "Advanced data reference",
             "pages": [
               "reference/getFair",
-              "reference/listMappings",
-              "reference/listHistoryTicks",
-              "reference/getHistorySnapshot",
-              "reference/getHistoryLines",
-              "reference/getHistoryCoverage",
-              "reference/exportHistory"
+              "reference/listMappings"
             ]
           }
         ]

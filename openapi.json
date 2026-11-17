@@ -1146,7 +1146,7 @@
             }
           },
           {
-            "description": "Current feed: optional fixture_ref from discovery, preserving its bookmaker and sport. Omit to read the current account scope. Legacy datasets retain their original fixture ID syntax.",
+            "description": "Optional exact fixture_ref from Find fixtures. Leave empty to read current available records across your account scope.",
             "in": "query",
             "name": "fixture",
             "required": false,
@@ -1155,7 +1155,7 @@
             }
           },
           {
-            "description": "Current feed sport slug (football by default). Explicit legacy datasets retain their original numeric sport filter.",
+            "description": "Sport slug from your plan; football by default.",
             "in": "query",
             "name": "sport",
             "required": false,
@@ -2026,7 +2026,7 @@
             }
           },
           {
-            "description": "Current feed: optional fixture_ref from discovery, preserving its bookmaker and sport. Omit to read the current account scope. Legacy datasets retain their original fixture ID syntax.",
+            "description": "Optional exact fixture_ref from Find fixtures. Leave empty to read current available records across your account scope.",
             "in": "query",
             "name": "fixture",
             "required": false,
@@ -2035,7 +2035,7 @@
             }
           },
           {
-            "description": "Current feed sport slug (football by default). Explicit legacy datasets retain their original numeric sport filter.",
+            "description": "Sport slug from your plan; football by default.",
             "in": "query",
             "name": "sport",
             "required": false,

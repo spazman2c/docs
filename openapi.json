@@ -12,7 +12,7 @@
   "paths": {
     "/v1/account/coverage": {
       "get": {
-        "description": "Use your API key to check current account access, usage or coverage. These reads do not activate data access. This account read is free, including when no data credits remain.",
+        "description": "Check available sources and missing coverage for your account. Free.",
         "operationId": "getAccountCoverage",
         "parameters": [
           {
@@ -46,7 +46,7 @@
                 }
               }
             },
-            "description": "Successful workspace/control response. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -183,7 +183,7 @@
     },
     "/v1/account/entitlements": {
       "get": {
-        "description": "Use your API key to check current account access, usage or coverage. These reads do not activate data access. This account read is free, including when no data credits remain.",
+        "description": "Check the datasets, bookmakers and features available to your API key. Free.",
         "operationId": "getEntitlements",
         "parameters": [
           {
@@ -205,7 +205,7 @@
                 }
               }
             },
-            "description": "Successful workspace/control response. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -342,7 +342,7 @@
     },
     "/v1/account/usage": {
       "get": {
-        "description": "Use your API key to check current account access, usage or coverage. These reads do not activate data access. This account read is free, including when no data credits remain.",
+        "description": "Check credits used, remaining allocation and recent requests. Free.",
         "operationId": "getUsage",
         "parameters": [
           {
@@ -364,7 +364,7 @@
                 }
               }
             },
-            "description": "Successful workspace/control response. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -501,7 +501,7 @@
     },
     "/v1/bookmakers": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. This discovery operation consumes no REST data credits. Authentication and dataset/source permissions still apply.",
+        "description": "List bookmakers and source regions in a dataset. Free.",
         "operationId": "listSources",
         "parameters": [
           {
@@ -575,7 +575,7 @@
                 }
               }
             },
-            "description": "Successful data response. This discovery operation consumes no REST data credits. Authentication and dataset/source permissions still apply.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -709,7 +709,7 @@
     },
     "/v1/competitions": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. This discovery operation consumes no REST data credits. Authentication and dataset/source permissions still apply.",
+        "description": "List competitions, optionally filtered by sport. Free.",
         "operationId": "listCompetitions",
         "parameters": [
           {
@@ -792,7 +792,7 @@
                 }
               }
             },
-            "description": "Successful data response. This discovery operation consumes no REST data credits. Authentication and dataset/source permissions still apply.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -926,7 +926,7 @@
     },
     "/v1/fair": {
       "get": {
-        "description": "Requires fair-value access and eligible independent references for the selected market. Read the method, input times and exclusion reasons. An insufficient result contains no usable fair price or edge. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "Get an eligible fair-value reference for a market. One credit per successful page. [Method](/data).",
         "operationId": "getFair",
         "parameters": [
           {
@@ -1027,7 +1027,7 @@
                 }
               }
             },
-            "description": "Successful data response. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -1161,7 +1161,7 @@
     },
     "/v1/fixtures": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. Completed canonical data pages cost one credit, including empty pages. For native views, eligible nonempty pages cost one credit and empty or ineligible pages are free. Errors and 304 are free; inspect Usage for final settlement.",
+        "description": "Find matches by bookmaker, competition or start time. [Credits and response rules](/errors).",
         "operationId": "listFixtures",
         "parameters": [
           {
@@ -1362,7 +1362,7 @@
                 }
               }
             },
-            "description": "Successful data response. Completed canonical data pages cost one credit, including empty pages. For native views, eligible nonempty pages cost one credit and empty or ineligible pages are free. Errors and 304 are free; inspect Usage for final settlement.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -1498,7 +1498,7 @@
     },
     "/v1/fixtures/{fixture_id}": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. Completed canonical data pages cost one credit, including empty pages. For native views, eligible nonempty pages cost one credit and empty or ineligible pages are free. Errors and 304 are free; inspect Usage for final settlement.",
+        "description": "Get one fixture by its dataset-scoped ID. [Credits and response rules](/errors).",
         "operationId": "getFixture",
         "parameters": [
           {
@@ -1590,7 +1590,7 @@
                 }
               }
             },
-            "description": "Successful data response. Completed canonical data pages cost one credit, including empty pages. For native views, eligible nonempty pages cost one credit and empty or ineligible pages are free. Errors and 304 are free; inspect Usage for final settlement.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -1724,7 +1724,7 @@
     },
     "/v1/mappings": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "List reviewed links between source fixtures. One credit per successful page.",
         "operationId": "listMappings",
         "parameters": [
           {
@@ -1854,7 +1854,7 @@
                 }
               }
             },
-            "description": "Successful data response. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -1988,7 +1988,7 @@
     },
     "/v1/markets": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "List market families and periods. One credit per successful page.",
         "operationId": "listMarkets",
         "parameters": [
           {
@@ -2071,7 +2071,7 @@
                 }
               }
             },
-            "description": "Successful data response. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -2205,7 +2205,7 @@
     },
     "/v1/native/fixtures": {
       "get": {
-        "description": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.",
+        "description": "Find source-native fixtures with their original IDs. [Dataset and credit rules](/datasets).",
         "operationId": "listNativeFixtures",
         "parameters": [
           {
@@ -2324,7 +2324,7 @@
                 }
               }
             },
-            "description": "Successful data response. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -2460,7 +2460,7 @@
     },
     "/v1/native/odds": {
       "get": {
-        "description": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.",
+        "description": "Get source-native prices for a discovered fixture. [Dataset and credit rules](/datasets).",
         "operationId": "listNativeOdds",
         "parameters": [
           {
@@ -2624,7 +2624,7 @@
                 }
               }
             },
-            "description": "Successful data response. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -2760,7 +2760,7 @@
     },
     "/v1/native/source/fixtures": {
       "get": {
-        "description": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.",
+        "description": "Find fixtures in source snapshots. [Dataset and credit rules](/datasets).",
         "operationId": "listSourceNativeFixtures",
         "parameters": [
           {
@@ -2879,7 +2879,7 @@
                 }
               }
             },
-            "description": "Successful data response. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -3015,7 +3015,7 @@
     },
     "/v1/native/source/odds": {
       "get": {
-        "description": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.",
+        "description": "Get prices from an exact fixture and capture. [Dataset and credit rules](/datasets).",
         "operationId": "listSourceNativeOdds",
         "parameters": [
           {
@@ -3170,7 +3170,7 @@
                 }
               }
             },
-            "description": "Successful data response. An eligible nonempty native data page costs one credit. Empty native fixture pages and native odds pages without eligible records are free. Errors and 304 are free; inspect Usage for final settlement.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -3306,7 +3306,7 @@
     },
     "/v1/odds": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. Completed canonical data pages cost one credit, including empty pages. For native views, eligible nonempty pages cost one credit and empty or ineligible pages are free. Errors and 304 are free; inspect Usage for final settlement.",
+        "description": "Get prices for a fixture or competition. [Credits and response rules](/errors).",
         "operationId": "listOdds",
         "parameters": [
           {
@@ -3569,7 +3569,7 @@
                 }
               }
             },
-            "description": "Successful data response. Completed canonical data pages cost one credit, including empty pages. For native views, eligible nonempty pages cost one credit and empty or ineligible pages are free. Errors and 304 are free; inspect Usage for final settlement.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -3705,7 +3705,7 @@
     },
     "/v1/participants": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. Completed canonical data pages cost one credit, including empty pages. For native views, eligible nonempty pages cost one credit and empty or ineligible pages are free. Errors and 304 are free; inspect Usage for final settlement.",
+        "description": "Find teams and players available in a dataset. [Credits and response rules](/errors).",
         "operationId": "listParticipants",
         "parameters": [
           {
@@ -3858,7 +3858,7 @@
                 }
               }
             },
-            "description": "Successful data response. Completed canonical data pages cost one credit, including empty pages. For native views, eligible nonempty pages cost one credit and empty or ineligible pages are free. Errors and 304 are free; inspect Usage for final settlement.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
@@ -3992,7 +3992,7 @@
     },
     "/v1/sports": {
       "get": {
-        "description": "Requires access to the selected dataset and sources. Check your account coverage before requesting data. This discovery operation consumes no REST data credits. Authentication and dataset/source permissions still apply.",
+        "description": "List sports in a dataset. Free.",
         "operationId": "listSports",
         "parameters": [
           {
@@ -4066,7 +4066,7 @@
                 }
               }
             },
-            "description": "Successful data response. This discovery operation consumes no REST data credits. Authentication and dataset/source permissions still apply.",
+            "description": "Successful response.",
             "headers": {
               "X-Oddswire-Credit-Cost": {
                 "$ref": "#/components/headers/X-Oddswire-Credit-Cost"

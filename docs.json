@@ -58,31 +58,33 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "Start building",
+            "group": "Fixtures and odds",
             "pages": [
-              "endpoints",
-              "datasets",
-              "authentication",
-              "quickstart-curl",
-              "quickstart-python",
-              "quickstart-typescript"
+              "reference/listFixtures",
+              "reference/getFixture",
+              "reference/listOdds",
+              "reference/listParticipants"
             ]
           },
           {
-            "group": "Sports data",
+            "group": "Sports and bookmakers",
             "pages": [
               "reference/listSports",
               "reference/listSources",
               "reference/listCompetitions",
-              "reference/listMarkets",
-              "reference/listFixtures",
-              "reference/getFixture",
-              "reference/listParticipants",
-              "reference/listOdds"
+              "reference/listMarkets"
             ]
           },
           {
-            "group": "Native odds and props",
+            "group": "Access and usage",
+            "pages": [
+              "reference/getEntitlements",
+              "reference/getUsage",
+              "reference/getAccountCoverage"
+            ]
+          },
+          {
+            "group": "Source-specific data",
             "pages": [
               "reference/listNativeFixtures",
               "reference/listNativeOdds",
@@ -91,36 +93,44 @@
             ]
           },
           {
-            "group": "Access and quota",
+            "group": "Fair values and mappings",
             "pages": [
-              "reference/getEntitlements",
-              "reference/getUsage",
-              "reference/getAccountCoverage"
+              "reference/getFair",
+              "reference/listMappings"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Integration guides",
+        "groups": [
+          {
+            "group": "Start building",
+            "pages": [
+              "endpoints",
+              "authentication",
+              "quickstart-curl",
+              "quickstart-python",
+              "quickstart-typescript"
             ]
           },
           {
-            "group": "Response handling",
+            "group": "Data and responses",
             "pages": [
-              "errors",
+              "datasets",
               "data",
+              "errors",
               "odds-freshness",
               "missing-odds-data"
             ]
           },
           {
-            "group": "Additional capabilities",
+            "group": "Streaming and integrations",
             "pages": [
               "websocket",
               "webhooks",
               "inplay",
               "packages"
-            ]
-          },
-          {
-            "group": "Advanced data reference",
-            "pages": [
-              "reference/getFair",
-              "reference/listMappings"
             ]
           }
         ]

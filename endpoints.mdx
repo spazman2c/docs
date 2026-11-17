@@ -18,3 +18,16 @@ No dataset setup is required. `meta.bookmakers` accounts for the entire source s
 Use the [cURL](/quickstart-curl), [Python](/quickstart-python) or [TypeScript](/quickstart-typescript) quick start. Request fields and responses belong in the [API reference](/reference/listFixtures); [current data](/datasets), [authentication](/authentication), [credits](/errors) and [freshness](/odds-freshness) are explained in the integration guides.
 
 Your account permissions and credit rules apply. Requests never activate access or start collection.
+
+## Supported bookmakers
+
+`GET /v1/bookmakers` lists every active entry in the live platform catalogue,
+including offline collectors. Each entry separates current operational/degraded/
+offline/unknown status and observed coverage from your account entitlement.
+Use `GET /v1/bookmakers?status=active` to hide offline and unknown entries.
+No namespace is needed; an older namespace parameter does not narrow this default
+list. `scope=namespace` explicitly selects the original dataset-scoped contract.
+This authenticated discovery request is free and never starts collection or grants
+source access. String catalogue IDs stay strings; `source_id` is null where the
+adapter has no registered numeric source identity. Expired telemetry is unknown,
+and expired coverage is removed.

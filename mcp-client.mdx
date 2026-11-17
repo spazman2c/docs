@@ -112,6 +112,15 @@ Start with **“Check my Oddswire usage and coverage.”** These account reads a
 
 Then ask **“Find one football fixture in a dataset I can access, and show the missing-coverage reasons.”** A data request can use credits. Ask for its odds only after checking the fixture and source. Returned prices keep their original confirmation or capture time; an answer generated now is not proof of a fresh price.
 
+`get_coverage` defaults to the bounded reader-metadata view. Its response states
+that quote coverage is not measured; it does not return a fixture-by-fixture
+coverage graph. Inspect the returned scope and missing reasons before drawing
+coverage conclusions.
+
+`get_sources` lists the supported bookmaker directory across the live catalogue,
+including offline entries. Its directory scope is independent of the connection's
+default odds namespace; entitlement and collection status remain separate.
+
 ## Common tools
 
 | Purpose | Tools |
@@ -133,6 +142,11 @@ Each tool makes at most one API attempt, with ten rows per complete page and a
 128 KiB output limit. Cursors require an explicit next call; there is no automatic
 pagination, retry or price polling. Unpaged results exceeding ten rows fail rather
 than truncate. Narrow the supported filters before another explicit request.
+
+If an upstream response exceeds the local output bound, the tool returns a
+structured `local_output_bound_after_upstream` error and the upstream credit cost
+when known. It does not silently truncate or retry. The upstream request may
+already have consumed a credit; check Usage before deciding on another call.
 
 The hosted service allows one upstream tool call in flight per key, twenty tool
 attempts per key per minute, sixty protocol requests per key per minute and sixteen

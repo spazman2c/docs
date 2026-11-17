@@ -502,14 +502,14 @@
     },
     "/v1/bookmakers": {
       "get": {
-        "description": "List bookmakers and source regions in a dataset. Free.",
+        "description": "List all supported bookmakers from the live catalogue, with collection status, observed coverage and separate account entitlement. Offline bookmakers remain visible; status=active filters the list. Use scope=namespace only for the legacy dataset view. Free.",
         "operationId": "listSources",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "Default directory covers every active entry in the live platform catalogue, including offline collectors. An old namespace value does not narrow this directory. Use scope=namespace for the original dataset-scoped contract.",
             "in": "query",
             "name": "namespace",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string",
               "x-default": "regional"
@@ -537,6 +537,34 @@
             }
           },
           {
+            "description": "all (default): live platform-wide supported catalogue; namespace preserves legacy discovery.",
+            "in": "query",
+            "name": "scope",
+            "required": false,
+            "schema": {
+              "enum": [
+                "all",
+                "namespace"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Platform directory: all (default), active (operational/degraded) or offline. Unknown status is never active.",
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "enum": [
+                "all",
+                "active",
+                "offline"
+              ],
+              "type": "string",
+              "x-default": "scheduled"
+            }
+          },
+          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -551,7 +579,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SourcesPage"
+                  "$ref": "#/components/schemas/SourcesPageNativeView"
                 }
               }
             },
@@ -674,15 +702,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 25 \\\n  --url \"https://api.oddswire.io/v1/bookmakers\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 25 \\\n  --url \"https://api.oddswire.io/v1/bookmakers\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/bookmakers\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=25) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {}\nurl = \"https://api.oddswire.io/v1/bookmakers\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=25) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/bookmakers\");\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(25_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/bookmakers\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(25_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -3725,6 +3753,166 @@
         ],
         "type": "object"
       },
+      "SourcesPageNativeView": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/SupportedBookmakersPage"
+          },
+          {
+            "$ref": "#/components/schemas/SourcesPage"
+          },
+          {
+            "$ref": "#/components/schemas/NativeReferencesPage"
+          }
+        ]
+      },
+      "SupportedBookmakersPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/SupportedBookmaker"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "SupportedBookmaker": {
+        "additionalProperties": false,
+        "properties": {
+          "catalogue_revision": {
+            "type": "string"
+          },
+          "collection": {
+            "type": "string"
+          },
+          "collector_id": {
+            "type": "string"
+          },
+          "coverage": {
+            "items": {
+              "$ref": "#/components/schemas/BookmakerCoverage"
+            },
+            "type": "array"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "entitled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "last_capture_at": {
+            "oneOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "rights": {
+            "type": "string"
+          },
+          "source_id": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "operational",
+              "degraded",
+              "offline",
+              "unknown"
+            ],
+            "type": "string"
+          },
+          "status_valid_until": {
+            "oneOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "collector_id",
+          "source_id",
+          "region",
+          "status",
+          "collection",
+          "enabled",
+          "entitled",
+          "coverage",
+          "last_capture_at",
+          "status_valid_until",
+          "catalogue_revision",
+          "rights"
+        ],
+        "type": "object"
+      },
+      "BookmakerCoverage": {
+        "additionalProperties": false,
+        "properties": {
+          "market": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sport": {
+            "type": "string"
+          },
+          "valid_until": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sport",
+          "name",
+          "market",
+          "valid_until"
+        ],
+        "type": "object"
+      },
       "SourcesPage": {
         "additionalProperties": false,
         "properties": {
@@ -3793,6 +3981,98 @@
           "families",
           "rights",
           "entitled"
+        ],
+        "type": "object"
+      },
+      "NativeReferencesPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/NativeReference"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "NativeReference": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_mode": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "identity_scope": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "bookmaker",
+              "sport",
+              "competition"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "native_id": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "native_sport_id": {
+            "type": "string"
+          },
+          "received_at": {
+            "oneOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "sport_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "source_id",
+          "name",
+          "native_id",
+          "identity_scope",
+          "evidence_mode",
+          "received_at"
         ],
         "type": "object"
       },

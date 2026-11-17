@@ -21,7 +21,7 @@ export const LiveCatalogue = () => {
         });
         if (!response.ok) throw new Error('Unavailable');
         const value = await response.json();
-        if (value.document?.schema !== 'oddswire-catalogue.v1' || !Array.isArray(value.document.bookmakers) || !Array.isArray(value.document.sports) || value.document.bookmakers.length > 128 || value.document.sports.length > 64) throw new Error('Unavailable');
+        if (value.document?.schema !== 'oddswire-catalogue.v1' || !Array.isArray(value.document.bookmakers) || !Array.isArray(value.document.sports) || value.document.bookmakers.length > 128 || value.document.sports.length > 128) throw new Error('Unavailable');
         if (active) { setCatalogue(value); setFailed(false); }
       } catch { if (active) { setCatalogue(null); setFailed(true); } }
       finally { busy = false; }
@@ -35,7 +35,8 @@ export const LiveCatalogue = () => {
   const config = catalogue.document;
   const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value / 100);
   const books = config.bookmakers.filter((book) => book.active);
-  const sports = config.sports.filter((sport) => sport.active);
+  const allowedSports = ['football', 'formula-1', 'horse-racing', 'ufc', 'basketball', 'cricket', 'tennis'];
+  const sports = config.sports.filter((sport) => sport.active && allowedSports.includes(sport.id));
   return <div>
     <p>{books.length} bookmakers and {sports.length} sports. Monthly draft estimates in USD; availability depends on your account coverage.</p>
     <table><thead><tr><th>Bookmaker</th><th>Region package</th><th>Monthly base estimate</th></tr></thead>
@@ -78,6 +79,10 @@ Sign in to [your workspace](https://oddswire.io/app) and check [Coverage](https:
 | [In-play](/inplay) | Not currently available for customer use |
 | [Client libraries](/packages) | Use standard HTTP quick starts; official registry packages are not yet published |
 | Checkout | Not generally available; follow the billing state shown in your workspace |
+
+## Current sport scope
+
+Across all bookmakers and signup/plan choices, the current sport scope is **Football (Soccer), F1, Horse Racing, UFC, Basketball, Cricket and Tennis**. Coverage remains source-dependent. UFC does not include other MMA events, and F1 does not include other motorsport. Archived sports remain part of historical evidence; they are not current selectable coverage.
 
 ## Current catalogue and estimates
 

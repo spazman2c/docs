@@ -3,6 +3,22 @@ title: "Current data and response fields"
 description: "Read current fixtures and odds across the bookmakers your account can access."
 ---
 
+## Current sports
+
+Current requests and plan choices use only the following sport IDs:
+
+| Sport | `sport` value |
+| --- | --- |
+| Football (Soccer) | `football` |
+| F1 | `formula-1` |
+| Horse Racing | `horse-racing` |
+| UFC | `ufc` |
+| Basketball | `basketball` |
+| Cricket | `cricket` |
+| Tennis | `tennis` |
+
+A sport being selectable does not establish current data for every bookmaker. UFC requires UFC-specific evidence; generic MMA is not equivalent. F1 requires Formula 1 evidence. American football/NFL and other archived categories are outside current delivery scope, including older source19 selections. Original source IDs, historical evidence and stored account records remain unchanged; they do not override the current scope.
+
 ## Try current fixtures and odds
 
 Enter your own API key in [Find fixtures](/reference/listFixtures) and press **Send**. The request includes **all bookmakers your account can access for the selected sport**. Football is preselected; change `sport` to another sport in your plan. No dataset selection or bookmaker filter is needed.

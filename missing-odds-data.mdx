@@ -1,6 +1,6 @@
 ---
 title: "How to handle missing odds data in an API"
-description: "Technical guidance for handling odds API responses."
+description: "Handle partial results, missing prices and incomplete markets."
 ---
 
 An odds response can contain useful prices and missing coverage at the same time. Inspect both before treating a market as complete.
@@ -15,7 +15,7 @@ A source can be uncollected, unavailable, stale, suspended, denied, or incompati
 
 ## Keep control reads separate
 
-Read coverage and entitlement information before issuing a large data query. On the current contract, account/control reads and errors are free. A successfully delivered metered data page uses one credit, including an empty result. Follow the [credit and error rules](https://docs.oddswire.io/errors).
+Read coverage and entitlement information before issuing a large data query. On the current contract, account/control reads and errors are free. A completed canonical data page costs one credit, including an empty result. Empty native fixture pages and native odds pages without eligible records are free; eligible nonempty native pages cost one credit. Follow the [credit and error rules](https://docs.oddswire.io/errors).
 
 ## Check your implementation
 

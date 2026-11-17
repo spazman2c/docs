@@ -5,7 +5,7 @@ description: "Connect an authorized stream, apply snapshots and deltas, and reco
 
 Streaming requires an active WebSockets add-on, `odds` and `websocket` permissions, and access to the selected sources. New accounts do not receive stream access automatically. Check [Coverage](https://oddswire.io/app/coverage) and [availability](/availability).
 
-**Who can use it today:** only workspaces with explicitly enabled WebSockets, source and stream permissions. A new signup, plan estimate or ordinary REST key does not activate streaming. Public paid checkout remains unavailable.
+Check your workspace access before building a stream. A saved plan or an ordinary REST key does not activate WebSockets.
 
 Use `wss://api.oddswire.io/v1/ws` for a header-authenticated server connection. For browser clients, use the short-lived ticket flow below. Stream messages do not consume REST data credits.
 
@@ -41,8 +41,8 @@ Download the [AsyncAPI contract](/asyncapi.json) and [wire schema](/websocket.sc
 ## Browser authentication
 
 A verified owner/admin session can POST an existing account-owned `key_id` to the
-same-origin workspace `/api/websocket/ticket`. This exchanges the current Clerk
-session for a digest-only, single-use credential; it does not grant streaming or
+same-origin workspace `/api/websocket/ticket`. This exchanges the current workspace
+session for a single-use credential; it does not grant streaming or
 source access. Connect to the returned WSS URL with `oddswire.v1`, then send
 `{"type":"authenticate","ticket":"<one-use ticket>"}` before other commands.
 The exact configured frontend Origin is required. No data or hello is sent before

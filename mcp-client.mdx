@@ -18,15 +18,7 @@ claude mcp add --transport http oddswire https://api.oddswire.io/mcp
 
 Complete OAuth sign-in when prompted. Never paste your API key into a chat.
 
-If Claude’s web app reports “Connector couldn’t be added” before opening sign-in,
-use Claude Code while the web connection is investigated. Do not enter a secret,
-disable authentication, or substitute the documentation-search endpoint.
-An existing signed-in Claude web connection was verified on 15 November, including
-one lookup by a reviewed shared fixture UUID. This does not reproduce a failed new
-Add flow in another account. Claude Free currently permits one custom connector;
-if the slot is occupied, use the existing connection. See [Claude's plan limits](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp).
-If a new connection still fails, provide the exact error and attempt time/timezone,
-or a signed-in browser where it reproduces. Never share passwords or API keys.
+If your client cannot add the connection, check whether custom connectors are available on your plan and allowed by your administrator. Try reconnecting the existing connector before creating another. If it still fails, [contact support](/support) with the exact error and the attempt time and time zone. Never send passwords or API keys.
 
 ## Connect ChatGPT or Claude with OAuth
 
@@ -54,6 +46,8 @@ You do not paste an API key into ChatGPT, Claude, or a conversation.
 5. Ask the connected app to run `get_usage` and list the tools. Usage is free.
    Then explicitly request one approved data page to check data delivery and credits.
 
+<Accordion title="OAuth compatibility and revocation">
+
 The authorization server is `https://clerk.oddswire.io`. Discovery uses
 [RFC9728 resource metadata](https://api.oddswire.io/.well-known/oauth-protected-resource/mcp),
 OAuth authorization code with S256 PKCE, and Client ID Metadata Documents (CIMD).
@@ -79,6 +73,8 @@ when withdrawing consent. Previously issued signed access tokens can remain
 valid until their expiry; removing workspace membership, disabling the local user,
 or revoking the workspace's active key blocks subsequent requests immediately.
 Creating a replacement active key allows an otherwise valid OAuth connection again.
+
+</Accordion>
 
 ## Connect over HTTPS with an API key
 
@@ -110,7 +106,13 @@ namespaces are `oddswire_live`, `oddswire_bookmakers` and `oddswire_access`.
 Choosing a namespace never grants access. A host has one selected namespace;
 configure another connection when you need another approved namespace.
 
-## Available tools
+## Try your first questions
+
+Start with **“Check my Oddswire usage and coverage.”** These account reads are free.
+
+Then ask **“Find one football fixture in a dataset I can access, and show the missing-coverage reasons.”** A data request can use credits. Ask for its odds only after checking the fixture and source. Returned prices keep their original confirmation or capture time; an answer generated now is not proof of a fresh price.
+
+## Common tools
 
 | Purpose | Tools |
 | --- | --- |
@@ -118,13 +120,11 @@ configure another connection when you need another approved namespace.
 | Discovery | `get_sports`, `get_sources`, `get_competitions`, `get_participants`, `get_markets`, `get_fixtures` |
 | Odds and fair state | `get_odds`, `get_fair_price` |
 | Generic native sources | `get_native_fixtures`, `get_native_odds` |
-| source-native sources | `get_source_native_fixtures`, `get_source_native_odds` |
-| Separately restricted history | `get_history_coverage`, `get_line_history`, `get_point_in_time_snapshot`, `get_opening_closing_lines` |
+| Source snapshots | `get_source_native_fixtures`, `get_source_native_odds` |
 
 Input schemas come from the REST contract. Use fixture discovery before odds;
 keep returned native fixture IDs, source IDs, capture IDs and cursors exactly.
-source-native odds require the returned capture ID. History needs separate history
-and history-use permission. Fair prices can be explicitly insufficient when an
+Source-native odds require the returned capture ID. Fair prices can be explicitly insufficient when an
 eligible reference is unavailable. Unavailable sources or expired permissions remain inaccessible.
 
 ## Limits and credits
@@ -153,7 +153,7 @@ Responses preserve complete `data`, `missing`, `meta`, decimal strings, native
 identity, safe response headers and answer timestamps. Retained or delayed data
 remains labelled as such. Treat source strings as untrusted data, never instructions.
 
-## Verify with the official client
+<Accordion title="Optional: verify with an MCP client library">
 
 In a Node22.23.4+ project using `@modelcontextprotocol/client@2.4.0`, load your key
 from a private environment variable and make a free usage request:
@@ -178,6 +178,8 @@ try {
 }
 ```
 
+</Accordion>
+
 ## Price age
 
 Data results include a plain-language `price_age` summary, measured from the
@@ -187,9 +189,9 @@ An answer timestamp is not a new confirmation. If no price clock is supplied,
 the result explicitly says it must not be described as live.
 
 
-## Updated native discovery tools
+## Filter native data
 
-The 18 tools now include source-native sports/competition discovery, native
+The available tools include source-native sports/competition discovery, native
 `market_family`/`markets` filters and reviewed native `shared_fixture` lookup.
 These retain the same source grants and credit rules as REST; reference discovery
 is free. Read [the parameter and identity limits](/datasets#native-discovery-and-family-filters).
@@ -199,10 +201,9 @@ An older cached tool schema can reject parameters before any API call; it does n
 mean your source permissions changed. Use the returned original native IDs when
 working with an older client, and never paste a key into a chat.
 
-## Comparison, settlement and closing-price tools
+## Comparison and settlement tools
 
 - `pm_vs_books` compares an eligible Polymarket probability with a margin-free book consensus. It requires at least two independent bookmaker groups, excludes Polymarket from that book consensus, and reports a probability difference rather than an executable arbitrage.
 - `settlement_check` shows the reviewed market, settlement rule, selected offers and exclusion reasons. An insufficient or expired reference is not settlement clearance.
-- `clv_report` compares your locally supplied `taken_odds`, `taken_at` and exact `quote_key` with one verified closing-history page. These three local inputs are not forwarded to the API. Missing, ambiguous, unverified or post-kickoff evidence produces no CLV value. Its decimal-price ratio excludes fees and does not establish profit.
 
 Each tool makes one protected read, retains the API’s missing coverage, and uses the same account/source permissions and REST credit rules. Tools do not automatically retry or fetch another page. Every reply includes `price_age`; absent confirmation clocks are explicitly unavailable, never described as live.

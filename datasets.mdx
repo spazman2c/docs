@@ -3,7 +3,9 @@ title: "Datasets and response views"
 description: "Use shorter dataset names and consistent fixture, odds and participant fields without changing existing identities."
 ---
 
-A dataset selects an isolated identity catalogue and its permitted source reads. The API parameter remains `namespace` for compatibility; the default playground derives it from your bookmaker choice. The **Dataset** selector remains in the advanced explorer.
+A dataset groups fixtures, odds and their identifiers. The API calls this `namespace`. Start with a value returned by your [access check](/reference/getEntitlements), then keep it with every fixture ID. In the existing workspace Playground, your bookmaker choice selects the dataset for you.
+
+Use `view=standard` for consistent fixture and odds fields across supported readers. The detailed sections below explain native-only sources, capture IDs and advanced filters; you can skip them for a basic canonical fixture-to-odds request.
 
 | Preferred alias | Existing public name |
 | --- | --- |
@@ -114,8 +116,7 @@ Discovery adds no permissions and remains free at zero credits.
 
 Canonical fixture and odds records may include `shared_fixture` with a stable UUID,
 authority epoch, review revision and `swapped` orientation. Existing integer fixture
-IDs and native source keys remain unchanged. The current reviewed scope is 66 football
-fixtures across the regional and prediction datasets; other fixtures may omit it.
+IDs and native source keys remain unchanged. Only reviewed fixtures include a shared UUID; other fixtures may omit it.
 This establishes reviewed fixture identity only, not settlement/price compatibility.
 
 Use `shared_fixture=YOUR_UUID` on `/v1/fixtures` or `/v1/odds`, with an explicit
@@ -123,32 +124,11 @@ Use `shared_fixture=YOUR_UUID` on `/v1/fixtures` or `/v1/odds`, with an explicit
 UUID can locate different source-local IDs in different reviewed datasets. Access,
 bounded pages, freshness and credit rules still apply. An inaccessible/unknown UUID
 returns 404; changed review/metadata invalidates a lookup or cursor with 409; an
-unavailable identity authority returns 503. Never reuse an old review after a
-changed epoch. Broader unreviewed native feeds do not gain shared IDs automatically.
+unavailable identity authority returns 503. Rediscover the fixture if its identity or review changes. Unlinked native records do not gain shared IDs automatically.
 
-## Native display-label evidence
+## Native display labels
 
-1xBit native offers now include reviewed English market/outcome templates where the
-original group/type/line or player inputs resolve exactly. `label_evidence` retains
-the original names, dictionary digest and `resolved`, `market_only` or
-`template_unresolved` state. Unknown packed-score/time templates remain unresolved.
-Display labels do not change native IDs, price clocks, line units, settlement or
-permissions.
-
-20Bet now resolves ordinary native market/outcome labels and missing variant-market
-label fallbacks from archived English
-dictionaries containing 5,518 market and 3,406 outcome templates. Binding uses
-internal dictionary IDs from the original native key, rather than substituting a
-vendor ID. The label evidence includes `dictionary_market_id`,
-`dictionary_outcome_id` and `market_template` where applicable. Supported literal
-participant/number/handicap substitutions preserve the original specifier string;
-unknown arithmetic, unbound player tokens and other unsupported templates remain
-explicitly unresolved. Existing provider variant/player labels are preserved.
-Known 1xBit paired-player templates also resolve when the archived name/parameter
-vectors match the original packed line exactly; ambiguous vectors stay unresolved.
-No market-family, settlement, canonical player or source-use approval follows.
-Do not apply one bookmaker's dictionary to another source.
-
+Some sources supply translated market and selection labels. Read `label_evidence` to distinguish a resolved label from an unresolved template. Original native IDs, line values and units remain authoritative. A readable label does not establish player identity or settlement compatibility, and labels from one bookmaker must not be applied to another.
 
 ## Native discovery and family filters
 
@@ -178,13 +158,4 @@ The returned `native_market_category` is a product category, not canonical
 settlement approval. Source-native 5/14/15 records keep their original `record`
 unchanged and add the optional category alongside it. Two-way moneylines are not 1X2.
 
-Five additional reviewed native fixtures now have shared UUIDs: Belgium–Italy,
-France–Turkey, Croatia–Czechia, Phoenix Suns–Los Angeles Lakers and
-Los Angeles Clippers–Charlotte Hornets. These five groups cover 11 native references
-across sources 11/12/13 and are separate from the unchanged original 66 groups.
-Native fixture/odds rows expose `shared_fixture`; use its UUID with the selected
-`source_id` on `/v1/native/fixtures` or `/v1/native/odds`, or the standard view.
-Use `shared_fixture` instead of `native_fixture`/`fixture`, never both. The lookup
-retains each source's own native fixture ID. Other fixtures remain unlinked until
-reviewed; changed identity or source authority removes the stale link. This is a
-finite reviewed cohort, not permanent current coverage or verified payout matching.
+Where `shared_fixture` is returned, use that UUID with the selected `source_id` on native fixture/odds reads or the standard view. Use `shared_fixture` instead of `native_fixture`/`fixture`, never both. The lookup keeps the source's original fixture ID. Not every fixture has a shared UUID, and a shared identity does not establish matching payout rules.

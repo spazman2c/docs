@@ -1,35 +1,38 @@
 ---
 title: "Changelog"
-description: "Customer workspace and integration updates."
+description: "Changes that affect your workspace and integrations."
 ---
+
+## 16 November 2026
+
+- Offline bookmaker options are greyed out; online bookmakers appear first in supported selectors.
+- Odds workspace toolbar menus are smaller, animate open and closed, and open one at a time.
+- Workspace [Support](/support) opens Intercom for new tickets and follow-ups. Earlier requests remain available separately.
+- Historical odds are no longer listed as a public product in the documentation.
 
 ## 15 November 2026
 
-- Added native sports/competition discovery, reviewed product-category filters and five additional shared-fixture groups beyond the original 66. Source-local IDs, quote clocks and settlement exclusions are preserved. Refresh cached MCP tool schemas for the new parameters.
-
-- Canonical fixtures/odds expose reviewed shared fixture UUIDs and bounded lookup by UUID across the current 66-fixture regional/prediction review.
-- Native 1xBit and 20Bet display names retain original-label provenance; unsupported templates remain explicit.
-- Existing signed-in Claude web lookup by shared UUID verified. Fresh connector setup in another account remains a separate check.
+- [Fixtures and Saved fixtures](/fixtures) let you browse matches, save references and explicitly pull their odds.
+- **In-play** now distinguishes after-kickoff markets from continuously updated pregame prices. Pregame updates do not require the In-play option.
+- Native sports and competition discovery, market-family filters and reviewed shared fixture UUIDs help narrow requests. See [Datasets](/datasets).
+- Eligible fair-value reads support multiplicative, power and Shin methods. Independent-reference requirements still apply to each market.
+- MCP includes comparison and settlement checks, with original price age and explicit missing-reference reasons.
 
 ## 13 November 2026
 
-- Added workspace guides for [plan customization and the seven optional add-ons](/plans), [Usage](/usage) and [account setup](/workspace).
-- Documented [Odds board](/odds-board), [Terminal](/terminal), [+EV finder](/ev-finder), [Bet tracker](/bet-tracker), [Alerts](/alerts) and [Discord posts](/discord), including their access requirements and unavailable-data states.
-- Bet tracker supports manual date/time entry, CSV preview and import, settlement, revision history, delete/restore and complete exports.
-- Plans use the current published catalogue and refresh their estimates. Add-on selection and active feature access are separate.
-- +EV shows an explicit insufficient-reference state when no eligible calculation is possible. A deployed page does not guarantee available opportunities.
-- Documentation navigation now groups workspace guides, API integrations and MCP setup.
+- Guides cover [plan customization](/plans), [Usage](/usage), [Odds board](/odds-board), [Terminal](/terminal), [+EV finder](/ev-finder), [Bet tracker](/bet-tracker), [Alerts](/alerts) and [Discord posts](/discord).
+- Bet tracker supports manual records, CSV preview/import, results, revision history, delete/restore and exports.
 
 ## 12 November 2026
 
-- The [hosted MCP server](/mcp-client) supports Oddswire sign-in for compatible ChatGPT and Claude connectors, alongside API-key authentication.
-- [WebSocket documentation](/websocket) covers server-side authentication, short-lived browser tickets and native snapshot delivery.
+- [MCP](/mcp-client) supports Oddswire sign-in for compatible OAuth clients and API-key authentication for supported hosts.
+- [WebSocket documentation](/websocket) covers server connections, browser tickets and native snapshot delivery.
 
 ## 11 November 2026
 
-- Added dataset aliases `sportsbooks`, `regional` and `pilot`, opt-in `view=standard`, [participants](/reference/listParticipants) and [fixture detail](/reference/getFixture).
-- Hosted HTTPS quick starts use standard tools and header credentials.
+- Added shorter dataset aliases, opt-in `view=standard`, [participants](/reference/listParticipants) and [fixture details](/reference/getFixture).
+- HTTPS quick starts use standard tools and header credentials.
 
 ## Compatibility
 
-The REST API uses `/v1`. Preserve original identifiers and tolerate added optional fields and missing/error codes. Check [current availability](/availability) and your account coverage before depending on a feature.
+The REST API uses `/v1`. Preserve original identifiers and allow for added optional fields and new error or missing-coverage codes. Check [availability](/availability) and your account coverage before depending on a feature.

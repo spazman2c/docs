@@ -1,29 +1,40 @@
 ---
 title: "Your workspace"
-description: "Sign in, manage access and find the tools available to your account."
+description: "Sign in, check your access and choose your next task."
 ---
 
-Open [your workspace](https://oddswire.io/app), sign in and complete email verification. Verified signup creates a personal workspace automatically. New accounts start without source-data access or a data-credit allocation.
+Open [your workspace](https://oddswire.io/app), sign in and complete email verification. Verified signup creates a personal workspace. New accounts start without source-data access or a credit allocation.
 
 ## Get set up
 
-1. Review [Coverage](https://oddswire.io/app/coverage) for your accessible sources, regions and features.
-2. Open [Usage](https://oddswire.io/app/usage) to see your allocation, used credits and remaining balance.
-3. For an API integration, create a key in [API keys](https://oddswire.io/app/keys) and store the value securely when it is shown.
-4. Run the free [entitlements check](/reference/getEntitlements), then try an explicitly permitted request in the [playground](https://oddswire.io/app/playground).
+1. Check [Coverage](https://oddswire.io/app/coverage) for the bookmakers, regions and features available to your account.
+2. Check [Usage](https://oddswire.io/app/usage) for your credit allocation and remaining balance.
+3. Open [Customize plan](https://oddswire.io/app/plan) if you want to choose bookmakers, sports or add-ons. A saved selection is an estimate, not an activated purchase.
+4. Choose a task below. If the access you need is missing, [contact support](/support) with your required bookmakers, sports, region and intended use.
 
-If your account has no data scope, contact support with the sports, bookmakers, region and intended use you need. Changing datasets or creating another key does not unlock access.
+## Find the right tool
 
-## Workspace tools
+| I want to… | Open |
+| --- | --- |
+| Find matches, save references and pull their odds | [Fixtures](/fixtures) |
+| Arrange bookmaker panels and compare prices | [Odds board](/odds-board) |
+| Use the dedicated research interface | [Terminal](/terminal) |
+| Explore reference-based expected value | [+EV finder](/ev-finder) |
+| Record bets and results | [Bet tracker](/bet-tracker) |
+| Watch a selected price | [Alerts](/alerts) |
+| Keep an odds message updated in a channel | [Discord posts](/discord) |
+| Test a request or connect an application | [API overview](/endpoints) |
 
-The navigation shows the add-ons currently available to your account: [Odds board](/odds-board), [Terminal](/terminal), [+EV finder](/ev-finder), [Bet tracker](/bet-tracker), [Alerts](/alerts) and [Discord posts](/discord). A purchased add-on can still require source coverage or permission for its particular use. See [Plans and add-ons](/plans).
+Tools appear according to your active add-ons and permissions. API access and Terminal access are separate; buying or selecting one does not unlock the other.
 
-Account owners and admins manage keys and supported workspace settings. Only the owner can change member roles. API data keys cannot manage membership or billing.
+## Set up an API key
 
-## Keys and account security
+Owners and admins can create a key in [API keys](https://oddswire.io/app/keys). Copy the value when it is shown and store it in your integration's secret settings. Each account supports one active key. Rotating it replaces the old key; revoking it blocks subsequent requests from integrations using it.
 
-Each account supports one active API key. Rotation replaces the old key; revocation stops future requests using it. Integrations tied to that key may also stop. Store API keys only in server-side secrets or your integration host's secure settings.
+The existing signed-in Playground uses your account's active key automatically. You do not need to paste a secret to use it. External applications still need your API key; start with the free [access check](/reference/getEntitlements).
 
-The workspace manages your login session. You do not need to copy session tokens into API examples. If access changes, refresh the workspace and inspect the displayed status. An unavailable access check can temporarily hide optional tools; contact support if it persists.
+## Manage your account
 
-See [Authentication](/authentication) for HTTP credentials and [Usage](/usage) for credit accounting.
+Owners and admins manage keys and supported settings. Only the owner changes member roles. API data keys cannot manage membership or billing. Your workspace handles the login session; you do not need to copy session tokens into examples.
+
+If a page cannot confirm access, refresh it once and check [Support](/support) if the issue continues. An unavailable check does not mean your account balance or saved records were erased.

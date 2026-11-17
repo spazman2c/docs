@@ -47,12 +47,16 @@ export const LiveCatalogue = () => {
     {Array.isArray(config.addons) && <table><thead><tr><th>Add-on</th><th>Monthly estimate</th></tr></thead>
       <tbody>{config.addons.filter((addon) => addon.active).map((addon) => <tr key={addon.id}><th scope="row">{addon.name}</th><td>{money(addon.priceCents ?? config.pricing.addonCents)}</td></tr>)}</tbody>
     </table>}
-    <p>Live option ×{config.pricing.liveMilli / 1000}; player props ×{config.pricing.propsMilli / 1000}. Selected request tiers multiply the combined bookmaker and sport subtotal. Optional feature fees are added separately. Saving an estimate does not activate access.</p>
+    <p>In-play option ×{config.pricing.liveMilli / 1000}; player props ×{config.pricing.propsMilli / 1000}. Selected request tiers multiply the combined bookmaker and sport subtotal. Optional feature fees are added separately. Saving an estimate does not activate access.</p>
   </div>;
 };
 
 
-Last reviewed: **13 November 2026**.
+## Check access separately from source status
+
+**Coverage** tells you which data your account may use. **Service status** tells you whether collection and delivery are currently working. You need both: an active plan cannot make an offline bookmaker available.
+
+Online bookmakers appear first in supported selectors. Offline entries are greyed out. **Status unavailable** means a current check could not confirm the state; it is not proof of an outage. Check [service status](https://oddswire.io/status) or [contact support](/support) if needed.
 
 ## What your account can use
 
@@ -62,9 +66,10 @@ Sign in to [your workspace](https://oddswire.io/app) and check [Coverage](https:
 | --- | --- |
 | Documentation and [calculators](https://oddswire.io/tools) | Public, without an account |
 | Workspace, keys, usage and coverage | Available after verified signup, according to your role |
+| [Fixtures and saved matches](/fixtures) | Explicit fixture and odds requests need source access and credits; saving references is free |
 | [REST API](/endpoints) and playground | Data requires an enabled dataset, source scope and allocation |
-| [Odds board](/odds-board) and [Terminal](/terminal) | Deployed interfaces; active add-ons and appropriate display permissions required |
-| [+EV finder](/ev-finder) | Deployed interface; live opportunities unavailable without eligible independent references |
+| [Odds board](/odds-board) and [Terminal](/terminal) | Active add-ons and appropriate display permissions required |
+| [+EV finder](/ev-finder) | Requires eligible independent references for the selected market; unavailable references produce no edge |
 | [Bet tracker](/bet-tracker) | Manual records, CSV import, settlement and export; active add-on required; verified CLV currently unavailable |
 | [Alerts](/alerts) | Browser inbox and supported email options; active add-on and permitted source/channel coverage required |
 | [Discord posts](/discord) | Updating messages for supported selections; active add-on and outbound source permission required |
@@ -80,12 +85,12 @@ Sign in to [your workspace](https://oddswire.io/app) and check [Coverage](https:
 
 This table refreshes from the published catalogue. If the catalogue is unavailable, current entries and prices cannot be confirmed. See the [bookmaker directory](https://oddswire.io/bookmakers), [sports directory](https://oddswire.io/sports), [pricing](https://oddswire.io/pricing) and [plan builder](https://oddswire.io/app/plan) for details.
 
-Catalogue membership does not guarantee complete league coverage, in-play support, player props or access in your country. A live-option estimate is not evidence that an in-play feed is enabled. Your actual account permissions and each response's freshness and missing-coverage details determine what you can use.
+Catalogue membership does not guarantee complete league coverage, in-play support, player props or access in your country. An In-play estimate does not mean an in-play feed is enabled. Your actual account permissions and each response's freshness and missing-coverage details determine what you can use.
 
 ## Before relying on a feed
 
 Run a free [entitlements check](/reference/getEntitlements). Choose only returned scopes, preserve dataset and source identity, and inspect every `missing[]` entry. A source outage or expired permission can withdraw prices independently of your selected plan.
 
-Current data is intended for bounded pre-match research and explicit queries. There is no published production latency, continuous coverage or high-frequency trading commitment. MCP is for explicit questions rather than automatic price polling.
+Current customer data is intended for pregame research and explicit queries. Pregame prices can update continuously without the In-play option; actual update speed depends on the source and delivery status. There is no published production latency, continuous coverage or high-frequency trading commitment. MCP is for explicit questions rather than automatic price polling.
 
 A free data allowance is not open for general activation. For access or permitted display/redistribution, [contact support](mailto:admin@oddswire.io) with your requirements. Do not send credentials.

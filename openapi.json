@@ -12,7 +12,7 @@
   "paths": {
     "/v1/account": {
       "get": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "getAccount",
         "parameters": [
           {
@@ -151,8 +151,8 @@
             "AccountSession": []
           }
         ],
-        "summary": "Get account",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access."
+        "summary": "Get workspace details",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access."
       }
     },
     "/v1/account/alert-deliveries": {
@@ -253,7 +253,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "List alert deliveries",
+        "summary": "View alert deliveries",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -355,7 +355,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "List alert rules",
+        "summary": "List webhook alert rules",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       },
       "post": {
@@ -465,7 +465,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Create alert rule",
+        "summary": "Create a webhook alert rule",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -586,7 +586,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Disable alert rule",
+        "summary": "Disable a webhook alert rule",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -688,7 +688,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Get workspace alerts",
+        "summary": "Get alert inbox and rules",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -800,7 +800,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Create workspace alert",
+        "summary": "Create a workspace alert",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -921,7 +921,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Edit workspace alert",
+        "summary": "Edit a workspace alert",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -1042,13 +1042,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Change workspace alert",
+        "summary": "Pause or resume a workspace alert",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
     "/v1/account/audit": {
       "get": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "listAccountAudit",
         "parameters": [
           {
@@ -1144,8 +1144,8 @@
             "AccountSession": []
           }
         ],
-        "summary": "List account audit",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access."
+        "summary": "View account activity",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access."
       }
     },
     "/v1/account/bet-tracker": {
@@ -1246,7 +1246,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Get bet tracker",
+        "summary": "Get bet tracker records",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -1358,7 +1358,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Confirm bet tracker",
+        "summary": "Confirm a bet import",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -1429,7 +1429,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Export bet tracker",
+        "summary": "Export bet records",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -1540,7 +1540,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "History bet tracker",
+        "summary": "View a bet revision history",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -1651,7 +1651,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Import bet tracker",
+        "summary": "Get a CSV import preview",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -1763,7 +1763,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Mutate bet tracker",
+        "summary": "Update bet records",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -1874,7 +1874,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Operation bet tracker",
+        "summary": "Check a tracker operation",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -1986,7 +1986,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Preview bet tracker",
+        "summary": "Preview a CSV import",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -2098,7 +2098,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Query bet tracker",
+        "summary": "Filter bet records",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
@@ -2169,13 +2169,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Template bet tracker",
+        "summary": "Download the bet import template",
         "x-oddswire-availability": "Requires an active Bet tracker add-on and an owner/admin workspace session. Manual bet records do not require source-price access."
       }
     },
     "/v1/account/coverage": {
       "get": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "getAccountCoverage",
         "parameters": [
           {
@@ -2326,8 +2326,8 @@
             "AccountSession": []
           }
         ],
-        "summary": "Get account coverage",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access.",
+        "summary": "Check data coverage",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access.",
         "x-codeSamples": [
           {
             "lang": "cURL",
@@ -2346,7 +2346,7 @@
     },
     "/v1/account/entitlements": {
       "get": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "getEntitlements",
         "parameters": [
           {
@@ -2485,8 +2485,8 @@
             "AccountSession": []
           }
         ],
-        "summary": "Get entitlements",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access.",
+        "summary": "Check API access",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access.",
         "x-codeSamples": [
           {
             "lang": "cURL",
@@ -2505,7 +2505,7 @@
     },
     "/v1/account/keys": {
       "get": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "listKeys",
         "parameters": [
           {
@@ -2601,11 +2601,11 @@
             "AccountSession": []
           }
         ],
-        "summary": "List keys",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access."
+        "summary": "List API keys",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access."
       },
       "post": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "createKey",
         "parameters": [
           {
@@ -2711,13 +2711,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Create key",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access."
+        "summary": "Create an API key",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access."
       }
     },
     "/v1/account/keys/{key_id}": {
       "delete": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "revokeKey",
         "parameters": [
           {
@@ -2822,13 +2822,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Revoke key",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access."
+        "summary": "Revoke an API key",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access."
       }
     },
     "/v1/account/keys/{key_id}/rotate": {
       "post": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "rotateKey",
         "parameters": [
           {
@@ -2943,13 +2943,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Rotate key",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access."
+        "summary": "Rotate an API key",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access."
       }
     },
     "/v1/account/members": {
       "get": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "listMembers",
         "parameters": [
           {
@@ -3045,13 +3045,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "List members",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access."
+        "summary": "List workspace members",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access."
       }
     },
     "/v1/account/members/{user_id}": {
       "put": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "setMemberRole",
         "parameters": [
           {
@@ -3166,13 +3166,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Set member role",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access."
+        "summary": "Change a member role",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access."
       }
     },
     "/v1/account/usage": {
       "get": {
-        "description": "Requires the documented authentication and account role. Account controls do not activate source-data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Use the credential and workspace role shown below. Account controls do not activate data access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "getUsage",
         "parameters": [
           {
@@ -3311,8 +3311,8 @@
             "AccountSession": []
           }
         ],
-        "summary": "Get usage",
-        "x-oddswire-availability": "Requires the documented authentication and account role. Account controls do not activate source-data access.",
+        "summary": "Get credit usage",
+        "x-oddswire-availability": "Use the credential and workspace role shown below. Account controls do not activate data access.",
         "x-codeSamples": [
           {
             "lang": "cURL",
@@ -3427,7 +3427,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "List webhook targets",
+        "summary": "List webhook destinations",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       },
       "post": {
@@ -3537,7 +3537,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Create webhook target",
+        "summary": "Add a webhook destination",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -3658,7 +3658,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Disable webhook target",
+        "summary": "Disable a webhook destination",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -3779,7 +3779,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Rotate webhook target",
+        "summary": "Rotate a webhook signing secret",
         "x-oddswire-availability": "Requires Alerts access and the documented owner/admin workspace role. External delivery additionally requires permission for the selected source and destination."
       }
     },
@@ -3881,7 +3881,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Get web socket capabilities",
+        "summary": "Check streaming access",
         "x-oddswire-availability": "Streaming requires an active WebSockets add-on and the relevant source and stream permissions. A browser ticket does not grant additional access."
       }
     },
@@ -3993,7 +3993,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Create browser w s ticket",
+        "summary": "Create a browser stream ticket",
         "x-oddswire-availability": "Streaming requires an active WebSockets add-on and the relevant source and stream permissions. A browser ticket does not grant additional access."
       }
     },
@@ -4095,7 +4095,7 @@
             "AccountSession": []
           }
         ],
-        "summary": "Revoke browser w s tickets",
+        "summary": "Revoke browser stream tickets",
         "x-oddswire-availability": "Streaming requires an active WebSockets add-on and the relevant source and stream permissions. A browser ticket does not grant additional access."
       }
     },
@@ -4289,7 +4289,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List sources",
+        "summary": "List bookmakers",
         "x-oddswire-availability": "Requires access to the selected dataset and sources. Check your account coverage before requesting data.",
         "x-codeSamples": [
           {
@@ -4526,7 +4526,7 @@
     },
     "/v1/fair": {
       "get": {
-        "description": "Requires fair-value access and eligible independent references. An insufficient result is not a fair price or a positive-edge opportunity. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
+        "description": "Requires fair-value access and eligible independent references for the selected market. Read the method, input times and exclusion reasons. An insufficient result contains no usable fair price or edge. A completed successful data page costs one credit, including an empty or insufficient page. Errors and 304 are free; a client timeout can leave delivery uncertain.",
         "operationId": "getFair",
         "parameters": [
           {
@@ -4741,8 +4741,8 @@
             "ApiKey": []
           }
         ],
-        "summary": "Get fair",
-        "x-oddswire-availability": "Requires fair-value access and eligible independent references. An insufficient result is not a fair price or a positive-edge opportunity.",
+        "summary": "Get fair-value reference",
+        "x-oddswire-availability": "Requires fair-value access and eligible independent references for the selected market. Read the method, input times and exclusion reasons. An insufficient result contains no usable fair price or edge.",
         "x-codeSamples": [
           {
             "lang": "cURL",
@@ -5076,7 +5076,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List fixtures",
+        "summary": "Find fixtures",
         "x-legacy-response": "FixturesPage",
         "x-standard-response": "DatasetFixturesPage",
         "x-oddswire-availability": "Requires access to the selected dataset and sources. Check your account coverage before requesting data.",
@@ -5304,7 +5304,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "Get fixture",
+        "summary": "Get fixture details",
         "x-oddswire-availability": "Requires access to the selected dataset and sources. Check your account coverage before requesting data.",
         "x-codeSamples": [
           {
@@ -5568,7 +5568,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List mappings",
+        "summary": "List reviewed fixture mappings",
         "x-oddswire-availability": "Requires access to the selected dataset and sources. Check your account coverage before requesting data.",
         "x-codeSamples": [
           {
@@ -6038,7 +6038,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List native fixtures",
+        "summary": "Find native fixtures",
         "x-legacy-response": "NativeFixturesPage",
         "x-standard-response": "DatasetFixturesPage",
         "x-oddswire-availability": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access.",
@@ -6338,7 +6338,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List native odds",
+        "summary": "Get native odds",
         "x-legacy-response": "NativeOddsPage",
         "x-standard-response": "DatasetOddsPage",
         "x-oddswire-availability": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access.",
@@ -6593,7 +6593,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List source native fixtures",
+        "summary": "Find source snapshots",
         "x-legacy-response": "SourceNativeFixturesPage",
         "x-standard-response": "DatasetFixturesPage",
         "x-oddswire-availability": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access.",
@@ -6884,7 +6884,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List source native odds",
+        "summary": "Get source snapshot odds",
         "x-legacy-response": "SourceNativeOddsPage",
         "x-standard-response": "DatasetOddsPage",
         "x-oddswire-availability": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access.",
@@ -7283,7 +7283,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List odds",
+        "summary": "Get odds",
         "x-legacy-response": "OddsPage",
         "x-standard-response": "DatasetOddsPage",
         "x-oddswire-availability": "Requires access to the selected dataset and sources. Check your account coverage before requesting data.",
@@ -7572,7 +7572,7 @@
             "ApiKey": []
           }
         ],
-        "summary": "List participants",
+        "summary": "List teams and players",
         "x-oddswire-availability": "Requires access to the selected dataset and sources. Check your account coverage before requesting data.",
         "x-codeSamples": [
           {
@@ -7800,7 +7800,7 @@
     },
     "/v1/terminal/board": {
       "post": {
-        "description": "Requires an active Terminal add-on and the appropriate Terminal source permissions. Charts additionally require historical access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Requires an active Terminal add-on and permission for the selected sources. Chart data is available only where separately enabled; a visible chart control does not guarantee data. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "terminalBoard",
         "parameters": [
           {
@@ -7906,13 +7906,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Terminal board",
-        "x-oddswire-availability": "Requires an active Terminal add-on and the appropriate Terminal source permissions. Charts additionally require historical access."
+        "summary": "Get Terminal prices",
+        "x-oddswire-availability": "Requires an active Terminal add-on and permission for the selected sources. Chart data is available only where separately enabled; a visible chart control does not guarantee data."
       }
     },
     "/v1/terminal/chart": {
       "post": {
-        "description": "Requires an active Terminal add-on and the appropriate Terminal source permissions. Charts additionally require historical access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Requires an active Terminal add-on and permission for the selected sources. Chart data is available only where separately enabled; a visible chart control does not guarantee data. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "terminalChart",
         "parameters": [
           {
@@ -8018,13 +8018,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Terminal chart",
-        "x-oddswire-availability": "Requires an active Terminal add-on and the appropriate Terminal source permissions. Charts additionally require historical access."
+        "summary": "Get Terminal chart data",
+        "x-oddswire-availability": "Requires an active Terminal add-on and permission for the selected sources. Chart data is available only where separately enabled; a visible chart control does not guarantee data."
       }
     },
     "/v1/terminal/context": {
       "get": {
-        "description": "Requires an active Terminal add-on and the appropriate Terminal source permissions. Charts additionally require historical access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Requires an active Terminal add-on and permission for the selected sources. Chart data is available only where separately enabled; a visible chart control does not guarantee data. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "terminalContext",
         "parameters": [
           {
@@ -8120,13 +8120,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Terminal context",
-        "x-oddswire-availability": "Requires an active Terminal add-on and the appropriate Terminal source permissions. Charts additionally require historical access."
+        "summary": "Get Terminal access and filters",
+        "x-oddswire-availability": "Requires an active Terminal add-on and permission for the selected sources. Chart data is available only where separately enabled; a visible chart control does not guarantee data."
       }
     },
     "/v1/terminal/ev": {
       "post": {
-        "description": "Requires fair-value access and eligible independent references. An insufficient result is not a fair price or a positive-edge opportunity. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Requires fair-value access and eligible independent references for the selected market. Read the method, input times and exclusion reasons. An insufficient result contains no usable fair price or edge. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "terminalEV",
         "parameters": [
           {
@@ -8232,13 +8232,13 @@
             "AccountSession": []
           }
         ],
-        "summary": "Terminal e v",
-        "x-oddswire-availability": "Requires fair-value access and eligible independent references. An insufficient result is not a fair price or a positive-edge opportunity."
+        "summary": "Get Terminal expected-value results",
+        "x-oddswire-availability": "Requires fair-value access and eligible independent references for the selected market. Read the method, input times and exclusion reasons. An insufficient result contains no usable fair price or edge."
       }
     },
     "/v1/terminal/preferences": {
       "put": {
-        "description": "Requires an active Terminal add-on and the appropriate Terminal source permissions. Charts additionally require historical access. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
+        "description": "Requires an active Terminal add-on and permission for the selected sources. Chart data is available only where separately enabled; a visible chart control does not guarantee data. This workspace/control operation consumes no REST data credits. Its access and role requirements still apply.",
         "operationId": "terminalPreferences",
         "parameters": [
           {
@@ -8344,8 +8344,8 @@
             "AccountSession": []
           }
         ],
-        "summary": "Terminal preferences",
-        "x-oddswire-availability": "Requires an active Terminal add-on and the appropriate Terminal source permissions. Charts additionally require historical access."
+        "summary": "Manage Terminal preferences",
+        "x-oddswire-availability": "Requires an active Terminal add-on and permission for the selected sources. Chart data is available only where separately enabled; a visible chart control does not guarantee data."
       }
     }
   },

@@ -5,11 +5,11 @@ description: "Read source identity, units, freshness and explicit missing data c
 
 For current deployment and access limits, read [Current availability](/availability).
 
-Every data request names a namespace. Canonical bulk odds also requires a `fixture` or `competition` filter. Discover fixtures and sources inside that namespace; never join separate stores by coincident numeric IDs. `books` contains **source/region IDs**, not brand slugs. Correlated brands in the same feed family do not become independent sharp references.
+Every data request names a namespace. Canonical bulk odds also requires a `fixture` or `competition` filter. Discover fixtures and sources inside that namespace; never join different datasets merely because numeric IDs match. `books` contains **source/region IDs**, not brand slugs. Correlated brands in the same feed family do not become independent sharp references.
 
 ## Choose canonical or native data
 
-The [endpoint guide](/endpoints) separates canonical `/v1/fixtures` and `/v1/odds` from the source-native route families. Native reads use a source-native fixture ID or an explicitly reviewed `shared_fixture` UUID; canonical integer IDs are not interchangeable. source-native odds also require the original `capture_id` returned by discovery; `mode=retained` preserves historical times and `mode=live` additionally checks the approved live scope and current controls.
+The [endpoint guide](/endpoints) separates canonical `/v1/fixtures` and `/v1/odds` from the source-native route families. Native reads use a source-native fixture ID or an explicitly reviewed `shared_fixture` UUID; canonical integer IDs are not interchangeable. Source-native odds also require the original `capture_id` returned by discovery; `mode=retained` preserves historical times and `mode=live` additionally checks the approved live scope and current controls.
 
 Native values retain `native_unit` or the original record's unit. Read player, fee and settlement verification fields explicitly; a native prop candidate is not a reviewed cross-source player market. `props_only=true` filters available native evidence, not a complete player-prop catalogue.
 
@@ -29,9 +29,9 @@ The read-only API does not collect new prices. Free account coverage describes a
 
 ## Fair price
 
-`GET /v1/fair` requires fixture and settlement rule as well as namespace. Use discovered market metadata. The service reevaluates current reviewed inputs, eligibility, feed groups and configured weights. It exposes sources/method/filters and explicit insufficiency rather than serving an expired calculation.
+`GET /v1/fair` requires fixture and settlement rule as well as namespace. Use discovered market metadata. The service checks the current eligible inputs, independent pricing groups and configured weights for each request. It exposes sources/method/filters and explicit insufficiency rather than serving an expired calculation.
 
-The book-consensus policy requires **at least two eligible independent pricing groups**; a sharp book such as Pinnacle is not required. Correlated brands count once. The currently reviewed live reference set has only one independent group, so it remains insufficient. Methods are `multiplicative`, `power` and `shin`, and the result identifies the method and original input clocks. An insufficient result has no usable fair price. A 200 insufficient result still costs one credit. Technical source access does not confer customer display, derived-use or redistribution rights.
+The book-consensus policy requires **at least two eligible independent pricing groups**; a sharp book such as Pinnacle is not required. Correlated brands count once. Availability is evaluated for each request: a selected market can be insufficient even when another market has enough references. Methods are `multiplicative`, `power` and `shin`, and the result identifies the method and original input clocks. An insufficient result has no usable fair price. A 200 insufficient result still costs one credit. Technical source access does not confer customer display, derived-use or redistribution rights.
 
 ## In-play availability
 

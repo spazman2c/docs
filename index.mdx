@@ -1,42 +1,33 @@
 ---
 title: "Oddswire documentation"
-description: "Get started with your workspace, odds data and integrations."
+description: "Set up your workspace, explore odds and connect your application."
 ---
 
-Use Oddswire to query sports odds, compare available prices and manage your betting research. Start with your workspace or connect an application through the REST API or MCP.
+Use Oddswire to explore available fixtures and odds, compare bookmaker prices and connect sports data to your application or AI assistant.
 
-## Choose your starting point
+## What would you like to do?
 
-| I want to… | Start here |
+| Your goal | Start here |
 | --- | --- |
-| Set up my account and API key | [Workspace guide](/workspace) |
-| Build a plan | [Plans and add-ons](/plans) |
-| Make my first API request | [cURL quick start](/quickstart-curl) |
-| Compare available prices | [Odds board](/odds-board) |
-| Understand expected value | [+EV finder](/ev-finder) |
+| Set up an account and check access | [Your workspace](/workspace) |
+| Choose bookmakers, sports and features | [Plans and add-ons](/plans) |
+| Find a match and save it for later | [Fixtures and saved matches](/fixtures) |
+| Compare bookmaker prices | [Odds board](/odds-board) |
+| Make an API request | [API overview](/endpoints) or [cURL quick start](/quickstart-curl) |
+| Connect ChatGPT or Claude | [MCP setup](/mcp-client) |
 | Record bets and review results | [Bet tracker](/bet-tracker) |
-| Watch a price or market | [Alerts](/alerts) |
-| Publish updating odds in Discord | [Discord posts](/discord) |
-| Connect an AI assistant | [MCP setup](/mcp-client) |
+| Get help with an account or request | [Support and troubleshooting](/support) |
 
-Feature visibility depends on your account's active add-ons and permissions. Creating an account or saving a plan does not activate data access. Check [availability](/availability), your [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage) before making data requests.
+## Before you start
 
-## Connect your application
+Sign in to [your workspace](https://oddswire.io/app), then check [Coverage](https://oddswire.io/app/coverage) and [Usage](https://oddswire.io/app/usage). Coverage shows what your account can access; Usage shows your credits. New accounts start without source-data access or a credit allocation.
 
-**Base URL:** `https://api.oddswire.io` · **Authentication:** `X-API-Key` header · **Version:** REST v1
+Saving a plan does not activate it. An available feature can also need permission for the selected bookmakers. See [availability and coverage](/availability) if a feature is locked or a price is missing.
 
-Your first request checks access without consuming data credits:
+## Build an integration
 
-```bash
-curl --max-time 10 \
-  'https://api.oddswire.io/v1/account/entitlements' \
-  --header "X-API-Key: $ODDSWIRE_API_KEY"
-```
+The REST API uses `https://api.oddswire.io` and an `X-API-Key` header. Start with the free [access check](/reference/getEntitlements), discover a fixture in a dataset your account can use, then request its odds.
 
-Then choose an entitled dataset, discover a fixture and request its odds. The [API overview](/endpoints) explains the route families. The [playground](https://oddswire.io/app/playground) lets you select a bookmaker and match and copy cURL, Python or TypeScript requests.
+Choose a complete example: [cURL](/quickstart-curl), [Python](/quickstart-python) or [JavaScript/TypeScript](/quickstart-typescript). Read [data conventions](/data) for price units and [errors and credits](/errors) for request handling.
 
-Keep credentials private, preserve decimal strings and read every `missing[]` entry. See [data conventions](/data) and [errors and credits](/errors).
-
-Download [OpenAPI](/openapi.json), [AsyncAPI](/asyncapi.json) or the [WebSocket schema](/websocket.schema.json). Searchable text is available at [/llms.txt](https://docs.oddswire.io/llms.txt) and [/llms-full.txt](https://docs.oddswire.io/llms-full.txt).
-
-For account access or coverage questions, [contact support](mailto:admin@oddswire.io). Include your request ID when available; never send a key or token.
+Download [OpenAPI](/openapi.json), [AsyncAPI](/asyncapi.json) or the [WebSocket schema](/websocket.schema.json). AI-readable documentation is available at [/llms.txt](https://docs.oddswire.io/llms.txt) and [/llms-full.txt](https://docs.oddswire.io/llms-full.txt).

@@ -13,17 +13,17 @@ New accounts start with **no API or Terminal data access and no credit allocatio
 
 An owner or admin can create, rotate or revoke account-owned keys in [API keys](https://oddswire.io/app/keys). The account has a one-active-key cap. A new raw key is shown once; store it privately. Rotation replaces the old key. Revoked keys must not be reused.
 
-Send exactly one `X-API-Key` header to `https://api.oddswire.io`. Never put credentials in URLs, documentation, browser code, chat or email. Do not send both a data key and a session token. A data key cannot manage account membership, create other keys or operate billing.
+Send exactly one `X-API-Key` header to `https://api.oddswire.io`. Enter your key only in the API reference’s authorization field or your own private application configuration. Never put credentials in URLs, published code, chat or email. Do not send both a data key and a session token. A data key cannot manage account membership, create other keys or operate billing.
 
 Start with `GET /v1/account/entitlements`. It is free, even without data credits, and tells you the account's current `namespaces` and `features`. An empty scope is a valid access result, not an instruction to try a different namespace. Data requests require the corresponding scope and allocation.
 
-## Account management sessions
+## Try a request in the reference
 
-The workspace manages its Clerk session for you. Direct management endpoints in the reference require an appropriate bearer session, current account membership and the documented role. Ordinary data reads use API keys. Do not copy a session token from browser storage into examples.
+Open [Check API access](/reference/getEntitlements), select **Try it**, enter your `X-API-Key` and send the request. Use a namespace returned by that response for fixture and odds requests. The tester sends real requests through Mintlify’s request proxy to `https://api.oddswire.io`. It does not sign in to your workspace or activate access.
 
-`X-Oddswire-Account` selects an account only where the operation documents it; it cannot add membership or change authorization. Only owners change member roles.
+The browser may remember the key between pages and visits. Use a private device and clear the saved authorization when finished. Data requests follow the usual credit rules; the access check is free. Requests run when you send them.
 
-API and Terminal are separate product scopes, and every read rechecks current grants, expiry, suspension and source-use permission.
+Manage account settings, members, keys and billing in [your workspace](https://oddswire.io/app). You do not need a workspace session token to use the data API reference. API and Terminal remain separate product scopes.
 
 ## Access problems
 

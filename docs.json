@@ -13,8 +13,9 @@
   "api": {
     "openapi": "openapi.json",
     "playground": {
-      "display": "none",
-      "proxy": false
+      "display": "interactive",
+      "proxy": true,
+      "credentials": false
     }
   },
   "navigation": {
@@ -131,89 +132,6 @@
             "group": "Connect an AI assistant",
             "pages": [
               "mcp-client"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Workspace API",
-        "groups": [
-          {
-            "group": "Account and members",
-            "pages": [
-              "reference/getAccount",
-              "reference/listMembers",
-              "reference/setMemberRole",
-              "reference/listAccountAudit"
-            ]
-          },
-          {
-            "group": "API keys",
-            "pages": [
-              "reference/listKeys",
-              "reference/createKey",
-              "reference/rotateKey",
-              "reference/revokeKey"
-            ]
-          },
-          {
-            "group": "Workspace alerts",
-            "pages": [
-              "reference/getWorkspaceAlerts",
-              "reference/createWorkspaceAlert",
-              "reference/editWorkspaceAlert",
-              "reference/changeWorkspaceAlert"
-            ]
-          },
-          {
-            "group": "Webhook rules and deliveries",
-            "pages": [
-              "reference/listAlertRules",
-              "reference/createAlertRule",
-              "reference/disableAlertRule",
-              "reference/listAlertDeliveries"
-            ]
-          },
-          {
-            "group": "Webhook destinations",
-            "pages": [
-              "reference/listWebhookTargets",
-              "reference/createWebhookTarget",
-              "reference/disableWebhookTarget",
-              "reference/rotateWebhookTarget"
-            ]
-          },
-          {
-            "group": "Bet tracker",
-            "pages": [
-              "reference/getBetTracker",
-              "reference/confirmBetTracker",
-              "reference/exportBetTracker",
-              "reference/historyBetTracker",
-              "reference/importBetTracker",
-              "reference/mutateBetTracker",
-              "reference/operationBetTracker",
-              "reference/previewBetTracker",
-              "reference/queryBetTracker",
-              "reference/templateBetTracker"
-            ]
-          },
-          {
-            "group": "Browser streaming",
-            "pages": [
-              "reference/getWebSocketCapabilities",
-              "reference/createBrowserWSTicket",
-              "reference/revokeBrowserWSTickets"
-            ]
-          },
-          {
-            "group": "Terminal",
-            "pages": [
-              "reference/terminalBoard",
-              "reference/terminalChart",
-              "reference/terminalContext",
-              "reference/terminalEV",
-              "reference/terminalPreferences"
             ]
           }
         ]

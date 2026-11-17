@@ -7,7 +7,7 @@ Webhook integrations require Alerts access, an approved destination and permissi
 
 ## Configure your receiver
 
-Account owners and admins configure [targets](/reference/createWebhookTarget) and [rules](/reference/createAlertRule) with a workspace session. API data keys cannot manage them. Create and rotate operations show the signing secret once. Store it securely; if it was lost, rotate it explicitly.
+Contact [support](/support) to arrange a supported webhook destination and rule for your account. API data keys cannot manage workspace settings. Create and rotate operations show the signing secret once. Store it securely; if it was lost, rotate it explicitly.
 
 Targets require public HTTPS on port 443, without URL credentials, query or fragment, and a supported destination origin. Redirects are not followed. Creating a target does not send a test message.
 
@@ -23,6 +23,6 @@ After verification, parse the body and durably deduplicate its event `id` togeth
 
 Delivery is at least once. Retries retain the same body, event ID and delivery ID with a new signature timestamp. A missing acknowledgement can cause a duplicate even when your first request succeeded.
 
-Return 2xx to acknowledge. Network errors, 408, 425, 429 and 5xx can retry with bounded backoff, up to six attempts. Other 4xx and redirects stop delivery. Expiry or lost source/key access can end attempts earlier. Check [delivery logs](/reference/listAlertDeliveries) for failed, blocked and expired states.
+Return 2xx to acknowledge. Network errors, 408, 425, 429 and 5xx can retry with bounded backoff, up to six attempts. Other 4xx and redirects stop delivery. Expiry or lost source/key access can end attempts earlier. Contact [support](/support) with the delivery ID to investigate failed, blocked or expired delivery.
 
 Disabling a rule or target cancels remaining work; an already in-flight request can finish. Coordinate secret rotation with the receiver. Control calls and outbound attempts do not consume REST data credits.

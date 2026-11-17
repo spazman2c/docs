@@ -56,10 +56,7 @@ canonical resume still has its own five-minute bound. Logout attempts revocation
 before provider sign-out; unreachable authority cannot extend the original expiry.
 Use the workspace [WebSocket lab](https://oddswire.io/app/websocket) where enabled.
 
-The free session [capability control](/reference/getWebSocketCapabilities) describes
-configured modes and access, not current source freshness. See also the restricted
-[ticket exchange](/reference/createBrowserWSTicket) and
-[revocation control](/reference/revokeBrowserWSTickets). New accounts remain zero-grant.
+The workspace checks your streaming capabilities before connecting. New accounts remain without stream access until it is enabled for the account.
 
 ## Native snapshot delivery
 

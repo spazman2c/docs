@@ -1,35 +1,20 @@
 ---
 title: "API overview"
-description: "Find current fixtures and request fresh odds with your API key."
+description: "Find current fixtures and request current odds with your API key."
 ---
 
 Base URL: `https://api.oddswire.io`. Authenticate with your own `X-API-Key` header.
 
 ## Try three requests
 
-1. [Check access](/reference/getEntitlements). Enter your API key and send this free request to confirm your account's access.
-2. [Find fixtures](/reference/listFixtures). Current BetRivers PA data and scheduled fixtures are preselected in a three-record page. Press **Send**, then copy a returned `id`.
-3. [Get odds](/reference/listOdds). Enter that ID as `fixture`. The same bookmaker, current feed and match-result market are already selected.
+1. [Check access](/reference/getEntitlements). Enter your API key and send this free request.
+2. [Find fixtures](/reference/listFixtures). Press **Send** to check every bookmaker your account can access for football. Change the sport if needed; the bookmaker filter starts empty.
+3. [Get odds](/reference/listOdds). Press **Send** for current available prices across the same account scope. Optionally enter a returned `fixture_ref` to select a source fixture.
 
-Your key's permissions and credit rules apply. Current prices can become unavailable when a source is stopped, a quote expires or access changes. The [current-data guide](/datasets) explains freshness and response fields.
+No dataset setup is required. `meta.bookmakers` accounts for the entire source scope, including bookmakers absent from the current page. Read `missing[]` for unavailable sources and follow `meta.next_cursor` for further records.
 
-## Calls
+## Integrate
 
-| Endpoint | Use it for |
-| --- | --- |
-| [Find fixtures](/reference/listFixtures) | Discover matches with optional bookmaker, competition and time filters |
-| [Fixture details](/reference/getFixture) | Read one discovered fixture |
-| [Get odds](/reference/listOdds) | Read current prices for a fixture or competition |
-| [Teams and players](/reference/listParticipants) | Read available participant evidence |
-| [Sports](/reference/listSports) | List sports |
-| [Bookmakers](/reference/listSources) | List bookmaker/source identities |
-| [Competitions](/reference/listCompetitions) | List competitions |
-| [Markets](/reference/listMarkets) | List market families and periods |
+Use the [cURL](/quickstart-curl), [Python](/quickstart-python) or [TypeScript](/quickstart-typescript) quick start. Request fields and responses belong in the [API reference](/reference/listFixtures); [current data](/datasets), [authentication](/authentication), [credits](/errors) and [freshness](/odds-freshness) are explained in the integration guides.
 
-Access, coverage and usage reads are free. Completed data pages follow the [credit rules](/errors).
-
-## Build your integration
-
-Use the [cURL](/quickstart-curl), [Python](/quickstart-python) or [JavaScript/TypeScript](/quickstart-typescript) quick start. The [API reference](/reference/listFixtures) contains the exact request fields and responses.
-
-[Fair values](/reference/getFair), [reviewed mappings](/reference/listMappings), [WebSocket](/websocket) and [alerts](/alerts) have their documented access and compatibility requirements. A visible endpoint does not activate it for an account.
+Your account permissions and credit rules apply. Requests never activate access or start collection.

@@ -1,20 +1,14 @@
 ---
 title: "Python quick start"
-description: "Call the hosted API with the Python standard library; no SDK installation required."
+description: "Read current account fixtures and odds with the Python standard library."
 ---
 
-Use Python 3.9+ and your own account key in `ODDSWIRE_API_KEY`. This example uses the standard library; there is no `pip install oddswire` step. Do not copy a real key into the script.
-
-Save the following as `check_access.py` and run `python3 check_access.py`. With only an API key set, it makes one free entitlements request. Data requests require an additional, explicit `ODDSWIRE_NAMESPACE` from your approved scope.
+Set your own `ODDSWIRE_API_KEY` privately. This example makes one free access request. Set `ODDSWIRE_RUN_DATA=1` when ready to make the two data requests.
 
 ```python
 import json
 import os
-from urllib.error import HTTPError
-from urllib.parse import urlencode
 from urllib.request import HTTPRedirectHandler, Request, build_opener
-
-BASE_URL = "https://api.oddswire.io"
 
 class NoRedirects(HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
@@ -22,56 +16,28 @@ class NoRedirects(HTTPRedirectHandler):
 
 key = os.environ["ODDSWIRE_API_KEY"]
 if not key or any(c in key for c in "\r\n"):
-    raise SystemExit("Load a valid API key through your private environment")
+    raise ValueError("Load a valid API key privately")
 opener = build_opener(NoRedirects())
 
-def get_page(path, params=None):
-    query = "?" + urlencode(params) if params else ""
-    request = Request(BASE_URL + path + query, headers={"X-API-Key": key})
-    with opener.open(request, timeout=10) as response:
-        body = response.read(4 * 1024 * 1024 + 1)
-        if len(body) > 4 * 1024 * 1024:
-            raise ValueError("Response exceeds this example's size limit")
-        return json.loads(body)
+def get_page(path):
+    req = Request("https://api.oddswire.io" + path, headers={"X-API-Key": key})
+    with opener.open(req, timeout=25) as response:
+        raw = response.read(2 * 1024 * 1024 + 1)
+        if len(raw) > 2 * 1024 * 1024:
+            raise ValueError("Response exceeds the size limit")
+        return json.loads(raw)
 
-try:
-    page = get_page("/v1/account/entitlements")  # Free access check.
-    access = page["data"][0] if page["data"] else {}
-    print("Namespaces:", access.get("namespaces", []))
-    print("Features:", access.get("features", []))
-    namespace = os.environ.get("ODDSWIRE_NAMESPACE")
-    if namespace:
-        if namespace not in access.get("namespaces", []):
-            raise ValueError("Choose a namespace returned by entitlements")
-        if "fixtures" not in access.get("features", []):
-            raise ValueError("Fixture access has not been granted")
-        fixtures = get_page("/v1/fixtures", {"namespace": namespace, "limit": 1})
-        print("Fixture coverage:", fixtures["missing"])
-        if fixtures["data"] and "odds" in access.get("features", []):
-            fixture_id = fixtures["data"][0]["fixture"]["id"]
-            odds = get_page("/v1/odds", {
-                "namespace": namespace, "fixture": str(fixture_id), "limit": 3
-            })
-            print("Odds rows:", len(odds["data"]))
-            print("Price coverage:", odds["missing"])
-    else:
-        print("No data request made. Set an approved namespace only when ready.")
-except HTTPError as error:
-    try:
-        problem = json.loads(error.read(65536))
-    except (ValueError, UnicodeError):
-        problem = {}
-    print("Request failed:", error.code, problem.get("code"), problem.get("request_id"))
-    raise SystemExit(1) from None
-except (OSError, ValueError, KeyError):
-    print("Check configuration or delivery status; no automatic retry was attempted.")
-    raise SystemExit(1) from None
+print(get_page("/v1/account/entitlements"))
+if os.environ.get("ODDSWIRE_RUN_DATA") == "1":
+    fixtures = get_page("/v1/fixtures")
+    print("Bookmakers:", fixtures["meta"]["bookmakers"])
+    print("Fixture rows:", len(fixtures["data"]))
+    print("Missing:", fixtures["missing"])
+    odds = get_page("/v1/odds")
+    print("Odds rows:", len(odds["data"]))
+    print("Missing:", odds["missing"])
 ```
 
-The optional fixture/odds flow makes at most two data requests, which can consume two credits even when the responses are empty. No request retries or redirects occur. Network failures can leave delivery uncertain; check usage before retrying.
+Both data calls check every authorized bookmaker for football by default. `sport` selects another sport in your plan. To filter odds to a source fixture, URL-encode its exact `fixture_ref` as `fixture`.
 
-Prices and probabilities remain strings in JSON. Use `decimal.Decimal(value)` for arithmetic and retain `missing[]`, native identity and timestamps. Read [Data and coverage](/data) before comparing quotes.
-
-## Prefer the workspace interface?
-
-You can also run this request with **Try it** in the [API reference](/reference/getEntitlements). Enter the key you created in the workspace. The reference tester and your scripts follow the same account access and credit rules.
+A successful data page costs one credit. Follow `meta.next_cursor` with the same filters for more records; restart after 409. No automatic retry occurs. Preserve decimal strings, original identities and freshness times. Read [current data](/datasets) and [errors and credits](/errors).

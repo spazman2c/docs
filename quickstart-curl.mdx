@@ -1,46 +1,37 @@
 ---
 title: "cURL quick start"
-description: "Check access against the hosted HTTPS API, then request a fixture only if your scope is approved."
+description: "Read current account fixtures and odds over HTTPS."
 ---
 
-Use cURL 7.76+ in a trusted terminal. Create your own key in [the workspace](https://oddswire.io/app/keys) and load it into `ODDSWIRE_API_KEY` through your usual secret manager or a private environment file. Never paste it into documentation, email, a URL or a shared shell history.
+Load your own API key into `ODDSWIRE_API_KEY` through your secret manager or a private environment file. Keep it out of shared shell history and source code.
 
-## 1. Check access without spending credits
-
-Save this as `check-access.sh`, then run `sh check-access.sh`:
+## Check access
 
 ```sh
-#!/bin/sh
-set -eu
-: "${ODDSWIRE_API_KEY:?Load your own API key into the environment}"
-case "$ODDSWIRE_API_KEY" in
-  *[!A-Za-z0-9_-]*) echo 'Unexpected key format' >&2; exit 1 ;;
-esac
-# The header is read from stdin instead of being placed in curl's arguments.
+: "${ODDSWIRE_API_KEY:?Load your API key privately}"
 printf 'header = "X-API-Key: %s"\n' "$ODDSWIRE_API_KEY" |
-  curl --config - --silent --show-error --fail-with-body --max-time 10 \
+  curl --config - --silent --show-error --fail-with-body --max-time 25 \
     'https://api.oddswire.io/v1/account/entitlements'
 ```
 
-The response is a page with `data`, `missing` and `meta`. Inspect `data[0].namespaces` and `data[0].features`. Empty arrays mean no scope is granted; that is expected for a new account. This account introspection call is free, including when no data credits are allocated. A 401 means authentication failed; a 403 is not solved by changing the base URL.
-
-## 2. Discover a fixture only after approval
-
-Set `ODDSWIRE_NAMESPACE` to a value actually returned by your access check. Use only a namespace returned for your account. Run this separate command only when the account has `fixtures` access and an allocation:
+## Find current fixtures
 
 ```sh
-: "${ODDSWIRE_NAMESPACE:?Choose an approved namespace from entitlements}"
 printf 'header = "X-API-Key: %s"\n' "$ODDSWIRE_API_KEY" |
-  curl --config - --silent --show-error --fail-with-body --max-time 10 \
-    --get 'https://api.oddswire.io/v1/fixtures' \
-    --data-urlencode "namespace=$ODDSWIRE_NAMESPACE" \
-    --data-urlencode 'limit=1'
+  curl --config - --silent --show-error --fail-with-body --max-time 25 \
+    'https://api.oddswire.io/v1/fixtures'
 ```
 
-A completed successful data page costs one credit, including an empty page. Inspect `missing[]` as well as `data`. Use a returned `fixture.id` with [List odds](/reference/listOdds), in the same namespace. Do not assume an ID exists in another namespace.
+The default checks every bookmaker your account can access for football. Set `sport` to another sport in your plan. `bookmakers` is optional; omit it for the full account scope. Read `meta.bookmakers`, `missing[]` and `meta.next_cursor`.
 
-These commands do not follow redirects or retry automatically. If a request times out, its delivery outcome may be unknown; inspect usage before deliberately retrying. Read [Errors and credits](/errors).
+## Read current odds
 
-## Prefer the workspace interface?
+```sh
+printf 'header = "X-API-Key: %s"\n' "$ODDSWIRE_API_KEY" |
+  curl --config - --silent --show-error --fail-with-body --max-time 25 \
+    'https://api.oddswire.io/v1/odds'
+```
 
-You can also run this request with **Try it** in the [API reference](/reference/getEntitlements). Enter the key you created in the workspace. The reference tester and your scripts follow the same account access and credit rules.
+Optionally add `--get --data-urlencode "fixture=$FIXTURE_REF"`, using an exact `fixture_ref` from fixture discovery. Do not substitute an unscoped original ID.
+
+Successful data pages cost one credit; errors and 304 are free. These commands do not retry or follow redirects. A network timeout can leave delivery uncertain; inspect usage before retrying. See [current data](/datasets) and [errors and credits](/errors).

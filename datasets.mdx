@@ -1,36 +1,32 @@
 ---
 title: "Current data and response fields"
-description: "Find current fixtures, request fresh odds and read the response."
+description: "Read current fixtures and odds across the bookmakers your account can access."
 ---
 
 ## Try current fixtures and odds
 
-**Try it is preconfigured for current data.** Enter your API key, open [Find fixtures](/reference/listFixtures) and press **Send**. The current feed, BetRivers PA, scheduled status and standard response view are already filled in; the initial page is limited to three records. You can optionally filter by bookmaker, competition or start time.
+Enter your own API key in [Find fixtures](/reference/listFixtures) and press **Send**. The request includes **all bookmakers your account can access for the selected sport**. Football is preselected; change `sport` to another sport in your plan. No dataset selection or bookmaker filter is needed.
 
-Copy an `id` from the returned `data`, open [Get odds](/reference/listOdds), enter that ID as `fixture` and press **Send**. The same bookmaker, current feed, standard view and match-result market are preselected. Your key's source permissions and credit allocation still apply.
+[Get odds](/reference/listOdds) uses the same account scope. Leave `fixture` blank to request current available prices across that scope, or copy a discovered `fixture_ref` to select one source fixture. `bookmakers` is an optional filter and starts empty.
 
-## Check price freshness
+## Coverage and pagination
 
-Current prices use `evidence.mode=current_canonical`. A usable price has `state=active`, a non-null `value` and `evidence.fresh_for_live_use=true`. `evidence.confirmed_at` preserves the original confirmation time. Delivery time does not refresh a source quote.
+`meta.bookmakers` lists every bookmaker checked, its current status and record counts across the whole request. A page contains up to 25 records by default; it is not the complete bookmaker list. Use `meta.next_cursor` for the next page with the same filters. If the feed changes and the cursor returns 409, start a fresh request without the cursor.
 
-Stale, suspended or unavailable prices remain withheld. Inspect every `missing[]` entry. An empty result is valid when nothing in the requested scope is available.
+Read `missing[]` for unavailable sources, timeouts or missing coverage. One unavailable bookmaker does not suppress other bookmakers. Access to a bookmaker does not guarantee that current prices are available. Some source readers require a specific `fixture_ref` for odds; the response says so explicitly.
+
+## Price freshness
+
+Only eligible active prices are returned. Check `state`, `value`, `fresh_until` and the original times in `evidence`. `confirmed_at`, when present, records the source confirmation; otherwise use the source receive time. Response delivery does not refresh a quote.
+
+Stale, suspended, stopped and unavailable prices remain withheld. An empty result can be valid when no current records are available in the requested scope.
 
 ## Fields and identity
 
-- Fixtures include an exact string `id`, schedule, status, participants and evidence.
-- Odds include fixture, source, market and selection IDs, line and unit, string-valued prices, state and evidence.
-- Keep dataset and source identity with IDs. Matching numbers do not establish that two records describe the same match.
-- `original` preserves the detailed source record. Do not convert decimal strings or large identifiers into floating-point numbers.
-- Market family, period, line units and settlement terms must agree before comparing prices.
+- `bookmaker_id` is the immutable catalogue ID. Keep it with the sport and original fixture `id`.
+- `fixture_ref` is an opaque request reference carrying that source and sport scope. Copy it unchanged when filtering odds.
+- Matching original IDs or similar team names do not establish a match across bookmakers. Use only supplied reviewed `shared_fixture` identities for grouping.
+- Odds preserve original market and selection IDs, line units, string-valued prices and evidence.
+- `original` preserves the detailed original record. Do not convert prices or large identifiers to floating-point numbers.
 
-## Integration settings
-
-The tester supplies `namespace=regional` and `view=standard` for the default current-data flow. Keep those values for both fixture discovery and odds requests. `books` optionally selects bookmaker/source IDs. A source unavailable to your key stays unavailable; changing a setting does not grant access.
-
-If your integration has a separately configured feed, use the settings supplied for that integration and preserve its IDs. Contact [support](/support) if it is not listed in your access response.
-
-## Fixtures and participants
-
-[Fixture details](/reference/getFixture) retrieves one ID returned by discovery. [Teams and players](/reference/listParticipants) lists available participant evidence. Missing identity remains explicit; names alone do not establish a verified cross-bookmaker match.
-
-[Errors and credits](/errors) covers pagination, charges and uncertain delivery. [Data conventions](/data) explains units and fair-value eligibility.
+See [Errors and credits](/errors) and [Data conventions](/data) for delivery, units and comparison rules.

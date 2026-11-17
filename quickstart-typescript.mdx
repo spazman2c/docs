@@ -1,59 +1,34 @@
 ---
-title: "JavaScript and TypeScript quick start"
-description: "Make your first request with Node.js fetch; no SDK installation required."
+title: "TypeScript quick start"
+description: "Read current fixtures and odds with built-in fetch."
 ---
 
-Use Node.js 22.23.4+ with your key in the private `ODDSWIRE_API_KEY` environment variable. The example uses built-in `fetch`; there is no npm package to install. This runnable example is JavaScript. For a TypeScript integration, add request/response types from the [OpenAPI contract](/openapi.json) and keep requests on the server.
+Use Node.js 22+ and load your own `ODDSWIRE_API_KEY` privately. This example checks access for free. Set `ODDSWIRE_RUN_DATA=1` when ready for the two data calls.
 
-Save it as `check-access.mjs` and run `node check-access.mjs`. Do not put the key in a browser bundle or frontend environment variable.
-
-```javascript
-const baseUrl = "https://api.oddswire.io";
+```typescript
 const key = process.env.ODDSWIRE_API_KEY;
-if (!key || /[\r\n]/.test(key)) throw new Error("Load your own private API key");
+if (!key || /[\r\n]/.test(key)) throw new Error("Load your API key privately");
 
-async function getPage(path, params = {}) {
-  const url = new URL(path, baseUrl);
-  for (const [name, value] of Object.entries(params)) url.searchParams.set(name, value);
-  const response = await fetch(url, {
-    headers: { "X-API-Key": key },
+async function getPage(path: string) {
+  const response = await fetch("https://api.oddswire.io" + path, {
+    headers: { "X-API-Key": key! },
     redirect: "error",
-    signal: AbortSignal.timeout(10_000),
+    signal: AbortSignal.timeout(25_000),
   });
-  if (!response.ok) {
-    const problem = await response.json().catch(() => ({}));
-    console.error("Request failed:", response.status, problem.code, problem.request_id);
-    throw new Error("Review access and delivery status before retrying");
-  }
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
   return response.json();
 }
 
-try {
-  const page = await getPage("/v1/account/entitlements"); // Free.
-  const access = page.data[0] ?? {};
-  console.log("Namespaces:", access.namespaces ?? []);
-  console.log("Features:", access.features ?? []);
-  const namespace = process.env.ODDSWIRE_NAMESPACE;
-  if (namespace) {
-    if (!access.namespaces?.includes(namespace)) throw new Error("Namespace not granted");
-    if (!access.features?.includes("fixtures")) throw new Error("Fixture access not granted");
-    const fixtures = await getPage("/v1/fixtures", { namespace, limit: "1" });
-    console.log("Fixture coverage:", fixtures.missing);
-    if (fixtures.data.length && access.features.includes("odds")) {
-      const fixtureId = String(fixtures.data[0].fixture.id);
-      const odds = await getPage("/v1/odds", { namespace, fixture: fixtureId, limit: "3" });
-      console.log("Odds rows:", odds.data.length);
-      console.log("Price coverage:", odds.missing);
-    }
-  } else {
-    console.log("No data request made. Set an approved namespace only when ready.");
-  }
-} catch {
-  console.error("Request stopped. Check configuration or usage; no automatic retry occurred.");
-  process.exitCode = 1;
+console.log(await getPage("/v1/account/entitlements"));
+if (process.env.ODDSWIRE_RUN_DATA === "1") {
+  const fixtures = await getPage("/v1/fixtures");
+  console.log("Bookmakers:", fixtures.meta.bookmakers);
+  console.log("Fixture rows:", fixtures.data.length, "Missing:", fixtures.missing);
+  const odds = await getPage("/v1/odds");
+  console.log("Odds rows:", odds.data.length, "Missing:", odds.missing);
 }
 ```
 
-With only the key set, this performs one free access check. Explicitly setting an entitled namespace enables up to two data calls, which can consume two credits even for empty pages. An exception does not prove a timed-out delivery was free. Check [Usage](https://oddswire.io/app/usage) before retrying.
+Both data calls include every bookmaker your account can access for football. Use `sport` for another sport in your plan. `bookmakers` optionally narrows the scope. Use a discovered `fixture_ref` as the URL-encoded `fixture` parameter to select a source fixture.
 
-Decimal values stay strings. Do not convert prices or sequence IDs to JavaScript `Number`. See [Data and coverage](/data), [Errors and credits](/errors) and the exact [List odds parameters](/reference/listOdds).
+A completed data page costs one credit; errors and 304 are free. Follow `meta.next_cursor` with the same filters, restarting after 409. No automatic retries occur. Preserve decimal strings and original times; see [current data](/datasets) and [errors and credits](/errors).

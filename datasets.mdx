@@ -15,6 +15,20 @@ Use `view=standard` for consistent fixture and odds fields across supported read
 
 The short aliases and existing public names remain compatible for REST reads. Account entitlements retain their established namespace values. Aliases grant no features, sources, regions or credits. `pilot` is a dataset name, not a promise of in-play or current coverage. Stream subscriptions accept the documented dataset aliases while preserving dataset scope and exact native identity. Management bodies keep their documented namespace spellings.
 
+## Current fixtures and odds
+
+For current BetRivers PA or ATG data, use `namespace=regional` and select the bookmaker with `books=5` (BetRivers PA) or `books=7` (ATG). Your key must include that dataset and source. Polymarket uses its separately permitted `pilot` dataset.
+
+In **Try it**, use the same dataset and bookmaker for both calls:
+
+1. **Find fixtures:** enter `regional` for `namespace`, `5` for `books`, and `standard` for `view`. Use a future `from` bound if you only want upcoming fixtures.
+2. Copy an `id` from the returned `data`.
+3. **Get odds:** keep `namespace=regional`, `books=5` and `view=standard`; enter that ID as `fixture`.
+
+Do not set `source_id`, `capture_id` or `mode` for this current canonical flow. Those select the separate source-native readers. Current odds report `evidence.mode=current_canonical`; an eligible price has `state=active`, a non-null `value` and `evidence.fresh_for_live_use=true`. Original confirmation times remain in `evidence.confirmed_at`. Stale or unavailable prices remain withheld; an empty or missing result is not a reason to substitute a retained snapshot.
+
+The `sportsbooks` dataset is a different reader. Its source5 snapshot path defaults to **retained research**, not the current BetRivers feed. Use that path only when you explicitly need retained evidence. For a currently permitted source-native feed, request its documented live mode and follow its own freshness rules.
+
 ## Consistent fixture and odds responses
 
 Existing calls retain their original response shape by default. Add `view=standard` to fixture or odds reads for common `DatasetFixture` and `DatasetOdds` records. Explicit `view=legacy` keeps the original format. Both use the existing `data`, `missing[]` and `meta` envelope, paging, authentication and credit rules.
@@ -22,8 +36,8 @@ Existing calls retain their original response shape by default. Add `view=standa
 ```text
 GET /v1/fixtures?namespace=regional&view=standard
 GET /v1/odds?namespace=regional&fixture=YOUR_FIXTURE_ID&view=standard
-GET /v1/fixtures?namespace=sportsbooks&source_id=14&mode=retained&view=standard
-GET /v1/odds?namespace=sportsbooks&source_id=14&fixture=YOUR_NATIVE_FIXTURE_ID&capture_id=YOUR_CAPTURE_ID&mode=retained&view=standard
+GET /v1/fixtures?namespace=sportsbooks&source_id=14&mode=live&view=standard
+GET /v1/odds?namespace=sportsbooks&source_id=14&fixture=YOUR_NATIVE_FIXTURE_ID&capture_id=YOUR_CAPTURE_ID&mode=live&view=standard
 ```
 
 The capitalized values are placeholders; discover IDs within your approved scope first. For the `sportsbooks` dataset, select exactly one reviewed source using `source_id`. Sources 5/14/15 use the regional reader and require the separate source-native permission; live mode additionally requires the required live-data permission and supports14/15 only. Sources 11/12/13 require `native_odds`. These grants remain separate from canonical `fixtures` and `odds` grants. Unsupported native filters fail instead of silently switching readers. The old `/v1/native/...` routes also accept the standard view.

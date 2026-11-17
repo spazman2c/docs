@@ -1165,7 +1165,7 @@
         "operationId": "listFixtures",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "For current BetRivers/ATG use regional with books=5/7; Polymarket uses pilot. sportsbooks selects separate native readers, whose source 5 snapshot path is retained research. Choose only datasets permitted by your key.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -1514,7 +1514,7 @@
             }
           },
           {
-            "description": "Explicit dataset namespace or compatible alias: regional, pilot, sportsbooks.",
+            "description": "For current BetRivers/ATG use regional with books=5/7; Polymarket uses pilot. sportsbooks selects separate native readers, whose source 5 snapshot path is retained research. Choose only datasets permitted by your key.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -3310,7 +3310,7 @@
         "operationId": "listOdds",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "For current BetRivers/ATG use regional with books=5/7; Polymarket uses pilot. sportsbooks selects separate native readers, whose source 5 snapshot path is retained research. Choose only datasets permitted by your key.",
             "in": "query",
             "name": "namespace",
             "required": true,
@@ -3721,7 +3721,7 @@
             }
           },
           {
-            "description": "Explicit dataset namespace or compatible alias: regional, pilot, sportsbooks.",
+            "description": "For current BetRivers/ATG use regional with books=5/7; Polymarket uses pilot. sportsbooks selects separate native readers, whose source 5 snapshot path is retained research. Choose only datasets permitted by your key.",
             "in": "query",
             "name": "namespace",
             "required": true,

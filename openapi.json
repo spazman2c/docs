@@ -1143,7 +1143,8 @@
               "default": 25,
               "maximum": 100,
               "minimum": 1,
-              "type": "integer"
+              "type": "integer",
+              "x-default": 3
             }
           },
           {
@@ -1183,12 +1184,13 @@
             }
           },
           {
-            "description": "Source/region IDs, not brand IDs (comma separated).",
+            "description": "Bookmaker/source IDs. Try it starts with BetRivers PA; change this optional filter to another bookmaker permitted by your key.",
             "in": "query",
             "name": "books",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "5"
             }
           },
           {
@@ -1388,15 +1390,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fixtures\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --data-urlencode \"view=standard\" \\\n  --data-urlencode \"status=scheduled\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fixtures\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --data-urlencode \"view=standard\" \\\n  --data-urlencode \"books=5\" \\\n  --data-urlencode \"limit=3\" \\\n  --data-urlencode \"status=scheduled\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\", \"view\": \"standard\", \"status\": \"scheduled\"}\nurl = \"https://api.oddswire.io/v1/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\", \"view\": \"standard\", \"books\": \"5\", \"limit\": \"3\", \"status\": \"scheduled\"}\nurl = \"https://api.oddswire.io/v1/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures\");\nurl.searchParams.set(\"namespace\", \"regional\");\nurl.searchParams.set(\"view\", \"standard\");\nurl.searchParams.set(\"status\", \"scheduled\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures\");\nurl.searchParams.set(\"namespace\", \"regional\");\nurl.searchParams.set(\"view\", \"standard\");\nurl.searchParams.set(\"books\", \"5\");\nurl.searchParams.set(\"limit\", \"3\");\nurl.searchParams.set(\"status\", \"scheduled\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -2097,7 +2099,8 @@
               "default": 25,
               "maximum": 100,
               "minimum": 1,
-              "type": "integer"
+              "type": "integer",
+              "x-default": 3
             }
           },
           {
@@ -2137,12 +2140,13 @@
             }
           },
           {
-            "description": "Source/region IDs, not brand IDs (comma separated).",
+            "description": "Bookmaker/source IDs. Try it starts with BetRivers PA; change this optional filter to another bookmaker permitted by your key.",
             "in": "query",
             "name": "books",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "5"
             }
           },
           {
@@ -2397,15 +2401,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/odds\" \\\n  --data-urlencode \"fixture=$FIXTURE_ID\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --data-urlencode \"view=standard\" \\\n  --data-urlencode \"markets=1x2\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/odds\" \\\n  --data-urlencode \"fixture=$FIXTURE_ID\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --data-urlencode \"view=standard\" \\\n  --data-urlencode \"books=5\" \\\n  --data-urlencode \"limit=3\" \\\n  --data-urlencode \"markets=1x2\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"fixture\": os.environ[\"FIXTURE_ID\"], \"namespace\": \"regional\", \"view\": \"standard\", \"markets\": \"1x2\"}\nurl = \"https://api.oddswire.io/v1/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"fixture\": os.environ[\"FIXTURE_ID\"], \"namespace\": \"regional\", \"view\": \"standard\", \"books\": \"5\", \"limit\": \"3\", \"markets\": \"1x2\"}\nurl = \"https://api.oddswire.io/v1/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/odds\");\nurl.searchParams.set(\"fixture\", required(\"FIXTURE_ID\"));\nurl.searchParams.set(\"namespace\", \"regional\");\nurl.searchParams.set(\"view\", \"standard\");\nurl.searchParams.set(\"markets\", \"1x2\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/odds\");\nurl.searchParams.set(\"fixture\", required(\"FIXTURE_ID\"));\nurl.searchParams.set(\"namespace\", \"regional\");\nurl.searchParams.set(\"view\", \"standard\");\nurl.searchParams.set(\"books\", \"5\");\nurl.searchParams.set(\"limit\", \"3\");\nurl.searchParams.set(\"markets\", \"1x2\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }

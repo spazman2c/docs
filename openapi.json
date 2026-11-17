@@ -24,7 +24,8 @@
               "enum": [
                 "readers"
               ],
-              "type": "string"
+              "type": "string",
+              "x-default": "standard"
             }
           },
           {
@@ -505,12 +506,13 @@
         "operationId": "listSources",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -535,28 +537,6 @@
             }
           },
           {
-            "description": "Native discovery only: one permitted source 5/11/12/13/14/15; omitted lists your permitted native sources.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Native source 5/14/15 discovery only: retained(default) or separately permitted live. Each record retains its evidence mode.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "enum": [
-                "retained",
-                "live"
-              ],
-              "type": "string"
-            }
-          },
-          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -571,7 +551,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SourcesPageNativeView"
+                  "$ref": "#/components/schemas/SourcesPage"
                 }
               }
             },
@@ -694,15 +674,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/bookmakers\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/bookmakers\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/bookmakers\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/bookmakers\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/bookmakers\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/bookmakers\");\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -713,12 +693,13 @@
         "operationId": "listCompetitions",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -739,28 +720,6 @@
             "name": "cursor",
             "required": false,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native discovery only: one permitted source 5/11/12/13/14/15; omitted lists your permitted native sources.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Native source 5/14/15 discovery only: retained(default) or separately permitted live. Each record retains its evidence mode.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "enum": [
-                "retained",
-                "live"
-              ],
               "type": "string"
             }
           },
@@ -788,7 +747,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CompetitionsPageNativeView"
+                  "$ref": "#/components/schemas/CompetitionsPage"
                 }
               }
             },
@@ -911,15 +870,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/competitions\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/competitions\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/competitions\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/competitions\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/competitions\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/competitions\");\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -930,12 +889,13 @@
         "operationId": "getFair",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -1146,15 +1106,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fair\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"fixture=$FIXTURE_ID\" \\\n  --data-urlencode \"settlement_rule=$SETTLEMENT_RULE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fair\" \\\n  --data-urlencode \"fixture=$FIXTURE_ID\" \\\n  --data-urlencode \"settlement_rule=$SETTLEMENT_RULE\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"fixture\": os.environ[\"FIXTURE_ID\"], \"settlement_rule\": os.environ[\"SETTLEMENT_RULE\"]}\nurl = \"https://api.oddswire.io/v1/fair\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"fixture\": os.environ[\"FIXTURE_ID\"], \"settlement_rule\": os.environ[\"SETTLEMENT_RULE\"], \"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/fair\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fair\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"fixture\", required(\"FIXTURE_ID\"));\nurl.searchParams.set(\"settlement_rule\", required(\"SETTLEMENT_RULE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fair\");\nurl.searchParams.set(\"fixture\", required(\"FIXTURE_ID\"));\nurl.searchParams.set(\"settlement_rule\", required(\"SETTLEMENT_RULE\"));\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -1165,12 +1125,13 @@
         "operationId": "listFixtures",
         "parameters": [
           {
-            "description": "For current BetRivers/ATG use regional with books=5/7; Polymarket uses pilot. sportsbooks selects separate native readers, whose source 5 snapshot path is retained research. Choose only datasets permitted by your key.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -1260,7 +1221,8 @@
                 "ended",
                 "cancelled"
               ],
-              "type": "string"
+              "type": "string",
+              "x-default": "scheduled"
             }
           },
           {
@@ -1282,65 +1244,8 @@
                 "legacy",
                 "standard"
               ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native odds only: reviewed1x2,total,handicap product category; not a settlement grant.",
-            "in": "query",
-            "name": "market_family",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native odds category filter statistic: main,goals,points,bookings,corners,all.",
-            "in": "query",
-            "name": "market_statistic",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Standard sportsbooks view only: one explicitly entitled source 5/11/12/13/14/15.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Source-native only: retained (default) or separately approved live.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "enum": [
-                "retained",
-                "live"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact source-native capture; required for native odds.",
-            "in": "query",
-            "name": "capture_id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native source 11/12/13 only: additional delay0..3600.",
-            "in": "query",
-            "name": "delay_seconds",
-            "required": false,
-            "schema": {
-              "type": "integer"
+              "type": "string",
+              "x-default": "standard"
             }
           },
           {
@@ -1483,15 +1388,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fixtures\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fixtures\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --data-urlencode \"view=standard\" \\\n  --data-urlencode \"status=scheduled\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\", \"view\": \"standard\", \"status\": \"scheduled\"}\nurl = \"https://api.oddswire.io/v1/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures\");\nurl.searchParams.set(\"namespace\", \"regional\");\nurl.searchParams.set(\"view\", \"standard\");\nurl.searchParams.set(\"status\", \"scheduled\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -1510,56 +1415,18 @@
               "enum": [
                 "standard"
               ],
-              "type": "string"
+              "type": "string",
+              "x-default": "standard"
             }
           },
           {
-            "description": "For current BetRivers/ATG use regional with books=5/7; Polymarket uses pilot. sportsbooks selects separate native readers, whose source 5 snapshot path is retained research. Choose only datasets permitted by your key.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "sportsbooks only: exact reviewed source 5/11/12/13/14/15.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Source-native only: retained (default) or separately approved live.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "enum": [
-                "retained",
-                "live"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact source capture from fixture discovery; required for player subjects.",
-            "in": "query",
-            "name": "capture_id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native source 11/12/13 only: delay0..3600.",
-            "in": "query",
-            "name": "delay_seconds",
-            "required": false,
-            "schema": {
-              "type": "integer"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -1709,15 +1576,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "case \"$FIXTURE_ID\" in \"\"|*[!A-Za-z0-9_-]*) echo \"Set a valid FIXTURE_ID\" >&2; exit 1;; esac\ncurl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fixtures/$FIXTURE_ID\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "case \"$FIXTURE_ID\" in \"\"|*[!A-Za-z0-9_-]*) echo \"Set a valid FIXTURE_ID\" >&2; exit 1;; esac\ncurl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/fixtures/$FIXTURE_ID\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import re\nimport os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nfixture_id=os.environ[\"FIXTURE_ID\"]\nif not re.fullmatch(r\"[A-Za-z0-9_-]{1,100}\",fixture_id):\n    raise ValueError(\"Invalid fixture ID\")\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/fixtures/{fixture_id}\".replace(\"{fixture_id}\", fixture_id) + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import re\nimport os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nfixture_id=os.environ[\"FIXTURE_ID\"]\nif not re.fullmatch(r\"[A-Za-z0-9_-]{1,100}\",fixture_id):\n    raise ValueError(\"Invalid fixture ID\")\nquery = {\"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/fixtures/{fixture_id}\".replace(\"{fixture_id}\", fixture_id) + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst fixtureID=required(\"FIXTURE_ID\");\nif (!/^[A-Za-z0-9_-]{1,100}$/.test(fixtureID)) throw new Error(\"Invalid fixture ID\");\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures/__FIXTURE__\".replace(\"__FIXTURE__\",fixtureID));\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst fixtureID=required(\"FIXTURE_ID\");\nif (!/^[A-Za-z0-9_-]{1,100}$/.test(fixtureID)) throw new Error(\"Invalid fixture ID\");\nconst url = new URL(\"https://api.oddswire.io/v1/fixtures/__FIXTURE__\".replace(\"__FIXTURE__\",fixtureID));\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -1728,12 +1595,13 @@
         "operationId": "listMappings",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -1823,7 +1691,8 @@
                 "ended",
                 "cancelled"
               ],
-              "type": "string"
+              "type": "string",
+              "x-default": "scheduled"
             }
           },
           {
@@ -1973,15 +1842,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/mappings\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/mappings\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/mappings\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/mappings\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/mappings\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/mappings\");\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -1992,12 +1861,13 @@
         "operationId": "listMarkets",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -2190,1116 +2060,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/markets\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/markets\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/markets\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/markets\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/markets\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
-          }
-        ]
-      }
-    },
-    "/v1/native/fixtures": {
-      "get": {
-        "description": "Find source-native fixtures with their original IDs. [Dataset and credit rules](/datasets).",
-        "operationId": "listNativeFixtures",
-        "parameters": [
-          {
-            "description": "Reviewed native shared fixture UUID; alternative to native_fixture, with the selected source_id.",
-            "in": "query",
-            "name": "shared_fixture",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact source-qualified sport reference from native sports discovery.",
-            "in": "query",
-            "name": "sport",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact competition-label reference from native competition discovery; never a fabricated provider ID.",
-            "in": "query",
-            "name": "competition",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native source 11 (198Bet, default),12 (1xBit) or13 (20Bet); requires its explicit source grant.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Explicit native-evidence namespace: oddswire_bookmakers.",
-            "in": "query",
-            "name": "namespace",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Additional delay0..3600 from original receive time; default0. Freshness90s relative to cutoff; current suspension/kickoff still fences delivery.",
-            "in": "query",
-            "name": "delay_seconds",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Page size1..100 within current grant.",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 25,
-              "maximum": 100,
-              "minimum": 1,
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Query/access/evidence-bound cursor; restart after409.",
-            "in": "query",
-            "name": "cursor",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Optional exact native fixture ID.",
-            "in": "query",
-            "name": "native_fixture",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "legacy (default) or the consistent standard view.",
-            "in": "query",
-            "name": "view",
-            "required": false,
-            "schema": {
-              "enum": [
-                "legacy",
-                "standard"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
-            "in": "header",
-            "name": "If-None-Match",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NativeFixturesPageView"
-                }
-              }
-            },
-            "description": "Successful response.",
-            "headers": {
-              "X-Oddswire-Credit-Cost": {
-                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
-              },
-              "X-Oddswire-Credits-Limit": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
-              },
-              "X-Oddswire-Credits-Remaining": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
-              },
-              "X-Oddswire-Credits-Reserved": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
-              },
-              "X-Oddswire-Credits-Reset": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
-              },
-              "X-Oddswire-Credits-Used": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
-              },
-              "X-Oddswire-Metering": {
-                "$ref": "#/components/headers/X-Oddswire-Metering"
-              },
-              "X-Oddswire-Overage": {
-                "$ref": "#/components/headers/X-Oddswire-Overage"
-              },
-              "X-Oddswire-Usage-State": {
-                "$ref": "#/components/headers/X-Oddswire-Usage-State"
-              },
-              "X-Request-ID": {
-                "$ref": "#/components/headers/X-Request-ID"
-              }
-            }
-          },
-          "304": {
-            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
-            "headers": {
-              "X-Oddswire-Credit-Cost": {
-                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
-              },
-              "X-Oddswire-Credits-Limit": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
-              },
-              "X-Oddswire-Credits-Remaining": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
-              },
-              "X-Oddswire-Credits-Reserved": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
-              },
-              "X-Oddswire-Credits-Reset": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
-              },
-              "X-Oddswire-Credits-Used": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
-              },
-              "X-Oddswire-Metering": {
-                "$ref": "#/components/headers/X-Oddswire-Metering"
-              },
-              "X-Oddswire-Overage": {
-                "$ref": "#/components/headers/X-Oddswire-Overage"
-              },
-              "X-Oddswire-Usage-State": {
-                "$ref": "#/components/headers/X-Oddswire-Usage-State"
-              },
-              "X-Request-ID": {
-                "$ref": "#/components/headers/X-Request-ID"
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "401": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "402": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "403": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "404": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "405": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "409": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "414": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "422": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "429": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "500": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "503": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "504": {
-            "$ref": "#/components/responses/Problem"
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ],
-        "summary": "Find native fixtures",
-        "x-legacy-response": "NativeFixturesPage",
-        "x-standard-response": "DatasetFixturesPage",
-        "x-oddswire-availability": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access.",
-        "x-codeSamples": [
-          {
-            "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/native/fixtures\" \\\n  --data-urlencode \"source_id=$SOURCE_ID\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
-          },
-          {
-            "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"source_id\": os.environ[\"SOURCE_ID\"], \"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/native/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
-          },
-          {
-            "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/native/fixtures\");\nurl.searchParams.set(\"source_id\", required(\"SOURCE_ID\"));\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
-          }
-        ]
-      }
-    },
-    "/v1/native/odds": {
-      "get": {
-        "description": "Get source-native prices for a discovered fixture. [Dataset and credit rules](/datasets).",
-        "operationId": "listNativeOdds",
-        "parameters": [
-          {
-            "description": "Reviewed native shared fixture UUID; alternative to native_fixture, with the selected source_id.",
-            "in": "query",
-            "name": "shared_fixture",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact source-qualified sport reference from native sports discovery.",
-            "in": "query",
-            "name": "sport",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact competition-label reference from native competition discovery; never a fabricated provider ID.",
-            "in": "query",
-            "name": "competition",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native source 11 (198Bet, default),12 (1xBit) or13 (20Bet); requires its explicit source grant.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Explicit native-evidence namespace: oddswire_bookmakers.",
-            "in": "query",
-            "name": "namespace",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Additional delay0..3600 from original receive time; default0. Freshness90s relative to cutoff; current suspension/kickoff still fences delivery.",
-            "in": "query",
-            "name": "delay_seconds",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Page size1..100 within current grant.",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 25,
-              "maximum": 100,
-              "minimum": 1,
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Query/access/evidence-bound cursor; restart after409.",
-            "in": "query",
-            "name": "cursor",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Reviewed native product categories:1x2,total,handicap; asian_handicap only matches an explicit provider declaration. Does not grant settlement compatibility.",
-            "in": "query",
-            "name": "market_family",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Alias for native market_family; do not combine them.",
-            "in": "query",
-            "name": "markets",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "With category filters, main(default) excludes bookings/corners. Use goals,points,bookings,corners or all explicitly.",
-            "in": "query",
-            "name": "market_statistic",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact provider market_type from a native quote; no canonical family mapping is inferred.",
-            "in": "query",
-            "name": "market_type",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "One source-native fixture ID from native/fixtures, or use shared_fixture.",
-            "in": "query",
-            "name": "native_fixture",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Return only source-labelled player-prop candidates, without inferred canonical identity.",
-            "in": "query",
-            "name": "props_only",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "description": "legacy (default) or the consistent standard view.",
-            "in": "query",
-            "name": "view",
-            "required": false,
-            "schema": {
-              "enum": [
-                "legacy",
-                "standard"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
-            "in": "header",
-            "name": "If-None-Match",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NativeOddsPageView"
-                }
-              }
-            },
-            "description": "Successful response.",
-            "headers": {
-              "X-Oddswire-Credit-Cost": {
-                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
-              },
-              "X-Oddswire-Credits-Limit": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
-              },
-              "X-Oddswire-Credits-Remaining": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
-              },
-              "X-Oddswire-Credits-Reserved": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
-              },
-              "X-Oddswire-Credits-Reset": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
-              },
-              "X-Oddswire-Credits-Used": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
-              },
-              "X-Oddswire-Metering": {
-                "$ref": "#/components/headers/X-Oddswire-Metering"
-              },
-              "X-Oddswire-Overage": {
-                "$ref": "#/components/headers/X-Oddswire-Overage"
-              },
-              "X-Oddswire-Usage-State": {
-                "$ref": "#/components/headers/X-Oddswire-Usage-State"
-              },
-              "X-Request-ID": {
-                "$ref": "#/components/headers/X-Request-ID"
-              }
-            }
-          },
-          "304": {
-            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
-            "headers": {
-              "X-Oddswire-Credit-Cost": {
-                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
-              },
-              "X-Oddswire-Credits-Limit": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
-              },
-              "X-Oddswire-Credits-Remaining": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
-              },
-              "X-Oddswire-Credits-Reserved": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
-              },
-              "X-Oddswire-Credits-Reset": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
-              },
-              "X-Oddswire-Credits-Used": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
-              },
-              "X-Oddswire-Metering": {
-                "$ref": "#/components/headers/X-Oddswire-Metering"
-              },
-              "X-Oddswire-Overage": {
-                "$ref": "#/components/headers/X-Oddswire-Overage"
-              },
-              "X-Oddswire-Usage-State": {
-                "$ref": "#/components/headers/X-Oddswire-Usage-State"
-              },
-              "X-Request-ID": {
-                "$ref": "#/components/headers/X-Request-ID"
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "401": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "402": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "403": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "404": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "405": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "409": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "414": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "422": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "429": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "500": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "503": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "504": {
-            "$ref": "#/components/responses/Problem"
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ],
-        "summary": "Get native odds",
-        "x-legacy-response": "NativeOddsPage",
-        "x-standard-response": "DatasetOddsPage",
-        "x-oddswire-availability": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access.",
-        "x-codeSamples": [
-          {
-            "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/native/odds\" \\\n  --data-urlencode \"source_id=$SOURCE_ID\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
-          },
-          {
-            "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"source_id\": os.environ[\"SOURCE_ID\"], \"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/native/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
-          },
-          {
-            "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/native/odds\");\nurl.searchParams.set(\"source_id\", required(\"SOURCE_ID\"));\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
-          }
-        ]
-      }
-    },
-    "/v1/native/source/fixtures": {
-      "get": {
-        "description": "Find fixtures in source snapshots. [Dataset and credit rules](/datasets).",
-        "operationId": "listSourceNativeFixtures",
-        "parameters": [
-          {
-            "description": "Exact source-qualified native sport reference.",
-            "in": "query",
-            "name": "sport",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact source-qualified native competition reference.",
-            "in": "query",
-            "name": "competition",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "retained (default) or separately permitted live for sources14/15.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Explicit retained native namespace: oddswire_bookmakers.",
-            "in": "query",
-            "name": "namespace",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Registered source 5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Retained snapshots only.",
-            "in": "query",
-            "name": "source_id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Page size1..100 within grant.",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 25,
-              "maximum": 100,
-              "minimum": 1,
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Query, archive and access-bound cursor.",
-            "in": "query",
-            "name": "cursor",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Optional exact native fixture ID.",
-            "in": "query",
-            "name": "native_fixture",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Optional exact capture ID.",
-            "in": "query",
-            "name": "capture_id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "legacy (default) or the consistent standard view.",
-            "in": "query",
-            "name": "view",
-            "required": false,
-            "schema": {
-              "enum": [
-                "legacy",
-                "standard"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
-            "in": "header",
-            "name": "If-None-Match",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SourceNativeFixturesPageView"
-                }
-              }
-            },
-            "description": "Successful response.",
-            "headers": {
-              "X-Oddswire-Credit-Cost": {
-                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
-              },
-              "X-Oddswire-Credits-Limit": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
-              },
-              "X-Oddswire-Credits-Remaining": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
-              },
-              "X-Oddswire-Credits-Reserved": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
-              },
-              "X-Oddswire-Credits-Reset": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
-              },
-              "X-Oddswire-Credits-Used": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
-              },
-              "X-Oddswire-Metering": {
-                "$ref": "#/components/headers/X-Oddswire-Metering"
-              },
-              "X-Oddswire-Overage": {
-                "$ref": "#/components/headers/X-Oddswire-Overage"
-              },
-              "X-Oddswire-Usage-State": {
-                "$ref": "#/components/headers/X-Oddswire-Usage-State"
-              },
-              "X-Request-ID": {
-                "$ref": "#/components/headers/X-Request-ID"
-              }
-            }
-          },
-          "304": {
-            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
-            "headers": {
-              "X-Oddswire-Credit-Cost": {
-                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
-              },
-              "X-Oddswire-Credits-Limit": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
-              },
-              "X-Oddswire-Credits-Remaining": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
-              },
-              "X-Oddswire-Credits-Reserved": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
-              },
-              "X-Oddswire-Credits-Reset": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
-              },
-              "X-Oddswire-Credits-Used": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
-              },
-              "X-Oddswire-Metering": {
-                "$ref": "#/components/headers/X-Oddswire-Metering"
-              },
-              "X-Oddswire-Overage": {
-                "$ref": "#/components/headers/X-Oddswire-Overage"
-              },
-              "X-Oddswire-Usage-State": {
-                "$ref": "#/components/headers/X-Oddswire-Usage-State"
-              },
-              "X-Request-ID": {
-                "$ref": "#/components/headers/X-Request-ID"
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "401": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "402": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "403": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "404": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "405": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "409": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "414": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "422": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "429": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "500": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "503": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "504": {
-            "$ref": "#/components/responses/Problem"
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ],
-        "summary": "Find source snapshots",
-        "x-legacy-response": "SourceNativeFixturesPage",
-        "x-standard-response": "DatasetFixturesPage",
-        "x-oddswire-availability": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access.",
-        "x-codeSamples": [
-          {
-            "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/native/source/fixtures\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"source_id=$SOURCE_ID\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
-          },
-          {
-            "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"source_id\": os.environ[\"SOURCE_ID\"]}\nurl = \"https://api.oddswire.io/v1/native/source/fixtures\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
-          },
-          {
-            "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/native/source/fixtures\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"source_id\", required(\"SOURCE_ID\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
-          }
-        ]
-      }
-    },
-    "/v1/native/source/odds": {
-      "get": {
-        "description": "Get prices from an exact fixture and capture. [Dataset and credit rules](/datasets).",
-        "operationId": "listSourceNativeOdds",
-        "parameters": [
-          {
-            "description": "Exact source-qualified native sport reference.",
-            "in": "query",
-            "name": "sport",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact source-qualified native competition reference.",
-            "in": "query",
-            "name": "competition",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "retained (default) or separately permitted live for sources14/15.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Explicit retained native namespace: oddswire_bookmakers.",
-            "in": "query",
-            "name": "namespace",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Registered source 5 BetRivers PA,14 betPARX PA or15 Four Winds MI. Retained snapshots only.",
-            "in": "query",
-            "name": "source_id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Page size1..100 within grant.",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 25,
-              "maximum": 100,
-              "minimum": 1,
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Query, archive and access-bound cursor.",
-            "in": "query",
-            "name": "cursor",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native product categories1x2,total,handicap; asian_handicap requires explicit provider Asian declaration.",
-            "in": "query",
-            "name": "market_family",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Alias for market_family.",
-            "in": "query",
-            "name": "markets",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "main(default),goals,points,bookings,corners or all.",
-            "in": "query",
-            "name": "market_statistic",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact native event ID returned by retained fixtures.",
-            "in": "query",
-            "name": "native_fixture",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact retained capture ID returned by fixtures; mandatory to avoid implicit historical selection.",
-            "in": "query",
-            "name": "capture_id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter source-labelled player-prop candidates; settlement and player identity remain unreviewed.",
-            "in": "query",
-            "name": "props_only",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "description": "legacy (default) or the consistent standard view.",
-            "in": "query",
-            "name": "view",
-            "required": false,
-            "schema": {
-              "enum": [
-                "legacy",
-                "standard"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
-            "in": "header",
-            "name": "If-None-Match",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SourceNativeOddsPageView"
-                }
-              }
-            },
-            "description": "Successful response.",
-            "headers": {
-              "X-Oddswire-Credit-Cost": {
-                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
-              },
-              "X-Oddswire-Credits-Limit": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
-              },
-              "X-Oddswire-Credits-Remaining": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
-              },
-              "X-Oddswire-Credits-Reserved": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
-              },
-              "X-Oddswire-Credits-Reset": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
-              },
-              "X-Oddswire-Credits-Used": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
-              },
-              "X-Oddswire-Metering": {
-                "$ref": "#/components/headers/X-Oddswire-Metering"
-              },
-              "X-Oddswire-Overage": {
-                "$ref": "#/components/headers/X-Oddswire-Overage"
-              },
-              "X-Oddswire-Usage-State": {
-                "$ref": "#/components/headers/X-Oddswire-Usage-State"
-              },
-              "X-Request-ID": {
-                "$ref": "#/components/headers/X-Request-ID"
-              }
-            }
-          },
-          "304": {
-            "description": "Semantically unchanged after authentication and eligibility validation; always zero credits, including at exhausted quota.",
-            "headers": {
-              "X-Oddswire-Credit-Cost": {
-                "$ref": "#/components/headers/X-Oddswire-Credit-Cost"
-              },
-              "X-Oddswire-Credits-Limit": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Limit"
-              },
-              "X-Oddswire-Credits-Remaining": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Remaining"
-              },
-              "X-Oddswire-Credits-Reserved": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reserved"
-              },
-              "X-Oddswire-Credits-Reset": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Reset"
-              },
-              "X-Oddswire-Credits-Used": {
-                "$ref": "#/components/headers/X-Oddswire-Credits-Used"
-              },
-              "X-Oddswire-Metering": {
-                "$ref": "#/components/headers/X-Oddswire-Metering"
-              },
-              "X-Oddswire-Overage": {
-                "$ref": "#/components/headers/X-Oddswire-Overage"
-              },
-              "X-Oddswire-Usage-State": {
-                "$ref": "#/components/headers/X-Oddswire-Usage-State"
-              },
-              "X-Request-ID": {
-                "$ref": "#/components/headers/X-Request-ID"
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "401": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "402": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "403": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "404": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "405": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "409": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "414": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "422": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "429": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "500": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "503": {
-            "$ref": "#/components/responses/Problem"
-          },
-          "504": {
-            "$ref": "#/components/responses/Problem"
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ],
-        "summary": "Get source snapshot odds",
-        "x-legacy-response": "SourceNativeOddsPage",
-        "x-standard-response": "DatasetOddsPage",
-        "x-oddswire-availability": "Source-native REST data requires the corresponding feature and source permissions. Retained snapshots preserve their original times; live mode requires separate live-data access.",
-        "x-codeSamples": [
-          {
-            "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/native/source/odds\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"source_id=$SOURCE_ID\" \\\n  --data-urlencode \"native_fixture=$NATIVE_FIXTURE_ID\" \\\n  --data-urlencode \"capture_id=$CAPTURE_ID\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
-          },
-          {
-            "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"source_id\": os.environ[\"SOURCE_ID\"], \"native_fixture\": os.environ[\"NATIVE_FIXTURE_ID\"], \"capture_id\": os.environ[\"CAPTURE_ID\"]}\nurl = \"https://api.oddswire.io/v1/native/source/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
-          },
-          {
-            "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/native/source/odds\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"source_id\", required(\"SOURCE_ID\"));\nurl.searchParams.set(\"native_fixture\", required(\"NATIVE_FIXTURE_ID\"));\nurl.searchParams.set(\"capture_id\", required(\"CAPTURE_ID\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/markets\");\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -3310,12 +2079,13 @@
         "operationId": "listOdds",
         "parameters": [
           {
-            "description": "For current BetRivers/ATG use regional with books=5/7; Polymarket uses pilot. sportsbooks selects separate native readers, whose source 5 snapshot path is retained research. Choose only datasets permitted by your key.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -3405,7 +2175,8 @@
                 "ended",
                 "cancelled"
               ],
-              "type": "string"
+              "type": "string",
+              "x-default": "scheduled"
             }
           },
           {
@@ -3414,7 +2185,8 @@
             "name": "markets",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "1x2"
             }
           },
           {
@@ -3444,12 +2216,13 @@
             }
           },
           {
-            "description": "Explicitly include stale/suspended/unavailable retained quotes; invalid quotes remain excluded.",
+            "description": "Include stale, suspended or unavailable quotes for diagnostics. Off in Try it.",
             "in": "query",
             "name": "include_inactive",
             "required": false,
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "x-default": false
             }
           },
           {
@@ -3480,74 +2253,8 @@
                 "legacy",
                 "standard"
               ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native odds only: reviewed1x2,total,handicap product category; not a settlement grant.",
-            "in": "query",
-            "name": "market_family",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native odds category filter statistic: main,goals,points,bookings,corners,all.",
-            "in": "query",
-            "name": "market_statistic",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Standard sportsbooks view only: one explicitly entitled source 5/11/12/13/14/15.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Source-native only: retained (default) or separately approved live.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "enum": [
-                "retained",
-                "live"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact source-native capture; required for native odds.",
-            "in": "query",
-            "name": "capture_id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native source 11/12/13 only: additional delay0..3600.",
-            "in": "query",
-            "name": "delay_seconds",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Standard native odds only: source-labelled prop candidates.",
-            "in": "query",
-            "name": "props_only",
-            "required": false,
-            "schema": {
-              "type": "boolean"
+              "type": "string",
+              "x-default": "standard"
             }
           },
           {
@@ -3690,15 +2397,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/odds\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --data-urlencode \"fixture=$FIXTURE_ID\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/odds\" \\\n  --data-urlencode \"fixture=$FIXTURE_ID\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --data-urlencode \"view=standard\" \\\n  --data-urlencode \"markets=1x2\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"], \"fixture\": os.environ[\"FIXTURE_ID\"]}\nurl = \"https://api.oddswire.io/v1/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"fixture\": os.environ[\"FIXTURE_ID\"], \"namespace\": \"regional\", \"view\": \"standard\", \"markets\": \"1x2\"}\nurl = \"https://api.oddswire.io/v1/odds\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/odds\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nurl.searchParams.set(\"fixture\", required(\"FIXTURE_ID\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/odds\");\nurl.searchParams.set(\"fixture\", required(\"FIXTURE_ID\"));\nurl.searchParams.set(\"namespace\", \"regional\");\nurl.searchParams.set(\"view\", \"standard\");\nurl.searchParams.set(\"markets\", \"1x2\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -3717,56 +2424,18 @@
               "enum": [
                 "standard"
               ],
-              "type": "string"
+              "type": "string",
+              "x-default": "standard"
             }
           },
           {
-            "description": "For current BetRivers/ATG use regional with books=5/7; Polymarket uses pilot. sportsbooks selects separate native readers, whose source 5 snapshot path is retained research. Choose only datasets permitted by your key.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "sportsbooks only: exact reviewed source 5/11/12/13/14/15.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Source-native only: retained (default) or separately approved live.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "enum": [
-                "retained",
-                "live"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Exact source capture from fixture discovery; required for player subjects.",
-            "in": "query",
-            "name": "capture_id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Native source 11/12/13 only: delay0..3600.",
-            "in": "query",
-            "name": "delay_seconds",
-            "required": false,
-            "schema": {
-              "type": "integer"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -3783,7 +2452,7 @@
             }
           },
           {
-            "description": "One fixture ID; exact native string for sportsbooks, canonical ID otherwise.",
+            "description": "One fixture ID returned by current fixture discovery.",
             "in": "query",
             "name": "fixture",
             "required": false,
@@ -3977,15 +2646,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/participants\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/participants\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/participants\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/participants\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/participants\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/participants\");\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -3996,12 +2665,13 @@
         "operationId": "listSports",
         "parameters": [
           {
-            "description": "Dataset namespace or compatible alias: regional, pilot or sportsbooks. IDs remain dataset-scoped.",
+            "description": "Current data feed, preselected in Try it. Leave this value as supplied for the default flow.",
             "in": "query",
             "name": "namespace",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-default": "regional"
             }
           },
           {
@@ -4026,28 +2696,6 @@
             }
           },
           {
-            "description": "Native discovery only: one permitted source 5/11/12/13/14/15; omitted lists your permitted native sources.",
-            "in": "query",
-            "name": "source_id",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "Native source 5/14/15 discovery only: retained(default) or separately permitted live. Each record retains its evidence mode.",
-            "in": "query",
-            "name": "mode",
-            "required": false,
-            "schema": {
-              "enum": [
-                "retained",
-                "live"
-              ],
-              "type": "string"
-            }
-          },
-          {
             "description": "Weak semantic ETag; freshness and access are revalidated before 304.",
             "in": "header",
             "name": "If-None-Match",
@@ -4062,7 +2710,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SportsPageNativeView"
+                  "$ref": "#/components/schemas/SportsPage"
                 }
               }
             },
@@ -4185,15 +2833,15 @@
         "x-codeSamples": [
           {
             "lang": "cURL",
-            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/sports\" \\\n  --data-urlencode \"namespace=$ODDSWIRE_NAMESPACE\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
+            "source": "curl --get --max-time 10 \\\n  --url \"https://api.oddswire.io/v1/sports\" \\\n  --data-urlencode \"namespace=regional\" \\\n  --header \"X-API-Key: $ODDSWIRE_API_KEY\""
           },
           {
             "lang": "Python",
-            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": os.environ[\"ODDSWIRE_NAMESPACE\"]}\nurl = \"https://api.oddswire.io/v1/sports\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
+            "source": "import os\nfrom urllib.parse import urlencode\nfrom urllib.request import Request, build_opener, HTTPRedirectHandler\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        return None\n\nquery = {\"namespace\": \"regional\"}\nurl = \"https://api.oddswire.io/v1/sports\" + (\"?\" + urlencode(query) if query else \"\")\nrequest = Request(url, headers={\"X-API-Key\": os.environ[\"ODDSWIRE_API_KEY\"]})\nwith build_opener(NoRedirect).open(request, timeout=10) as response:\n    print(response.read().decode())"
           },
           {
             "lang": "TypeScript",
-            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/sports\");\nurl.searchParams.set(\"namespace\", required(\"ODDSWIRE_NAMESPACE\"));\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
+            "source": "const required = (name: string) => {\n  const value = process.env[name];\n  if (!value) throw new Error(`Set ${name}`);\n  return value;\n};\nconst url = new URL(\"https://api.oddswire.io/v1/sports\");\nurl.searchParams.set(\"namespace\", \"regional\");\nconst response = await fetch(url, {\n  headers: {\"X-API-Key\": required(\"ODDSWIRE_API_KEY\")},\n  redirect: \"error\", signal: AbortSignal.timeout(10_000),\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconsole.log(await response.json());"
           }
         ]
       }
@@ -5240,16 +3888,6 @@
         ],
         "type": "object"
       },
-      "SourcesPageNativeView": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/SourcesPage"
-          },
-          {
-            "$ref": "#/components/schemas/NativeReferencesPage"
-          }
-        ]
-      },
       "SourcesPage": {
         "additionalProperties": false,
         "properties": {
@@ -5320,108 +3958,6 @@
           "entitled"
         ],
         "type": "object"
-      },
-      "NativeReferencesPage": {
-        "additionalProperties": false,
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/NativeReference"
-            },
-            "type": "array"
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Meta"
-          },
-          "missing": {
-            "items": {
-              "$ref": "#/components/schemas/Missing"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "data",
-          "missing",
-          "meta"
-        ],
-        "type": "object"
-      },
-      "NativeReference": {
-        "additionalProperties": false,
-        "properties": {
-          "evidence_mode": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "identity_scope": {
-            "type": "string"
-          },
-          "kind": {
-            "enum": [
-              "bookmaker",
-              "sport",
-              "competition"
-            ],
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "native_id": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "native_sport_id": {
-            "type": "string"
-          },
-          "received_at": {
-            "oneOf": [
-              {
-                "format": "date-time",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "source_id": {
-            "$ref": "#/components/schemas/ID"
-          },
-          "sport_id": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "kind",
-          "source_id",
-          "name",
-          "native_id",
-          "identity_scope",
-          "evidence_mode",
-          "received_at"
-        ],
-        "type": "object"
-      },
-      "CompetitionsPageNativeView": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/CompetitionsPage"
-          },
-          {
-            "$ref": "#/components/schemas/NativeReferencesPage"
-          }
-        ]
       },
       "CompetitionsPage": {
         "additionalProperties": false,
@@ -5958,38 +4494,12 @@
       "FixturesPageView": {
         "anyOf": [
           {
-            "$ref": "#/components/schemas/FixturesPage"
+            "$ref": "#/components/schemas/DatasetFixturesPage"
           },
           {
-            "$ref": "#/components/schemas/DatasetFixturesPage"
+            "$ref": "#/components/schemas/FixturesPage"
           }
         ]
-      },
-      "FixturesPage": {
-        "additionalProperties": false,
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/FixtureInfo"
-            },
-            "type": "array"
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Meta"
-          },
-          "missing": {
-            "items": {
-              "$ref": "#/components/schemas/Missing"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "data",
-          "missing",
-          "meta"
-        ],
-        "type": "object"
       },
       "DatasetFixturesPage": {
         "additionalProperties": false,
@@ -6235,6 +4745,32 @@
         ],
         "type": "object"
       },
+      "FixturesPage": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/FixtureInfo"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/Missing"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "missing",
+          "meta"
+        ],
+        "type": "object"
+      },
       "MappingsPage": {
         "additionalProperties": false,
         "properties": {
@@ -6378,410 +4914,15 @@
         ],
         "type": "object"
       },
-      "NativeFixturesPageView": {
+      "OddsPageView": {
         "anyOf": [
-          {
-            "$ref": "#/components/schemas/NativeFixturesPage"
-          },
-          {
-            "$ref": "#/components/schemas/DatasetFixturesPage"
-          }
-        ]
-      },
-      "NativeFixturesPage": {
-        "additionalProperties": false,
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/NativeFixture"
-            },
-            "type": "array"
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Meta"
-          },
-          "missing": {
-            "items": {
-              "$ref": "#/components/schemas/Missing"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "data",
-          "missing",
-          "meta"
-        ],
-        "type": "object"
-      },
-      "NativeFixture": {
-        "additionalProperties": false,
-        "properties": {
-          "away": {
-            "type": "string"
-          },
-          "capture_id": {
-            "type": "string"
-          },
-          "competition": {
-            "type": "string"
-          },
-          "delay_seconds": {
-            "type": "integer"
-          },
-          "home": {
-            "type": "string"
-          },
-          "identity_scope": {
-            "type": "string"
-          },
-          "kickoff": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "native_away_id": {
-            "type": "string"
-          },
-          "native_competition_id": {
-            "type": "string"
-          },
-          "native_event_id": {
-            "type": "string"
-          },
-          "native_home_id": {
-            "type": "string"
-          },
-          "native_sport_id": {
-            "type": "integer"
-          },
-          "player_prop_count": {
-            "type": "integer"
-          },
-          "price_count": {
-            "type": "integer"
-          },
-          "received_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "shared_fixture": {
-            "$ref": "#/components/schemas/SharedFixtureIdentity"
-          },
-          "source_id": {
-            "$ref": "#/components/schemas/ID"
-          }
-        },
-        "required": [
-          "source_id",
-          "native_event_id",
-          "native_sport_id",
-          "native_home_id",
-          "native_away_id",
-          "home",
-          "away",
-          "competition",
-          "kickoff",
-          "capture_id",
-          "received_at",
-          "delay_seconds",
-          "price_count",
-          "player_prop_count",
-          "identity_scope"
-        ],
-        "type": "object"
-      },
-      "NativeOddsPageView": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/NativeOddsPage"
-          },
           {
             "$ref": "#/components/schemas/DatasetOddsPage"
+          },
+          {
+            "$ref": "#/components/schemas/OddsPage"
           }
         ]
-      },
-      "NativeOddsPage": {
-        "additionalProperties": false,
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/NativeQuote"
-            },
-            "type": "array"
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Meta"
-          },
-          "missing": {
-            "items": {
-              "$ref": "#/components/schemas/Missing"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "data",
-          "missing",
-          "meta"
-        ],
-        "type": "object"
-      },
-      "NativeQuote": {
-        "additionalProperties": false,
-        "properties": {
-          "capture_id": {
-            "type": "string"
-          },
-          "delay_seconds": {
-            "type": "integer"
-          },
-          "fee_model_verified": {
-            "type": "boolean"
-          },
-          "key": {
-            "$ref": "#/components/schemas/NativeKey"
-          },
-          "label_evidence": {
-            "$ref": "#/components/schemas/NativeLabelEvidence"
-          },
-          "market_category": {
-            "$ref": "#/components/schemas/NativeMarketCategory"
-          },
-          "market_name": {
-            "type": "string"
-          },
-          "market_type": {
-            "type": "string"
-          },
-          "native_context_id": {
-            "type": "string"
-          },
-          "native_internal_event_id": {
-            "type": "string"
-          },
-          "native_player_id": {
-            "type": "string"
-          },
-          "native_player_name": {
-            "type": "string"
-          },
-          "native_unit": {
-            "type": "string"
-          },
-          "native_value": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "period": {
-            "type": "string"
-          },
-          "player_identity_verified": {
-            "type": "boolean"
-          },
-          "player_prop_candidate": {
-            "type": "boolean"
-          },
-          "provider_delay_seconds": {
-            "oneOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "quote_key": {
-            "type": "string"
-          },
-          "reason": {
-            "type": "string"
-          },
-          "received_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "selection_name": {
-            "type": "string"
-          },
-          "settlement_compatibility_verified": {
-            "type": "boolean"
-          },
-          "shared_fixture": {
-            "$ref": "#/components/schemas/SharedFixtureIdentity"
-          },
-          "source_ts": {
-            "oneOf": [
-              {
-                "format": "date-time",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "state": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "quote_key",
-          "key",
-          "state",
-          "native_value",
-          "native_unit",
-          "market_type",
-          "market_name",
-          "period",
-          "selection_name",
-          "player_prop_candidate",
-          "player_identity_verified",
-          "settlement_compatibility_verified",
-          "fee_model_verified",
-          "capture_id",
-          "received_at",
-          "delay_seconds",
-          "source_ts",
-          "provider_delay_seconds"
-        ],
-        "type": "object"
-      },
-      "NativeKey": {
-        "additionalProperties": false,
-        "properties": {
-          "event_id": {
-            "type": "string"
-          },
-          "line": {
-            "type": "string"
-          },
-          "line_index": {
-            "type": "integer"
-          },
-          "market_id": {
-            "type": "string"
-          },
-          "selection_id": {
-            "type": "string"
-          },
-          "source_id": {
-            "$ref": "#/components/schemas/ID"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "source_id",
-          "event_id",
-          "market_id",
-          "selection_id",
-          "line_index",
-          "type",
-          "line"
-        ],
-        "type": "object"
-      },
-      "NativeLabelEvidence": {
-        "additionalProperties": false,
-        "properties": {
-          "dictionary_market_id": {
-            "type": "string"
-          },
-          "dictionary_outcome_id": {
-            "type": "string"
-          },
-          "dictionary_sha256": {
-            "type": "string"
-          },
-          "language": {
-            "type": "string"
-          },
-          "market_template": {
-            "type": "string"
-          },
-          "original_market_name": {
-            "type": "string"
-          },
-          "original_selection_name": {
-            "type": "string"
-          },
-          "selection_template": {
-            "type": "string"
-          },
-          "state": {
-            "enum": [
-              "resolved",
-              "template_unresolved",
-              "market_only"
-            ],
-            "type": "string"
-          },
-          "template_type": {
-            "type": "integer"
-          }
-        },
-        "required": [
-          "state",
-          "language",
-          "dictionary_sha256",
-          "original_market_name",
-          "original_selection_name"
-        ],
-        "type": "object"
-      },
-      "NativeMarketCategory": {
-        "additionalProperties": false,
-        "properties": {
-          "declared_variant": {
-            "type": "string"
-          },
-          "family": {
-            "enum": [
-              "1x2",
-              "total",
-              "handicap"
-            ],
-            "type": "string"
-          },
-          "native_period": {
-            "type": "string"
-          },
-          "review_sha256": {
-            "type": "string"
-          },
-          "scope": {
-            "enum": [
-              "game",
-              "team"
-            ],
-            "type": "string"
-          },
-          "statistic": {
-            "enum": [
-              "goals",
-              "points",
-              "bookings",
-              "corners"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "family",
-          "statistic",
-          "scope",
-          "native_period",
-          "review_sha256"
-        ],
-        "type": "object"
       },
       "DatasetOddsPage": {
         "additionalProperties": false,
@@ -6920,188 +5061,51 @@
         ],
         "type": "object"
       },
-      "SourceNativeFixturesPageView": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/SourceNativeFixturesPage"
-          },
-          {
-            "$ref": "#/components/schemas/DatasetFixturesPage"
-          }
-        ]
-      },
-      "SourceNativeFixturesPage": {
+      "NativeMarketCategory": {
         "additionalProperties": false,
         "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/SourceNativeFixture"
-            },
-            "type": "array"
+          "declared_variant": {
+            "type": "string"
           },
-          "meta": {
-            "$ref": "#/components/schemas/Meta"
+          "family": {
+            "enum": [
+              "1x2",
+              "total",
+              "handicap"
+            ],
+            "type": "string"
           },
-          "missing": {
-            "items": {
-              "$ref": "#/components/schemas/Missing"
-            },
-            "type": "array"
+          "native_period": {
+            "type": "string"
+          },
+          "review_sha256": {
+            "type": "string"
+          },
+          "scope": {
+            "enum": [
+              "game",
+              "team"
+            ],
+            "type": "string"
+          },
+          "statistic": {
+            "enum": [
+              "goals",
+              "points",
+              "bookings",
+              "corners"
+            ],
+            "type": "string"
           }
         },
         "required": [
-          "data",
-          "missing",
-          "meta"
+          "family",
+          "statistic",
+          "scope",
+          "native_period",
+          "review_sha256"
         ],
         "type": "object"
-      },
-      "SourceNativeFixture": {
-        "additionalProperties": false,
-        "properties": {
-          "capture_id": {
-            "type": "string"
-          },
-          "evidence_mode": {
-            "type": "string"
-          },
-          "fresh_for_live_use": {
-            "type": "boolean"
-          },
-          "native_event": {
-            "type": "object"
-          },
-          "native_event_id": {
-            "type": "string"
-          },
-          "player_prop_count": {
-            "type": "integer"
-          },
-          "received_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "record_count": {
-            "type": "integer"
-          },
-          "review_key": {
-            "type": "string"
-          },
-          "source_id": {
-            "$ref": "#/components/schemas/ID"
-          },
-          "unresolved_offer_count": {
-            "type": "integer"
-          }
-        },
-        "required": [
-          "source_id",
-          "review_key",
-          "capture_id",
-          "native_event_id",
-          "received_at",
-          "evidence_mode",
-          "fresh_for_live_use",
-          "native_event",
-          "record_count",
-          "player_prop_count",
-          "unresolved_offer_count"
-        ],
-        "type": "object"
-      },
-      "SourceNativeOddsPageView": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/SourceNativeOddsPage"
-          },
-          {
-            "$ref": "#/components/schemas/DatasetOddsPage"
-          }
-        ]
-      },
-      "SourceNativeOddsPage": {
-        "additionalProperties": false,
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/SourceNativeRecord"
-            },
-            "type": "array"
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Meta"
-          },
-          "missing": {
-            "items": {
-              "$ref": "#/components/schemas/Missing"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "data",
-          "missing",
-          "meta"
-        ],
-        "type": "object"
-      },
-      "SourceNativeRecord": {
-        "additionalProperties": false,
-        "properties": {
-          "capture_id": {
-            "type": "string"
-          },
-          "evidence_mode": {
-            "type": "string"
-          },
-          "fresh_for_live_use": {
-            "type": "boolean"
-          },
-          "market_category": {
-            "$ref": "#/components/schemas/NativeMarketCategory"
-          },
-          "native_event_id": {
-            "type": "string"
-          },
-          "native_market_id": {
-            "type": "string"
-          },
-          "native_selection_id": {
-            "type": "string"
-          },
-          "received_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "record": {
-            "type": "object"
-          },
-          "source_id": {
-            "$ref": "#/components/schemas/ID"
-          }
-        },
-        "required": [
-          "source_id",
-          "capture_id",
-          "native_event_id",
-          "native_market_id",
-          "native_selection_id",
-          "received_at",
-          "evidence_mode",
-          "fresh_for_live_use",
-          "record"
-        ],
-        "type": "object"
-      },
-      "OddsPageView": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/OddsPage"
-          },
-          {
-            "$ref": "#/components/schemas/DatasetOddsPage"
-          }
-        ]
       },
       "OddsPage": {
         "additionalProperties": false,
@@ -7369,16 +5373,6 @@
           "meta"
         ],
         "type": "object"
-      },
-      "SportsPageNativeView": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/SportsPage"
-          },
-          {
-            "$ref": "#/components/schemas/NativeReferencesPage"
-          }
-        ]
       },
       "SportsPage": {
         "additionalProperties": false,

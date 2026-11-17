@@ -16,6 +16,9 @@
       "display": "interactive",
       "proxy": true,
       "credentials": false
+    },
+    "examples": {
+      "prefill": true
     }
   },
   "navigation": {
@@ -81,15 +84,6 @@
               "reference/getEntitlements",
               "reference/getUsage",
               "reference/getAccountCoverage"
-            ]
-          },
-          {
-            "group": "Source-specific data",
-            "pages": [
-              "reference/listNativeFixtures",
-              "reference/listNativeOdds",
-              "reference/listSourceNativeFixtures",
-              "reference/listSourceNativeOdds"
             ]
           },
           {

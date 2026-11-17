@@ -7,11 +7,9 @@ For current deployment and access limits, read [Current availability](/availabil
 
 Every data request names a namespace. Canonical bulk odds also requires a `fixture` or `competition` filter. Discover fixtures and sources inside that namespace; never join different datasets merely because numeric IDs match. `books` contains **source/region IDs**, not brand slugs. Correlated brands in the same feed family do not become independent sharp references.
 
-## Choose canonical or native data
+## Current data
 
-The [endpoint guide](/endpoints) separates canonical `/v1/fixtures` and `/v1/odds` from the source-native route families. Native reads use a source-native fixture ID or an explicitly reviewed `shared_fixture` UUID; canonical integer IDs are not interchangeable. Source-native odds also require the original `capture_id` returned by discovery; `mode=retained` preserves historical times and `mode=live` additionally checks the approved live scope and current controls.
-
-Native values retain `native_unit` or the original record's unit. Read player, fee and settlement verification fields explicitly; a native prop candidate is not a reviewed cross-source player market. `props_only=true` filters available native evidence, not a complete player-prop catalogue.
+The [fixture and odds tester](/endpoints) is preconfigured for the current feed and standard response view. Use a fixture ID returned by discovery. Check `state`, `value`, `evidence.fresh_for_live_use` and the original `evidence.confirmed_at` before using a price. Source, player, fee and settlement verification fields remain explicit.
 
 ## Quote identity and units
 
@@ -25,7 +23,7 @@ Preserve `quote_key`, native fixture/offer/outcome IDs, source/region, side and 
 
 Read quote eligibility/state and age against `freshness_limit_seconds`; distinguish active, suspended, unavailable and stale states. Read **all** `missing[]` entries, including when `data` is nonempty. They identify uncollected, denied, stale, blocked, incompatible or insufficient coverage. A response is never proof that every planned bookmaker or market is covered.
 
-The read-only API does not collect new prices. Free account coverage describes available scope and retained freshness; it is not an uptime guarantee. Fixture discovery may return no data. Production coverage guarantees remain unverified.
+The read-only API does not collect new prices. Free account coverage describes available scope and source freshness; it is not an uptime guarantee. Fixture discovery may return no data. Production coverage guarantees remain unverified.
 
 ## Fair price
 
